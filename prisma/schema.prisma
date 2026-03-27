@@ -1,0 +1,117 @@
+// ─────────────────────────────────────────────────────────────────────────────
+//  ClareerHQ — Prisma Schema
+//  Database: PostgreSQL (Neon)
+// ─────────────────────────────────────────────────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Users ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id          String   @id                          // Clerk user ID
+  email       String   @unique
+  name        String?
+  plan        Plan     @default(FREE)
+  stripeId    String?  @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  assessments Assessment[]
+  waitlist    WaitlistEntry?
+
+  @@map("users")
+}
+
+enum Plan {
+  FREE
+  PRO
+  ENTERPRISE
+}
+
+// ── Assessments ───────────────────────────────────────────────────────────────
+
+model Assessment {
+  id              String             @id @default(cuid())
+  userId          String
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  occupationCode  String             // O*NET SOC code, e.g. "15-2051.00"
+  occupationTitle String
+
+  fitScore        Float              // 0.0 – 1.0
+  domainScores    Json               // Record<AssessmentDomain, number>
+
+  status          AssessmentStatus   @default(COMPLETE)
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  ratings         DomainRating[]
+  gapItems        GapItem[]
+
+  @@index([userId])
+  @@index([occupationCode])
+  @@map("assessments")
+}
+
+enum AssessmentStatus {
+  IN_PROGRESS
+  COMPLETE
+}
+
+// ── Domain Ratings ─────────────────────────────────────────────────────────────
+
+model DomainRating {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  domain       String     // e.g. "skills", "knowledge"
+  elementId    String     // O*NET element ID
+  elementName  String
+  rating       Int        // 0–3 (user's self-rating)
+  onetLevel    Float      // 1–7 (O*NET required level)
+  onetImportance Float    // 1–5 (O*NET importance weight)
+
+  @@index([assessmentId])
+  @@map("domain_ratings")
+}
+
+// ── Gap Items ─────────────────────────────────────────────────────────────────
+
+model GapItem {
+  id           String     @id @default(cuid())
+  assessmentId String
+  assessment   Assessment @relation(fields: [assessmentId], references: [id], onDelete: Cascade)
+
+  elementId    String
+  elementName  String
+  domain       String
+  userRating   Int
+  requiredLevel Float
+  importance   Float
+  isStrength   Boolean    @default(false)
+
+  @@index([assessmentId])
+  @@map("gap_items")
+}
+
+// ── Waitlist ──────────────────────────────────────────────────────────────────
+
+model WaitlistEntry {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  userId    String?  @unique
+  user      User?    @relation(fields: [userId], references: [id])
+  source    String?  // e.g. "landing", "results_page"
+  createdAt DateTime @default(now())
+
+  @@map("waitlist")
+}
