@@ -9,12 +9,11 @@ import { DOMAIN_ENDPOINT as ENDPOINTS } from '@/types/onet';
 const ONET_BASE = 'https://services.onetcenter.org/ws';
 
 function getAuthHeader(): string {
-  const username = process.env.ONET_USERNAME;
-  const password = process.env.ONET_PASSWORD;
-  if (!username || !password) {
-    throw new Error('ONET_USERNAME and ONET_PASSWORD must be set in environment variables. Register free at https://services.onetcenter.org/developer/');
+  const apiKey = process.env.ONET_API_KEY;
+  if (!apiKey) {
+    throw new Error('ONET_API_KEY must be set in environment variables.');
   }
-  return 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64');
+  return 'Basic ' + Buffer.from(`${apiKey}:`).toString('base64');
 }
 
 async function onetFetch<T>(path: string): Promise<T> {
