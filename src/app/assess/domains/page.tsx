@@ -83,10 +83,6 @@ export default function DomainsPage() {
   >({});
   const [tooltip, setTooltip] = useState<string | null>(null);
 
-  const occupation = occupationData
-    ? JSON.parse(sessionStorage.getItem('chq_occupation') ?? '{}')
-    : null;
-
   useEffect(() => {
     const stored = sessionStorage.getItem('chq_occupation');
     if (!stored) {
@@ -95,13 +91,23 @@ export default function DomainsPage() {
     }
     const { code } = JSON.parse(stored);
     fetch(`/api/onet/details/${encodeURIComponent(code)}?domains=skills,knowledge,work_styles`)
-      .then((r) => r.json())
-      .then((data: OccupationData) => {
-        setOccupationData(data);
+      .then(async (r) => {
+        const data = await r.json();
+        // Check for API-level errors (non-OK status or error field in response)
+        if (!r.ok || data.error) {
+          setError(
+            'Could not load occupation data from O*NET. ' +
+            (data.error ?? `Server returned ${r.status}.`) +
+            ' Please try again or go back and pick another occupation.'
+          );
+          setLoading(false);
+          return;
+        }
+        setOccupationData(data as OccupationData);
         setLoading(false);
       })
       .catch(() => {
-        setError('Failed to load occupation data. Please try again.');
+        setError('Network error loading occupation data. Please check your connection and try again.');
         setLoading(false);
       });
   }, [router]);
@@ -114,7 +120,8 @@ export default function DomainsPage() {
   }
 
   const currentDomain = DOMAINS_IN_ORDER[domainIndex];
-  const currentElements = occupationData?.domains[currentDomain] ?? [];
+  // Use ?. on both occupationData AND domains to guard against error-shaped responses
+  const currentElements = occupationData?.domains?.[currentDomain] ?? [];
   const currentRatings = allRatings[currentDomain] ?? {};
   const ratedCount = Object.keys(currentRatings).length;
   const totalCount = currentElements.length;
@@ -129,7 +136,7 @@ export default function DomainsPage() {
       if (!occupationData) return;
       const ratingsPayload = DOMAINS_IN_ORDER.map((domain) => ({
         domain,
-        elements: (occupationData.domains[domain] ?? []).map((el) => ({
+        elements: (occupationData.domains?.[domain] ?? []).map((el) => ({
           elementId: el.id,
           elementName: el.name,
           rating: (allRatings[domain]?.[el.id] ?? 0) as UserRating,
@@ -163,11 +170,16 @@ export default function DomainsPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center text-red-500">
-          <p>{error}</p>
-          <button onClick={() => router.push('/assess')} className="mt-4 text-brand-700 underline text-sm">
-            ← Go back
+      <div className="min-h-screen flex items-center justify-center px-6">
+        <div className="text-center max-w-md">
+          <div className="text-4xl mb-4">⚠️</div>
+          <p className="text-red-600 font-semibold mb-2">Could not load occupation data</p>
+          <p className="text-gray-500 text-sm mb-6">{error}</p>
+          <button
+            onClick={() => router.push('/assess')}
+            className="px-6 py-3 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors text-sm"
+          >
+            ← Pick a different occupation
           </button>
         </div>
       </div>
