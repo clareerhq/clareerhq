@@ -8,10 +8,6 @@ import type { AssessmentDomain } from '@/types/onet';
 export const runtime = 'nodejs';
 
 const DEFAULT_DOMAINS: AssessmentDomain[] = ['skills', 'knowledge', 'work_styles'];
-const ALL_DOMAINS: AssessmentDomain[] = [
-  'skills', 'knowledge', 'abilities', 'work_styles',
-  'work_activities', 'interests',
-];
 
 export async function GET(
   req: NextRequest,
@@ -25,25 +21,31 @@ export async function GET(
     ? (domainsParam.split(',') as AssessmentDomain[])
     : DEFAULT_DOMAINS;
 
-  try {
-    // Fetch occupation details + all domain data in parallel
-    const [details, ...domainResults] = await Promise.all([
-      getOccupationDetails(code),
-      ...requestedDomains.map((d) => getDomainData(code, d)),
-    ]);
+  // Use allSettled so a single failing domain doesn't crash the whole page
+  const [detailsResult, ...domainResults] = await Promise.allSettled([
+    getOccupationDetails(code),
+    ...requestedDomains.map((d) => getDomainData(code, d)),
+  ]);
 
-    // Build domain data with top N elements per domain
-    const domains = requestedDomains.reduce<Record<string, unknown>>((acc, domain, i) => {
-      acc[domain] = getTopElements(domainResults[i], 15);
-      return acc;
-    }, {});
-
-    return NextResponse.json({ details, domains });
-  } catch (err) {
-    console.error('[onet/details]', err);
+  if (detailsResult.status === 'rejected') {
+    console.error('[onet/details] occupation lookup failed:', detailsResult.reason);
     return NextResponse.json(
-      { error: 'Failed to fetch O*NET occupation data' },
-      { status: 500 }
+      { error: 'Occupation not found in O*NET database.' },
+      { status: 404 }
     );
   }
+
+  // Build domain data — failed domains return empty array rather than crashing
+  const domains = requestedDomains.reduce<Record<string, unknown>>((acc, domain, i) => {
+    const result = domainResults[i];
+    if (result.status === 'fulfilled') {
+      acc[domain] = getTopElements(result.value, 15);
+    } else {
+      console.warn(`[onet/details] domain "${domain}" failed for ${code}:`, result.reason);
+      acc[domain] = [];
+    }
+    return acc;
+  }, {});
+
+  return NextResponse.json({ details: detailsResult.value, domains });
 }

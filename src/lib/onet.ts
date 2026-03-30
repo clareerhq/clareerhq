@@ -71,7 +71,20 @@ export interface OccupationDetails {
 }
 
 export async function getOccupationDetails(code: string): Promise<OccupationDetails> {
-  return onetFetch<OccupationDetails>(`/mnm/careers/${encodeURIComponent(code)}/`);
+  // Try MNM first (richer data); fall back to online API which covers all O*NET occupations
+  try {
+    return await onetFetch<OccupationDetails>(`/mnm/careers/${encodeURIComponent(code)}/`);
+  } catch {
+    const raw = await onetFetch<Record<string, unknown>>(
+      `/online/occupations/${encodeURIComponent(code)}/`
+    );
+    return {
+      code: (raw.code as string) ?? code,
+      title: (raw.title as string) ?? code,
+      description: raw.description as string | undefined,
+      tags: raw.tags as OccupationDetails['tags'] | undefined,
+    };
+  }
 }
 
 // ── Domain Data ───────────────────────────────────────────────────────────────
