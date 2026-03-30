@@ -6,25 +6,24 @@
 import type { OnetSearchResult, OnetDomainData, AssessmentDomain, DOMAIN_ENDPOINT } from '@/types/onet';
 import { DOMAIN_ENDPOINT as ENDPOINTS } from '@/types/onet';
 
-const ONET_BASE = 'https://services.onetcenter.org/ws';
+const ONET_BASE = 'https://api-v2.onetcenter.org';
 
-function getAuthHeader(): string {
-  const username = process.env.ONET_USERNAME;
-  const password = process.env.ONET_PASSWORD;
-  if (!username || !password) {
+function getApiKey(): string {
+  const apiKey = process.env.ONET_API_KEY;
+  if (!apiKey) {
     throw new Error(
-      'ONET_USERNAME and ONET_PASSWORD must be set in environment variables. ' +
-      'Register free at https://services.onetcenter.org/developer/'
+      'ONET_API_KEY must be set in environment variables. ' +
+      'Find your API key at https://services.onetcenter.org/developer/'
     );
   }
-  return 'Basic ' + Buffer.from(`${username}:${password}`).toString('base64');
+  return apiKey;
 }
 
 async function onetFetch<T>(path: string): Promise<T> {
   const url = `${ONET_BASE}${path}`;
   const res = await fetch(url, {
     headers: {
-      Authorization: getAuthHeader(),
+      'X-API-Key': getApiKey(),
       Accept: 'application/json',
     },
     next: { revalidate: 3600 }, // Cache for 1 hour (O*NET data rarely changes)
