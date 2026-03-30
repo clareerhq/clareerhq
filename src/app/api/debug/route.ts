@@ -40,16 +40,12 @@ export async function GET() {
   // Test 2: career details for a known occupation (Marketing Managers)
   const details = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/`, apiKey);
 
-  // Test 3: skills for that same occupation
-  const skills = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/skills`, apiKey);
+  // Test online API endpoints (these have full scored data needed for assessment)
+  const onlineSkills   = await testEndpoint(`${BASE}/online/occupations/11-2021.00/summary/skills`, apiKey);
+  const onlineKnow     = await testEndpoint(`${BASE}/online/occupations/11-2021.00/summary/knowledge`, apiKey);
+  const onlineStyles   = await testEndpoint(`${BASE}/online/occupations/11-2021.00/summary/work_styles`, apiKey);
 
-  // Test 4: knowledge
-  const knowledge = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/knowledge`, apiKey);
-
-  // Test 5: work styles (personality in v2)
-  const personality = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/personality`, apiKey);
-
-  const allOk = search.ok && details.ok && skills.ok;
+  const allOk = search.ok && details.ok && onlineSkills.ok;
 
   return NextResponse.json({
     success: allOk,
@@ -58,11 +54,11 @@ export async function GET() {
       : '❌ One or more endpoints failed — see results below.',
     envStatus,
     results: {
-      search: { url: '/mnm/search?keyword=marketing&end=3', status: search.status, ok: search.ok, sample: search.ok ? (search.body as Record<string,unknown>)?.career ?? (search.body as Record<string,unknown>)?.occupation : search.body },
-      details: { url: '/mnm/careers/11-2021.00/', status: details.status, ok: details.ok, sample: details.ok ? { title: (details.body as Record<string,unknown>)?.title } : details.body },
-      skills:  { url: '/mnm/careers/11-2021.00/skills', status: skills.status, ok: skills.ok, raw: skills.body },
-      knowledge: { url: '/mnm/careers/11-2021.00/knowledge', status: knowledge.status, ok: knowledge.ok },
-      personality: { url: '/mnm/careers/11-2021.00/personality', status: personality.status, ok: personality.ok },
+      search:         { url: '/mnm/search?keyword=marketing&end=3', status: search.status, ok: search.ok },
+      details:        { url: '/mnm/careers/11-2021.00/', status: details.status, ok: details.ok },
+      onlineSkills:   { url: '/online/occupations/11-2021.00/summary/skills', status: onlineSkills.status, ok: onlineSkills.ok, raw: onlineSkills.ok ? JSON.stringify(onlineSkills.body).slice(0, 600) : onlineSkills.body },
+      onlineKnow:     { url: '/online/occupations/11-2021.00/summary/knowledge', status: onlineKnow.status, ok: onlineKnow.ok },
+      onlineStyles:   { url: '/online/occupations/11-2021.00/summary/work_styles', status: onlineStyles.status, ok: onlineStyles.ok },
     },
   });
 }
