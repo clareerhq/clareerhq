@@ -60,7 +60,7 @@ export async function GET() {
     results: {
       search: { url: '/mnm/search?keyword=marketing&end=3', status: search.status, ok: search.ok, sample: search.ok ? (search.body as Record<string,unknown>)?.career ?? (search.body as Record<string,unknown>)?.occupation : search.body },
       details: { url: '/mnm/careers/11-2021.00/', status: details.status, ok: details.ok, sample: details.ok ? { title: (details.body as Record<string,unknown>)?.title } : details.body },
-      skills:  { url: '/mnm/careers/11-2021.00/skills', status: skills.status, ok: skills.ok, sample: skills.ok ? 'element count: ' + ((skills.body as Record<string,unknown>)?.element as unknown[])?.length : skills.body },
+      skills:  { url: '/mnm/careers/11-2021.00/skills', status: skills.status, ok: skills.ok, raw: skills.body },
       knowledge: { url: '/mnm/careers/11-2021.00/knowledge', status: knowledge.status, ok: knowledge.ok },
       personality: { url: '/mnm/careers/11-2021.00/personality', status: personality.status, ok: personality.ok },
     },
