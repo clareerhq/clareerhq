@@ -83,8 +83,9 @@ export async function getDomainData(
   domain: AssessmentDomain
 ): Promise<OnetDomainData> {
   const endpoint = ENDPOINTS[domain];
+  // Online API has full element lists; request up to 50 at once to avoid pagination
   return onetFetch<OnetDomainData>(
-    `/mnm/careers/${encodeURIComponent(occupationCode)}/${endpoint}`
+    `/online/occupations/${encodeURIComponent(occupationCode)}/summary/${endpoint}?start=1&end=50`
   );
 }
 
@@ -148,8 +149,15 @@ export async function getWageData(occupationCode: string): Promise<WageData> {
  * Filters out elements with very low importance (< 2.0 on O*NET 1-5 scale).
  */
 export function getTopElements(data: OnetDomainData, n = 15) {
-  return (data.element ?? [])
-    .filter((el) => (el.score?.value ?? 0) >= 2.0)
-    .sort((a, b) => (b.score?.value ?? 0) - (a.score?.value ?? 0))
-    .slice(0, n);
+  const elements = data.element ?? [];
+  const hasScores = elements.some((el) => el.score?.value !== undefined);
+  if (hasScores) {
+    // Full scored data: filter by importance and sort
+    return elements
+      .filter((el) => (el.score?.value ?? 0) >= 2.0)
+      .sort((a, b) => (b.score?.value ?? 0) - (a.score?.value ?? 0))
+      .slice(0, n);
+  }
+  // Online summary data: already filtered to relevant elements, just take top N
+  return elements.slice(0, n);
 }
