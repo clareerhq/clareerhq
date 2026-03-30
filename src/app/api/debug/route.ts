@@ -34,31 +34,34 @@ export async function GET() {
 
   const BASE = 'https://api-v2.onetcenter.org';
 
-  // Test 1: keyword search
-  const search = await testEndpoint(`${BASE}/mnm/search?keyword=marketing&end=3`, apiKey);
+  // Diagnose problem occupations — find what codes the search returns
+  const acctSearch = await testEndpoint(`${BASE}/mnm/search?keyword=accountant&end=3`, apiKey);
+  const dsSearch   = await testEndpoint(`${BASE}/mnm/search?keyword=data+scientist&end=3`, apiKey);
 
-  // Test 2: career details for a known occupation (Marketing Managers)
-  const details = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/`, apiKey);
+  // Extract first code from each search to test details/domain endpoints
+  const acctCode = ((acctSearch.body as Record<string,unknown>)?.career as Array<{code:string}>)?.[0]?.code;
+  const dsCode   = ((dsSearch.body as Record<string,unknown>)?.career as Array<{code:string}>)?.[0]?.code;
 
-  // Test online API endpoints (these have full scored data needed for assessment)
-  const onlineSkills   = await testEndpoint(`${BASE}/online/occupations/11-2021.00/summary/skills`, apiKey);
-  const onlineKnow     = await testEndpoint(`${BASE}/online/occupations/11-2021.00/summary/knowledge`, apiKey);
-  const onlineStyles   = await testEndpoint(`${BASE}/online/occupations/11-2021.00/summary/work_styles`, apiKey);
+  const acctMnmDetails  = acctCode ? await testEndpoint(`${BASE}/mnm/careers/${acctCode}/`, apiKey) : null;
+  const acctOnlineDetails = acctCode ? await testEndpoint(`${BASE}/online/occupations/${acctCode}/`, apiKey) : null;
+  const acctSkills      = acctCode ? await testEndpoint(`${BASE}/online/occupations/${acctCode}/summary/skills?start=1&end=50`, apiKey) : null;
 
-  const allOk = search.ok && details.ok && onlineSkills.ok;
+  const dsMnmDetails    = dsCode ? await testEndpoint(`${BASE}/mnm/careers/${dsCode}/`, apiKey) : null;
+  const dsSkills        = dsCode ? await testEndpoint(`${BASE}/online/occupations/${dsCode}/summary/skills?start=1&end=50`, apiKey) : null;
+  const dsKnowledge     = dsCode ? await testEndpoint(`${BASE}/online/occupations/${dsCode}/summary/knowledge?start=1&end=50`, apiKey) : null;
 
   return NextResponse.json({
-    success: allOk,
-    message: allOk
-      ? '✅ All O*NET endpoints working!'
-      : '❌ One or more endpoints failed — see results below.',
-    envStatus,
-    results: {
-      search:         { url: '/mnm/search?keyword=marketing&end=3', status: search.status, ok: search.ok },
-      details:        { url: '/mnm/careers/11-2021.00/', status: details.status, ok: details.ok },
-      onlineSkills:   { url: '/online/occupations/11-2021.00/summary/skills', status: onlineSkills.status, ok: onlineSkills.ok, raw: onlineSkills.ok ? JSON.stringify(onlineSkills.body).slice(0, 600) : onlineSkills.body },
-      onlineKnow:     { url: '/online/occupations/11-2021.00/summary/knowledge', status: onlineKnow.status, ok: onlineKnow.ok },
-      onlineStyles:   { url: '/online/occupations/11-2021.00/summary/work_styles', status: onlineStyles.status, ok: onlineStyles.ok },
+    accountant: {
+      searchCode: acctCode,
+      mnmDetails:    { status: acctMnmDetails?.status, ok: acctMnmDetails?.ok },
+      onlineDetails: { status: acctOnlineDetails?.status, ok: acctOnlineDetails?.ok, body: acctOnlineDetails?.ok ? JSON.stringify(acctOnlineDetails.body).slice(0, 300) : acctOnlineDetails?.body },
+      skills:        { status: acctSkills?.status, ok: acctSkills?.ok, count: ((acctSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
+    },
+    dataScientist: {
+      searchCode: dsCode,
+      mnmDetails: { status: dsMnmDetails?.status, ok: dsMnmDetails?.ok },
+      skills:     { status: dsSkills?.status, ok: dsSkills?.ok, count: ((dsSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      knowledge:  { status: dsKnowledge?.status, ok: dsKnowledge?.ok, count: ((dsKnowledge?.body as Record<string,unknown>)?.element as unknown[])?.length },
     },
   });
 }
