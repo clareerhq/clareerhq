@@ -71,7 +71,7 @@ export interface OccupationDetails {
 }
 
 export async function getOccupationDetails(code: string): Promise<OccupationDetails> {
-  return onetFetch<OccupationDetails>(`/mnm/career/${encodeURIComponent(code)}`);
+  return onetFetch<OccupationDetails>(`/mnm/careers/${encodeURIComponent(code)}/`);
 }
 
 // ── Domain Data ───────────────────────────────────────────────────────────────
@@ -84,7 +84,7 @@ export async function getDomainData(
 ): Promise<OnetDomainData> {
   const endpoint = ENDPOINTS[domain];
   return onetFetch<OnetDomainData>(
-    `/mnm/career/${encodeURIComponent(occupationCode)}/${endpoint}`
+    `/mnm/careers/${encodeURIComponent(occupationCode)}/${endpoint}`
   );
 }
 
@@ -118,7 +118,7 @@ export async function getRelatedOccupations(
   occupationCode: string
 ): Promise<RelatedOccupationsResult> {
   const raw = await onetFetch<Record<string, unknown>>(
-    `/mnm/career/${encodeURIComponent(occupationCode)}/explore`
+    `/mnm/careers/${encodeURIComponent(occupationCode)}/explore`
   );
   return {
     occupation: ((raw.career ?? raw.occupation) as Array<{ code: string; title: string }>) ?? [],
@@ -138,7 +138,7 @@ export interface WageData {
 }
 
 export async function getWageData(occupationCode: string): Promise<WageData> {
-  return onetFetch<WageData>(`/mnm/career/${encodeURIComponent(occupationCode)}/outlook`);
+  return onetFetch<WageData>(`/mnm/careers/${encodeURIComponent(occupationCode)}/outlook`);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
