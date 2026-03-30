@@ -43,7 +43,7 @@ export async function searchOccupations(keyword: string, start = 1, end = 20): P
     start: start.toString(),
     end: end.toString(),
   });
-  return onetFetch<OnetSearchResult>(`/search?${params}`);
+  return onetFetch<OnetSearchResult>(`/occupations?${params}`);
 }
 
 // ── Occupation Details ────────────────────────────────────────────────────────

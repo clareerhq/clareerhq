@@ -29,7 +29,7 @@ export async function GET() {
 
   try {
     const res = await fetch(
-      'https://api-v2.onetcenter.org/search?keyword=marketing&end=3',
+      'https://api-v2.onetcenter.org/occupations?keyword=marketing&end=3',
       {
         headers: {
           'X-API-Key': apiKey,
