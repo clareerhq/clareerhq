@@ -97,9 +97,28 @@ export async function getDomainData(
 ): Promise<OnetDomainData> {
   const endpoint = ENDPOINTS[domain];
   // Online API has full element lists; request up to 50 at once to avoid pagination
-  return onetFetch<OnetDomainData>(
+  const data = await onetFetch<OnetDomainData>(
     `/online/occupations/${encodeURIComponent(occupationCode)}/summary/${endpoint}?start=1&end=50`
   );
+
+  // If online API returns empty elements, fall back to MNM which covers newer occupations.
+  // MNM returns nested skill groups — flatten them into a single element list.
+  if ((data.element ?? []).length === 0) {
+    try {
+      type MnmGroup = { id: string; name: string; element?: Array<{ id: string; name: string }> };
+      const mnm = await onetFetch<MnmGroup[]>(
+        `/mnm/careers/${encodeURIComponent(occupationCode)}/${endpoint}`
+      );
+      if (Array.isArray(mnm)) {
+        const flat = mnm.flatMap((group) => group.element ?? [{ id: group.id, name: group.name }]);
+        return { ...data, element: flat as OnetDomainData['element'] };
+      }
+    } catch {
+      // MNM fallback also failed — return original empty result
+    }
+  }
+
+  return data;
 }
 
 // ── Bright Outlook Occupations ─────────────────────────────────────────────────

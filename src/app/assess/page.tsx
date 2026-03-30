@@ -105,7 +105,7 @@ export default function AssessPage() {
     { code: '15-2051.00', title: 'Data Scientist' },
     { code: '15-1252.00', title: 'Software Developer' },
     { code: '11-2021.00', title: 'Marketing Manager' },
-    { code: '13-2011.02', title: 'Accountant' },
+    { code: '13-2011.00', title: 'Accountant' },
     { code: '29-1141.00', title: 'Registered Nurse' },
     { code: '25-2021.00', title: 'Elementary School Teacher' },
   ];
