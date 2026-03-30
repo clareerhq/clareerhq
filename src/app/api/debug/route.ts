@@ -45,6 +45,8 @@ export async function GET() {
   const acctMnmDetails  = acctCode ? await testEndpoint(`${BASE}/mnm/careers/${acctCode}/`, apiKey) : null;
   const acctOnlineDetails = acctCode ? await testEndpoint(`${BASE}/online/occupations/${acctCode}/`, apiKey) : null;
   const acctSkills      = acctCode ? await testEndpoint(`${BASE}/online/occupations/${acctCode}/summary/skills?start=1&end=50`, apiKey) : null;
+  const acctKnowledge   = acctCode ? await testEndpoint(`${BASE}/online/occupations/${acctCode}/summary/knowledge?start=1&end=50`, apiKey) : null;
+  const acctWorkStyles  = acctCode ? await testEndpoint(`${BASE}/online/occupations/${acctCode}/summary/work_styles?start=1&end=50`, apiKey) : null;
 
   const dsMnmDetails    = dsCode ? await testEndpoint(`${BASE}/mnm/careers/${dsCode}/`, apiKey) : null;
   const dsSkills        = dsCode ? await testEndpoint(`${BASE}/online/occupations/${dsCode}/summary/skills?start=1&end=50`, apiKey) : null;
@@ -54,14 +56,16 @@ export async function GET() {
     accountant: {
       searchCode: acctCode,
       mnmDetails:    { status: acctMnmDetails?.status, ok: acctMnmDetails?.ok },
-      onlineDetails: { status: acctOnlineDetails?.status, ok: acctOnlineDetails?.ok, body: acctOnlineDetails?.ok ? JSON.stringify(acctOnlineDetails.body).slice(0, 300) : acctOnlineDetails?.body },
-      skills:        { status: acctSkills?.status, ok: acctSkills?.ok, count: ((acctSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      onlineDetails: { status: acctOnlineDetails?.status, ok: acctOnlineDetails?.ok },
+      skills:        { status: acctSkills?.status,     ok: acctSkills?.ok,     count: ((acctSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      knowledge:     { status: acctKnowledge?.status,  ok: acctKnowledge?.ok,  count: ((acctKnowledge?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      workStyles:    { status: acctWorkStyles?.status, ok: acctWorkStyles?.ok, count: ((acctWorkStyles?.body as Record<string,unknown>)?.element as unknown[])?.length },
     },
     dataScientist: {
       searchCode: dsCode,
-      mnmDetails: { status: dsMnmDetails?.status, ok: dsMnmDetails?.ok },
-      skills:     { status: dsSkills?.status, ok: dsSkills?.ok, count: ((dsSkills?.body as Record<string,unknown>)?.element as unknown[])?.length, rawKeys: dsSkills?.ok ? Object.keys(dsSkills.body as object) : null, raw: dsSkills?.ok ? JSON.stringify(dsSkills.body).slice(0, 500) : null },
-      knowledge:  { status: dsKnowledge?.status, ok: dsKnowledge?.ok, count: ((dsKnowledge?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      mnmDetails:   { status: dsMnmDetails?.status, ok: dsMnmDetails?.ok },
+      onlineSkills: { status: dsSkills?.status,    ok: dsSkills?.ok,    count: ((dsSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      onlineKnow:   { status: dsKnowledge?.status, ok: dsKnowledge?.ok, count: ((dsKnowledge?.body as Record<string,unknown>)?.element as unknown[])?.length },
     },
   });
 }
