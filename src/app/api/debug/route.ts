@@ -41,13 +41,13 @@ export async function GET() {
   const details = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/`, apiKey);
 
   // Test 3: skills for that same occupation
-  const skills = await testEndpoint(`${BASE}/mnm/careers/11-2021.00//skills`, apiKey);
+  const skills = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/skills`, apiKey);
 
   // Test 4: knowledge
-  const knowledge = await testEndpoint(`${BASE}/mnm/careers/11-2021.00//knowledge`, apiKey);
+  const knowledge = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/knowledge`, apiKey);
 
   // Test 5: work styles (personality in v2)
-  const personality = await testEndpoint(`${BASE}/mnm/careers/11-2021.00//personality`, apiKey);
+  const personality = await testEndpoint(`${BASE}/mnm/careers/11-2021.00/personality`, apiKey);
 
   const allOk = search.ok && details.ok && skills.ok;
 
@@ -60,9 +60,9 @@ export async function GET() {
     results: {
       search: { url: '/mnm/search?keyword=marketing&end=3', status: search.status, ok: search.ok, sample: search.ok ? (search.body as Record<string,unknown>)?.career ?? (search.body as Record<string,unknown>)?.occupation : search.body },
       details: { url: '/mnm/careers/11-2021.00/', status: details.status, ok: details.ok, sample: details.ok ? { title: (details.body as Record<string,unknown>)?.title } : details.body },
-      skills:  { url: '/mnm/careers/11-2021.00//skills', status: skills.status, ok: skills.ok, sample: skills.ok ? 'element count: ' + ((skills.body as Record<string,unknown>)?.element as unknown[])?.length : skills.body },
-      knowledge: { url: '/mnm/careers/11-2021.00//knowledge', status: knowledge.status, ok: knowledge.ok },
-      personality: { url: '/mnm/careers/11-2021.00//personality', status: personality.status, ok: personality.ok },
+      skills:  { url: '/mnm/careers/11-2021.00/skills', status: skills.status, ok: skills.ok, sample: skills.ok ? 'element count: ' + ((skills.body as Record<string,unknown>)?.element as unknown[])?.length : skills.body },
+      knowledge: { url: '/mnm/careers/11-2021.00/knowledge', status: knowledge.status, ok: knowledge.ok },
+      personality: { url: '/mnm/careers/11-2021.00/personality', status: personality.status, ok: personality.ok },
     },
   });
 }
