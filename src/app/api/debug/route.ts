@@ -60,7 +60,7 @@ export async function GET() {
     dataScientist: {
       searchCode: dsCode,
       mnmDetails: { status: dsMnmDetails?.status, ok: dsMnmDetails?.ok },
-      skills:     { status: dsSkills?.status, ok: dsSkills?.ok, count: ((dsSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      skills:     { status: dsSkills?.status, ok: dsSkills?.ok, count: ((dsSkills?.body as Record<string,unknown>)?.element as unknown[])?.length, rawKeys: dsSkills?.ok ? Object.keys(dsSkills.body as object) : null, raw: dsSkills?.ok ? JSON.stringify(dsSkills.body).slice(0, 500) : null },
       knowledge:  { status: dsKnowledge?.status, ok: dsKnowledge?.ok, count: ((dsKnowledge?.body as Record<string,unknown>)?.element as unknown[])?.length },
     },
   });
