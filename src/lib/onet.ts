@@ -1,9 +1,9 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  O*NET Web Services API Client
-//  Docs: https://services.onetcenter.org/developer/
+//  O*NET Web Services API Client — v2 (api-v2.onetcenter.org)
+//  Docs: https://services.onetcenter.org/reference/
 // ─────────────────────────────────────────────────────────────────────────────
 
-import type { OnetSearchResult, OnetDomainData, AssessmentDomain, DOMAIN_ENDPOINT } from '@/types/onet';
+import type { OnetSearchResult, OnetOccupation, OnetDomainData, AssessmentDomain, DOMAIN_ENDPOINT } from '@/types/onet';
 import { DOMAIN_ENDPOINT as ENDPOINTS } from '@/types/onet';
 
 const ONET_BASE = 'https://api-v2.onetcenter.org';
@@ -36,6 +36,7 @@ async function onetFetch<T>(path: string): Promise<T> {
 }
 
 // ── Occupation Search ─────────────────────────────────────────────────────────
+// v2 endpoint: /mnm/search — returns 'career' array (normalized to 'occupation')
 
 export async function searchOccupations(keyword: string, start = 1, end = 20): Promise<OnetSearchResult> {
   const params = new URLSearchParams({
@@ -43,15 +44,24 @@ export async function searchOccupations(keyword: string, start = 1, end = 20): P
     start: start.toString(),
     end: end.toString(),
   });
-  return onetFetch<OnetSearchResult>(`/occupations?${params}`);
+  const raw = await onetFetch<Record<string, unknown>>(`/mnm/search?${params}`);
+  // v2 API returns 'career' array; normalize to 'occupation' for internal consistency
+  return {
+    keyword: raw.keyword as string,
+    start: raw.start as number,
+    end: raw.end as number,
+    total: raw.total as number,
+    occupation: ((raw.career ?? raw.occupation) as OnetOccupation[]) ?? [],
+  };
 }
 
 // ── Occupation Details ────────────────────────────────────────────────────────
+// v2 endpoint: /mnm/career/{code}
 
 export interface OccupationDetails {
   code: string;
   title: string;
-  description: string;
+  description?: string;
   sample_of_reported_job_titles?: { title: string[] };
   tags?: {
     bright_outlook?: boolean;
@@ -61,10 +71,12 @@ export interface OccupationDetails {
 }
 
 export async function getOccupationDetails(code: string): Promise<OccupationDetails> {
-  return onetFetch<OccupationDetails>(`/occupations/${encodeURIComponent(code)}`);
+  return onetFetch<OccupationDetails>(`/mnm/career/${encodeURIComponent(code)}`);
 }
 
 // ── Domain Data ───────────────────────────────────────────────────────────────
+// v2 endpoint: /mnm/career/{code}/{endpoint}
+// Domain endpoint name mapping is in DOMAIN_ENDPOINT (types/onet.ts)
 
 export async function getDomainData(
   occupationCode: string,
@@ -72,21 +84,27 @@ export async function getDomainData(
 ): Promise<OnetDomainData> {
   const endpoint = ENDPOINTS[domain];
   return onetFetch<OnetDomainData>(
-    `/occupations/${encodeURIComponent(occupationCode)}/${endpoint}`
+    `/mnm/career/${encodeURIComponent(occupationCode)}/${endpoint}`
   );
 }
 
 // ── Bright Outlook Occupations ─────────────────────────────────────────────────
+// v2 endpoint: /mnm/listings/bright
 
 export interface BrightOutlookResult {
   occupation: Array<{ code: string; title: string }>;
 }
 
 export async function getBrightOutlookOccupations(): Promise<BrightOutlookResult> {
-  return onetFetch<BrightOutlookResult>('/bright_outlook_occupations');
+  const raw = await onetFetch<Record<string, unknown>>('/mnm/listings/bright');
+  // v2 returns 'career' array; normalize to 'occupation'
+  return {
+    occupation: ((raw.career ?? raw.occupation) as Array<{ code: string; title: string }>) ?? [],
+  };
 }
 
 // ── Related Occupations ───────────────────────────────────────────────────────
+// v2 endpoint: /mnm/career/{code}/explore
 
 export interface RelatedOccupationsResult {
   occupation: Array<{
@@ -99,12 +117,16 @@ export interface RelatedOccupationsResult {
 export async function getRelatedOccupations(
   occupationCode: string
 ): Promise<RelatedOccupationsResult> {
-  return onetFetch<RelatedOccupationsResult>(
-    `/occupations/${encodeURIComponent(occupationCode)}/related_occupations`
+  const raw = await onetFetch<Record<string, unknown>>(
+    `/mnm/career/${encodeURIComponent(occupationCode)}/explore`
   );
+  return {
+    occupation: ((raw.career ?? raw.occupation) as Array<{ code: string; title: string }>) ?? [],
+  };
 }
 
 // ── Wage & Employment Data ─────────────────────────────────────────────────────
+// v2 endpoint: /mnm/career/{code}/outlook (wage/job outlook info)
 
 export interface WageData {
   occupation: { code: string; title: string };
@@ -116,7 +138,7 @@ export interface WageData {
 }
 
 export async function getWageData(occupationCode: string): Promise<WageData> {
-  return onetFetch<WageData>(`/occupations/${encodeURIComponent(occupationCode)}/summary/wages`);
+  return onetFetch<WageData>(`/mnm/career/${encodeURIComponent(occupationCode)}/outlook`);
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────

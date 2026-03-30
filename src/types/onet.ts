@@ -58,15 +58,16 @@ export type AssessmentDomain =
   | 'technology_skills';
 
 // Maps our domain keys to O*NET API endpoint segments
+// Maps our domain keys to O*NET API v2 endpoint segments under /mnm/career/{code}/
 export const DOMAIN_ENDPOINT: Record<AssessmentDomain, string> = {
   skills: 'skills',
   knowledge: 'knowledge',
   abilities: 'abilities',
-  work_styles: 'work_styles',
+  work_styles: 'personality',      // v2 uses 'personality' for work styles
   interests: 'interests',
   work_activities: 'work_activities',
   work_context: 'work_context',
-  technology_skills: 'technology_skills',
+  technology_skills: 'technology', // v2 uses 'technology' for technology skills
 };
 
 export const DOMAIN_LABELS: Record<AssessmentDomain, string> = {
