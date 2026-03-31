@@ -103,6 +103,18 @@ export default function DomainsPage() {
           setLoading(false);
           return;
         }
+        const hasAnyData = DOMAINS_IN_ORDER.some(
+          (d) => (data.domains?.[d] ?? []).length > 0
+        );
+        if (!hasAnyData) {
+          setError(
+            "O*NET doesn't have detailed skills data for this occupation yet — " +
+            "it may be a newer role still being added to the database. " +
+            "Try searching for a similar occupation (e.g. \"Computer Scientist\" or \"Statistician\")."
+          );
+          setLoading(false);
+          return;
+        }
         setOccupationData(data as OccupationData);
         setLoading(false);
       })

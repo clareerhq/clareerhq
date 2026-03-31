@@ -102,7 +102,7 @@ export default function AssessPage() {
 
   // Popular starting points
   const popular = [
-    { code: '15-2051.00', title: 'Data Scientist' },
+    { code: '15-1221.00', title: 'Data Scientist' },
     { code: '15-1252.00', title: 'Software Developer' },
     { code: '11-2021.00', title: 'Marketing Manager' },
     { code: '13-2011.00', title: 'Accountant' },
