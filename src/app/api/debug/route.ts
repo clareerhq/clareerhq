@@ -66,6 +66,8 @@ export async function GET() {
       mnmDetails:   { status: dsMnmDetails?.status, ok: dsMnmDetails?.ok },
       onlineSkills: { status: dsSkills?.status,    ok: dsSkills?.ok,    count: ((dsSkills?.body as Record<string,unknown>)?.element as unknown[])?.length },
       onlineKnow:   { status: dsKnowledge?.status, ok: dsKnowledge?.ok, count: ((dsKnowledge?.body as Record<string,unknown>)?.element as unknown[])?.length },
+      mnmSkillsRaw: dsCode ? await testEndpoint(`${BASE}/mnm/careers/${dsCode}/skills`, apiKey).then(r => ({ status: r.status, ok: r.ok, raw: JSON.stringify(r.body).slice(0, 400) })) : null,
+      mnmKnowRaw:   dsCode ? await testEndpoint(`${BASE}/mnm/careers/${dsCode}/knowledge`, apiKey).then(r => ({ status: r.status, ok: r.ok, raw: JSON.stringify(r.body).slice(0, 200) })) : null,
     },
   });
 }
