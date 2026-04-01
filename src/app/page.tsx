@@ -127,14 +127,18 @@ export default function LandingPage() {
       <section className="py-10 border-y border-gray-100 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {[
-            { value: '1,000+', label: 'Careers to explore' },
-            { value: '300+', label: 'Skill dimensions' },
-            { value: '10 min', label: 'To your fit score' },
-            { value: '$0', label: 'To get started' },
+            { value: '1,000+', label: 'Careers skill-printed' },
+            { value: '300+', label: 'Skill dimensions mapped' },
+            { value: '$0', label: 'To get your 3-domain print' },
+            { value: '$10', label: 'Full 8-domain skill-print', accent: true },
           ].map((s) => (
             <div key={s.label}>
-              <div className="text-2xl font-extrabold text-brand-700">{s.value}</div>
-              <div className="text-sm text-gray-500 mt-1">{s.label}</div>
+              <div className={`text-2xl font-extrabold ${s.accent ? 'text-accent-600' : 'text-brand-700'}`}>
+                {s.value}
+              </div>
+              <div className={`text-sm mt-1 ${s.accent ? 'text-accent-700 font-semibold' : 'text-gray-500'}`}>
+                {s.label}
+              </div>
             </div>
           ))}
         </div>
