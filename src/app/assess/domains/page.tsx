@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, Loader2, Info } from 'lucide-react';
+import { ChevronRight, Loader2, Info, Fingerprint } from 'lucide-react';
 import type { UserRating, AssessmentDomain } from '@/types/onet';
 import { track } from '@/lib/posthog';
 import { RATING_LABELS } from '@/types/onet';
@@ -143,7 +143,14 @@ export default function DomainsPage() {
   const currentRatings = allRatings[currentDomain] ?? {};
   const ratedCount = Object.keys(currentRatings).length;
   const totalCount = currentElements.length;
-  const progress = ((domainIndex + ratedCount / Math.max(1, totalCount)) / DOMAINS_IN_ORDER.length) * 100;
+
+  // Step breadcrumb items — the 3 domain steps + final "Skill Print" destination
+  const STEPS: Array<{ key: string; label: string; isResult?: boolean }> = [
+    { key: 'skills', label: 'Skills' },
+    { key: 'knowledge', label: 'Knowledge Areas' },
+    { key: 'work_styles', label: 'Work Styles' },
+    { key: 'skillprint', label: 'Skill Print', isResult: true },
+  ];
 
   function handleNext() {
     track('assessment_domain_completed', {
@@ -212,43 +219,87 @@ export default function DomainsPage() {
   const occ = JSON.parse(sessionStorage.getItem('chq_occupation') ?? '{}');
 
   return (
-    <div className="min-h-screen bg-white">
-      {/* Header */}
-      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 px-6 py-3">
-        <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-between mb-2">
-            <div>
-              <span className="text-xs font-semibold text-brand-700 uppercase tracking-wide">
-                {DOMAIN_TITLES[currentDomain]}
-              </span>
-              <span className="text-xs text-gray-400 ml-2">
-                Step {domainIndex + 1} of {DOMAINS_IN_ORDER.length}
-              </span>
-            </div>
-            <span className="text-xs text-gray-400">
-              {ratedCount}/{totalCount} rated
-            </span>
-          </div>
-          {/* Progress bar */}
-          <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-brand-600 rounded-full transition-all duration-300"
-              style={{ width: `${progress}%` }}
-            />
+    <div className="min-h-screen bg-gray-50">
+      {/* Sticky header with logo + step breadcrumb */}
+      <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
+        {/* Logo row */}
+        <div className="px-6 pt-3 pb-2 max-w-2xl mx-auto flex items-center justify-between">
+          <a href="/" className="text-base font-bold text-brand-700">
+            Clareer<span className="text-accent-600">HQ</span>
+          </a>
+          <span className="text-xs text-gray-400">
+            {ratedCount}/{totalCount} rated
+          </span>
+        </div>
+
+        {/* Step breadcrumb: Skills > Knowledge Areas > Work Styles > Skill Print */}
+        <div className="px-4 pb-3 max-w-2xl mx-auto">
+          <div className="flex items-center justify-between gap-1">
+            {STEPS.map((step, i) => {
+              const isDone = i < domainIndex;
+              const isActive = !step.isResult && i === domainIndex;
+              const isFuture = !step.isResult && i > domainIndex;
+              const isResultStep = step.isResult;
+
+              return (
+                <div key={step.key} className="flex items-center gap-1 flex-1 min-w-0">
+                  {/* Step pill */}
+                  <div className={`
+                    flex-1 min-w-0 flex flex-col items-center gap-0.5
+                  `}>
+                    {/* Dot indicator */}
+                    <div className={`
+                      w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-all
+                      ${isDone
+                        ? 'bg-accent-500'
+                        : isActive
+                        ? 'bg-brand-700 ring-2 ring-brand-200'
+                        : isResultStep
+                        ? 'bg-gray-100 border-2 border-dashed border-gray-300'
+                        : 'bg-gray-100 border border-gray-200'}
+                    `}>
+                      {isDone ? (
+                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" />
+                        </svg>
+                      ) : isResultStep ? (
+                        <Fingerprint className="w-3 h-3 text-gray-400" />
+                      ) : (
+                        <span className={`text-[9px] font-bold ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                          {i + 1}
+                        </span>
+                      )}
+                    </div>
+                    {/* Label */}
+                    <span className={`
+                      text-[10px] font-semibold text-center leading-tight truncate w-full px-0.5
+                      ${isDone ? 'text-accent-600' : isActive ? 'text-brand-700' : 'text-gray-400'}
+                    `}>
+                      {step.label}
+                    </span>
+                  </div>
+
+                  {/* Connector line between steps */}
+                  {i < STEPS.length - 1 && (
+                    <div className={`
+                      h-px w-4 flex-shrink-0 rounded-full transition-all
+                      ${i < domainIndex ? 'bg-accent-400' : 'bg-gray-200'}
+                    `} />
+                  )}
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-6 py-8">
-        {/* Occupation badge */}
-        <div className="mb-6 p-3 rounded-xl bg-brand-50 border border-brand-100 flex items-center justify-between">
-          <div>
-            <div className="text-xs text-brand-600 font-semibold uppercase tracking-wide">
-              Assessing
-            </div>
-            <div className="font-bold text-brand-900">{occ.title}</div>
+        {/* Occupation badge — clean, no raw code shown */}
+        <div className="mb-6 p-4 rounded-xl bg-brand-50 border border-brand-100">
+          <div className="text-xs text-brand-500 font-semibold uppercase tracking-wide mb-0.5">
+            Building your skill-print for
           </div>
-          <div className="text-xs text-brand-400">{occ.code}</div>
+          <div className="font-bold text-brand-900 text-lg">{occ.title}</div>
         </div>
 
         <h2 className="text-xl font-bold text-gray-900 mb-1">

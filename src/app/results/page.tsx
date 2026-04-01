@@ -140,6 +140,7 @@ export default function ResultsPage() {
   const savedRef = useRef(false);
   const [alternatives, setAlternatives] = useState<AlternativeOccupation[]>([]);
   const [loadingAlts, setLoadingAlts] = useState(false);
+  const [showAlts, setShowAlts] = useState(false);
 
   useEffect(() => {
     const raw = sessionStorage.getItem('chq_results_payload');
@@ -295,58 +296,6 @@ export default function ResultsPage() {
           </div>
         </div>
 
-        {/* Alternative career recommendations */}
-        {(loadingAlts || alternatives.length > 0) && (
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
-            <div className="flex items-center gap-2 mb-4">
-              <TrendingUp className="w-5 h-5 text-brand-600" />
-              <h2 className="text-lg font-bold text-gray-900">Better-Fit Alternatives</h2>
-            </div>
-            <p className="text-sm text-gray-500 mb-4">
-              Based on your skills, you might score even higher in these related careers.
-            </p>
-            {loadingAlts ? (
-              <div className="flex items-center gap-2 text-gray-400 text-sm">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Finding your best alternative matches…
-              </div>
-            ) : (
-              <div className="space-y-3">
-                {alternatives.map((alt) => {
-                  const pct = Math.round(alt.fitScore * 100);
-                  const color =
-                    alt.fitScore >= 0.70 ? 'bg-accent-500' :
-                    alt.fitScore >= 0.55 ? 'bg-brand-600' : 'bg-amber-400';
-                  return (
-                    <button
-                      key={alt.code}
-                      onClick={() => {
-                        sessionStorage.setItem('chq_occupation', JSON.stringify({ code: alt.code, title: alt.title }));
-                        router.push('/assess/domains');
-                      }}
-                      className="w-full flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-100 hover:border-brand-300 hover:bg-brand-50 transition-all group text-left"
-                    >
-                      <div className="flex-1 min-w-0">
-                        <div className="font-semibold text-gray-900 group-hover:text-brand-700 text-sm truncate">
-                          {alt.title}
-                        </div>
-                        <div className="mt-1.5 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                          <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
-                        </div>
-                      </div>
-                      <div className="flex-shrink-0 text-right">
-                        <span className="text-sm font-bold text-gray-700">{pct}%</span>
-                        <div className="text-xs text-gray-400">fit</div>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-brand-500 flex-shrink-0" />
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-          </div>
-        )}
-
         {/* Pro upsell */}
         <div className="bg-brand-700 rounded-2xl p-6 text-white mb-6">
           <div className="flex items-start justify-between gap-4">
@@ -366,14 +315,74 @@ export default function ResultsPage() {
         </div>
 
         {/* Try another */}
-        <div className="text-center">
+        <div className="text-center mb-6">
           <button
             onClick={() => router.push('/assess')}
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-gray-200 text-gray-700 font-semibold hover:border-brand-300 hover:text-brand-700 transition-colors"
           >
-            <RotateCcw className="w-4 h-4" /> Explore another career
+            <RotateCcw className="w-4 h-4" /> Try a different role
           </button>
         </div>
+
+        {/* Related roles — secondary / opt-in explore section */}
+        {(loadingAlts || alternatives.length > 0) && (
+          <div className="border border-gray-100 rounded-2xl overflow-hidden mb-8">
+            <button
+              onClick={() => setShowAlts((v) => !v)}
+              className="w-full flex items-center justify-between gap-3 p-4 bg-white hover:bg-gray-50 transition-colors text-left"
+            >
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-gray-400" />
+                <span className="text-sm font-semibold text-gray-600">
+                  Explore related roles
+                </span>
+                {loadingAlts && (
+                  <Loader2 className="w-3 h-3 animate-spin text-gray-400" />
+                )}
+                {!loadingAlts && alternatives.length > 0 && (
+                  <span className="text-xs text-gray-400">({alternatives.length} roles)</span>
+                )}
+              </div>
+              <ChevronDown
+                className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${showAlts ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {showAlts && (
+              <div className="border-t border-gray-100 divide-y divide-gray-50">
+                {alternatives.map((alt) => {
+                  const pct = Math.round(alt.fitScore * 100);
+                  const color =
+                    alt.fitScore >= 0.70 ? 'bg-accent-500' :
+                    alt.fitScore >= 0.55 ? 'bg-brand-600' : 'bg-amber-400';
+                  return (
+                    <button
+                      key={alt.code}
+                      onClick={() => {
+                        sessionStorage.setItem('chq_occupation', JSON.stringify({ code: alt.code, title: alt.title }));
+                        router.push('/assess/domains');
+                      }}
+                      className="w-full flex items-center gap-4 px-4 py-3 bg-white hover:bg-brand-50 transition-colors group text-left"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="text-sm font-semibold text-gray-800 group-hover:text-brand-700 truncate">
+                          {alt.title}
+                        </div>
+                        <div className="mt-1 h-1 bg-gray-100 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 flex items-center gap-2">
+                        <span className="text-sm font-bold text-gray-600">{pct}%</span>
+                        <ArrowRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-brand-400" />
+                      </div>
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
