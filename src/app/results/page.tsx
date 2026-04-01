@@ -298,16 +298,25 @@ export default function ResultsPage() {
 
         {/* Pro upsell */}
         <div className="bg-brand-700 rounded-2xl p-6 text-white mb-6">
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-brand-200 mb-1">
-                Coming Soon — Pro
-              </div>
-              <h3 className="text-lg font-bold mb-1">Get the full picture</h3>
-              <p className="text-brand-200 text-sm">
-                Full 8-domain assessment, alternative career recommendations, printable career report, and comparison across multiple occupations.
-              </p>
+          <div className="mb-4">
+            <div className="text-xs font-semibold uppercase tracking-wide text-brand-200 mb-1">
+              Coming Soon — Pro
             </div>
+            <h3 className="text-lg font-bold mb-2">Put your skill-print to work</h3>
+            <ul className="space-y-2 text-brand-100 text-sm">
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
+                <span><strong className="text-white">Paste a job posting.</strong> We'll map your skill-print against that specific role and show you exactly where you're strong and where the gaps are — evidence-based, not guesswork.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
+                <span><strong className="text-white">Resume skill-print section.</strong> Generate a tailored block for your resume that speaks directly to the role's requirements using your verified skill data.</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
+                <span><strong className="text-white">Printable skill-print report.</strong> A shareable PDF of your full profile — the kind of document that replaces "just trust me" with something you can actually hand over.</span>
+              </li>
+            </ul>
           </div>
           <div className="mt-4">
             <WaitlistCTA />
