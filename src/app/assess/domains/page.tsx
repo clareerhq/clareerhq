@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ChevronRight, Loader2, Info } from 'lucide-react';
 import type { UserRating, AssessmentDomain } from '@/types/onet';
+import { track } from '@/lib/posthog';
 import { RATING_LABELS } from '@/types/onet';
 
 interface OnetElement {
@@ -117,6 +118,11 @@ export default function DomainsPage() {
         }
         setOccupationData(data as OccupationData);
         setLoading(false);
+        const stored2 = JSON.parse(sessionStorage.getItem('chq_occupation') ?? '{}');
+        track('assessment_started', {
+          occupation_code: stored2.code,
+          occupation_title: stored2.title,
+        });
       })
       .catch(() => {
         setError('Network error loading occupation data. Please check your connection and try again.');
@@ -140,6 +146,11 @@ export default function DomainsPage() {
   const progress = ((domainIndex + ratedCount / Math.max(1, totalCount)) / DOMAINS_IN_ORDER.length) * 100;
 
   function handleNext() {
+    track('assessment_domain_completed', {
+      domain: currentDomain,
+      step: domainIndex + 1,
+      rated_count: ratedCount,
+    });
     if (domainIndex < DOMAINS_IN_ORDER.length - 1) {
       setDomainIndex((i) => i + 1);
       window.scrollTo({ top: 0, behavior: 'smooth' });

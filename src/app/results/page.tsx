@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, AlertTriangle, Star, RotateCcw, Loader2, ChevronDown } from 'lucide-react';
+import { ArrowRight, AlertTriangle, Star, RotateCcw, Loader2, ChevronDown, TrendingUp } from 'lucide-react';
 import { computeFitScore, getFitLabel, getFitColor } from '@/lib/scoring';
+import { track } from '@/lib/posthog';
 import type { AssessmentResult, DomainRatings } from '@/types/onet';
 import { DOMAIN_LABELS } from '@/types/onet';
 import { formatScore } from '@/lib/utils';
@@ -93,6 +94,7 @@ function WaitlistCTA() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, source: 'results_page' }),
       });
+      track('waitlist_joined', { source: 'results_page' });
     } finally {
       setStatus('done');
     }
@@ -125,11 +127,19 @@ function WaitlistCTA() {
 
 // ── Main page ─────────────────────────────────────────────────────────────────
 
+interface AlternativeOccupation {
+  code: string;
+  title: string;
+  fitScore: number;
+}
+
 export default function ResultsPage() {
   const router = useRouter();
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [saving, setSaving] = useState(false);
   const savedRef = useRef(false);
+  const [alternatives, setAlternatives] = useState<AlternativeOccupation[]>([]);
+  const [loadingAlts, setLoadingAlts] = useState(false);
 
   useEffect(() => {
     const raw = sessionStorage.getItem('chq_results_payload');
@@ -150,6 +160,11 @@ export default function ResultsPage() {
       payload.occupationTitle
     );
     setResult(computed);
+    track('assessment_completed', {
+      occupation_code: payload.occupationCode,
+      occupation_title: payload.occupationTitle,
+      fit_score: Math.round(computed.fitScore * 100),
+    });
 
     // Save to DB if logged in (non-blocking)
     if (!savedRef.current) {
@@ -162,6 +177,21 @@ export default function ResultsPage() {
       })
         .catch(() => {}) // Silent fail — user can still see results
         .finally(() => setSaving(false));
+
+      // Fetch alternative career recommendations in the background
+      setLoadingAlts(true);
+      fetch('/api/alternatives', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          occupationCode: payload.occupationCode,
+          ratings: payload.ratings,
+        }),
+      })
+        .then((r) => r.json())
+        .then((data) => setAlternatives(data.alternatives ?? []))
+        .catch(() => {})
+        .finally(() => setLoadingAlts(false));
     }
   }, [router]);
 
@@ -264,6 +294,58 @@ export default function ResultsPage() {
             )}
           </div>
         </div>
+
+        {/* Alternative career recommendations */}
+        {(loadingAlts || alternatives.length > 0) && (
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 mb-6">
+            <div className="flex items-center gap-2 mb-4">
+              <TrendingUp className="w-5 h-5 text-brand-600" />
+              <h2 className="text-lg font-bold text-gray-900">Better-Fit Alternatives</h2>
+            </div>
+            <p className="text-sm text-gray-500 mb-4">
+              Based on your skills, you might score even higher in these related careers.
+            </p>
+            {loadingAlts ? (
+              <div className="flex items-center gap-2 text-gray-400 text-sm">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Finding your best alternative matches…
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {alternatives.map((alt) => {
+                  const pct = Math.round(alt.fitScore * 100);
+                  const color =
+                    alt.fitScore >= 0.70 ? 'bg-accent-500' :
+                    alt.fitScore >= 0.55 ? 'bg-brand-600' : 'bg-amber-400';
+                  return (
+                    <button
+                      key={alt.code}
+                      onClick={() => {
+                        sessionStorage.setItem('chq_occupation', JSON.stringify({ code: alt.code, title: alt.title }));
+                        router.push('/assess/domains');
+                      }}
+                      className="w-full flex items-center justify-between gap-4 p-4 rounded-xl border border-gray-100 hover:border-brand-300 hover:bg-brand-50 transition-all group text-left"
+                    >
+                      <div className="flex-1 min-w-0">
+                        <div className="font-semibold text-gray-900 group-hover:text-brand-700 text-sm truncate">
+                          {alt.title}
+                        </div>
+                        <div className="mt-1.5 h-1.5 bg-gray-100 rounded-full overflow-hidden">
+                          <div className={`h-full rounded-full ${color}`} style={{ width: `${pct}%` }} />
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 text-right">
+                        <span className="text-sm font-bold text-gray-700">{pct}%</span>
+                        <div className="text-xs text-gray-400">fit</div>
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-gray-300 group-hover:text-brand-500 flex-shrink-0" />
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Pro upsell */}
         <div className="bg-brand-700 rounded-2xl p-6 text-white mb-6">

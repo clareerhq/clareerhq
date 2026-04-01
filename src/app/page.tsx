@@ -104,8 +104,8 @@ export default function LandingPage() {
             <span className="text-brand-700">skill-print?</span>
           </h1>
           <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto leading-relaxed">
-            Like a fingerprint, your skill-print is uniquely yours — a precise map of what you can
-            actually do and how it matches the careers you're considering.
+            Like a fingerprint, your skill-print is uniquely yours — a precise map of what you
+            actually bring to the table and how it stacks up against any role in the market.
           </p>
           <p className="text-base text-gray-400 mb-10 max-w-lg mx-auto">
             Pick any job title. Rate yourself honestly. Get your fit score in under 10 minutes.

@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import { Search, Loader2, TrendingUp, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { debounce } from '@/lib/utils';
+import { track } from '@/lib/posthog';
 
 interface OccupationResult {
   code: string;
@@ -76,7 +77,9 @@ export default function AssessPage() {
       try {
         const res = await fetch(`/api/onet/occupations?q=${encodeURIComponent(q)}&end=15`);
         const data: SearchResponse = await res.json();
-        setResults(data.occupation ?? []);
+        const occupations = data.occupation ?? [];
+        setResults(occupations);
+        track('occupation_searched', { query: q, result_count: occupations.length });
       } catch {
         setResults([]);
       } finally {
@@ -94,7 +97,8 @@ export default function AssessPage() {
     doSearch(val);
   }
 
-  function handleSelect(code: string, title: string) {
+  function handleSelect(code: string, title: string, source: 'search' | 'popular' = 'search') {
+    track('occupation_selected', { occupation_code: code, occupation_title: title, source });
     // Store selection and navigate to domain assessment
     sessionStorage.setItem('chq_occupation', JSON.stringify({ code, title }));
     router.push('/assess/domains');
@@ -167,7 +171,7 @@ export default function AssessPage() {
               {popular.map((p) => (
                 <button
                   key={p.code}
-                  onClick={() => handleSelect(p.code, p.title)}
+                  onClick={() => handleSelect(p.code, p.title, 'popular')}
                   className="text-left p-3 rounded-xl border border-gray-100 hover:border-brand-300 hover:bg-brand-50 transition-all text-sm font-medium text-gray-700"
                 >
                   {p.title}
