@@ -123,10 +123,10 @@ export default function AssessPage() {
             Clareer<span className="text-accent-600">HQ</span>
           </a>
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
-            Which career do you want to explore?
+            Spec out a role
           </h1>
           <p className="text-gray-500">
-            Search any occupation — we'll assess how well your skills match it.
+            Search any job title — we'll pull the O*NET-verified skills, knowledge areas, and work styles that role actually requires, then map your skill-print against it.
           </p>
         </div>
 

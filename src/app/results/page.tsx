@@ -306,11 +306,11 @@ export default function ResultsPage() {
             <ul className="space-y-2 text-brand-100 text-sm">
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
-                <span><strong className="text-white">Paste a job posting.</strong> We'll map your skill-print against that specific role and show you exactly where you're strong and where the gaps are — evidence-based, not guesswork.</span>
+                <span><strong className="text-white">Spec out a job.</strong> Drop in a posting and we'll translate it into a job spec using the same standardized taxonomy as your skill-print — then show you exactly where you land against it.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
-                <span><strong className="text-white">Resume skill-print section.</strong> Generate a tailored block for your resume that speaks directly to the role's requirements using your verified skill data.</span>
+                <span><strong className="text-white">Resume skill-print section.</strong> Generate a tailored block for your resume that speaks directly to the role's requirements — evidence-based, not self-reported.</span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>

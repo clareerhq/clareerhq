@@ -184,7 +184,7 @@ export default function LandingPage() {
                 icon: TrendingUp,
                 step: '3',
                 title: 'Get your skill-print',
-                desc: 'See your fit score, your strongest areas, the gaps worth closing, and where your skills might be an even better match.',
+                desc: 'See your fit score, your strongest areas, and the gaps worth closing. Then spec it out against a real job posting to go from self-aware to application-ready.',
               },
             ].map((item) => (
               <div
