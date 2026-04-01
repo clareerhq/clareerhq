@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, BarChart3, Target, TrendingUp, CheckCircle, ChevronRight } from 'lucide-react';
+import { ArrowRight, BarChart3, Target, TrendingUp, CheckCircle, ChevronRight, Fingerprint, Layers, Zap } from 'lucide-react';
 
 // ── Waitlist form ─────────────────────────────────────────────────────────────
 
@@ -32,29 +32,29 @@ function WaitlistForm() {
 
   if (status === 'success') {
     return (
-      <div className="flex items-center gap-2 text-accent-600 font-semibold text-lg">
-        <CheckCircle className="w-6 h-6" />
-        You're on the list! We'll be in touch soon.
+      <div className="flex items-center gap-2 text-accent-600 font-semibold">
+        <CheckCircle className="w-5 h-5" />
+        You're on the list — we'll be in touch.
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-md">
+    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
       <input
         type="email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
         placeholder="your@email.com"
         required
-        className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
+        className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
       />
       <button
         type="submit"
         disabled={status === 'loading'}
-        className="px-6 py-3 rounded-xl bg-brand-700 text-white font-semibold text-sm hover:bg-brand-800 transition-colors disabled:opacity-50 whitespace-nowrap"
+        className="px-5 py-2.5 rounded-xl bg-brand-100 text-brand-800 font-semibold text-sm hover:bg-brand-200 transition-colors disabled:opacity-50 whitespace-nowrap"
       >
-        {status === 'loading' ? 'Joining…' : 'Get Early Access'}
+        {status === 'loading' ? 'Joining…' : 'Get Pro updates'}
       </button>
       {status === 'error' && (
         <p className="text-red-500 text-sm mt-1">Something went wrong. Please try again.</p>
@@ -99,23 +99,26 @@ export default function LandingPage() {
             Built on O*NET — the U.S. Department of Labor's career database
           </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
-            Know exactly where
+            What's your
             <br />
-            <span className="text-brand-700">you fit</span> in the workforce
+            <span className="text-brand-700">skill-print?</span>
           </h1>
-          <p className="text-lg text-gray-500 mb-10 max-w-xl mx-auto leading-relaxed">
-            Rate yourself across 300+ career dimensions. Get a precise fit score for any of
-            1,000+ occupations — with a clear breakdown of your strengths and skill gaps.
+          <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto leading-relaxed">
+            Like a fingerprint, your skill-print is uniquely yours — a precise map of what you can
+            actually do and how it matches the careers you're considering.
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <p className="text-base text-gray-400 mb-10 max-w-lg mx-auto">
+            Pick any job title. Rate yourself honestly. Get your fit score in under 10 minutes.
+          </p>
+          <div className="flex flex-col items-center gap-4">
             <Link
               href="/assess"
-              className="flex items-center gap-2 px-6 py-3.5 rounded-xl bg-brand-700 text-white font-semibold hover:bg-brand-800 transition-colors"
+              className="flex items-center gap-2 px-8 py-4 rounded-xl bg-brand-700 text-white font-bold text-lg hover:bg-brand-800 transition-colors shadow-md"
             >
-              Start your free assessment
-              <ArrowRight className="w-4 h-4" />
+              Find my skill-print
+              <ArrowRight className="w-5 h-5" />
             </Link>
-            <WaitlistForm />
+            <p className="text-xs text-gray-400">Free forever · No resume required · No credit card</p>
           </div>
         </div>
       </section>
@@ -124,10 +127,10 @@ export default function LandingPage() {
       <section className="py-10 border-y border-gray-100 bg-gray-50">
         <div className="max-w-4xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {[
-            { value: '1,000+', label: 'Occupations' },
-            { value: '300+', label: 'Career Dimensions' },
-            { value: '$0', label: 'To Get Started' },
-            { value: '10 min', label: 'Full Assessment' },
+            { value: '1,000+', label: 'Careers to explore' },
+            { value: '300+', label: 'Skill dimensions' },
+            { value: '10 min', label: 'To your fit score' },
+            { value: '$0', label: 'To get started' },
           ].map((s) => (
             <div key={s.label}>
               <div className="text-2xl font-extrabold text-brand-700">{s.value}</div>
@@ -137,32 +140,51 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* How it works */}
+      {/* Problem section */}
       <section className="py-24 px-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            The resume game is broken.
+          </h2>
+          <p className="text-lg text-gray-500 leading-relaxed mb-6">
+            Candidates apply to dozens of jobs they may not actually fit — because there's no honest
+            signal about where their skills really land. Recruiters sift through hundreds of
+            keyword-stuffed resumes looking for something real. Everyone wastes time.
+          </p>
+          <p className="text-lg text-gray-700 font-medium leading-relaxed">
+            ClareerHQ replaces the guessing game with your skill-print — a standardized,
+            honest assessment of what you can do and how it maps to the work that actually
+            needs doing. Know where you stand before you apply.
+          </p>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="py-24 px-6 bg-gray-50">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">How it works</h2>
           <p className="text-center text-gray-500 mb-14 max-w-lg mx-auto">
-            Three steps. Ten minutes. A career map built on real labor market data.
+            Three steps. Ten minutes. A skills map built on real labor market data.
           </p>
           <div className="grid sm:grid-cols-3 gap-8">
             {[
               {
                 icon: Target,
                 step: '1',
-                title: 'Pick a career to explore',
-                desc: 'Search any of 1,000+ occupations from Data Scientist to Carpenter — or let us suggest careers based on your industry.',
+                title: 'Start with any job title',
+                desc: 'Search any of 1,000+ careers — from Data Analyst to Nurse Practitioner — or pick from popular starting points.',
               },
               {
                 icon: BarChart3,
                 step: '2',
-                title: 'Rate your abilities honestly',
-                desc: 'Score yourself 0–3 across Skills, Knowledge, Work Styles, and more. The more honest you are, the more accurate your results.',
+                title: 'Rate your real skills',
+                desc: 'Score yourself across the skills, knowledge areas, and work styles that role actually requires. Honest beats optimistic.',
               },
               {
                 icon: TrendingUp,
                 step: '3',
-                title: 'Get your fit score',
-                desc: 'See a precise match score, your top strengths, specific skill gaps, and alternative occupations where you fit even better.',
+                title: 'Get your skill-print',
+                desc: 'See your fit score, your strongest areas, the gaps worth closing, and where your skills might be an even better match.',
               },
             ].map((item) => (
               <div
@@ -183,26 +205,56 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Feature highlights */}
-      <section className="py-24 px-6 bg-gray-50">
+      {/* What you get */}
+      <section className="py-24 px-6">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-14">
-            Everything you need to navigate your career
+          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
+            What's in your skill-print
           </h2>
+          <p className="text-center text-gray-500 mb-14 max-w-lg mx-auto">
+            Not a personality quiz. Not a keyword matcher. A real skills assessment built on the
+            same occupational data used by career counselors and workforce planners nationwide.
+          </p>
           <div className="grid sm:grid-cols-2 gap-5">
             {[
-              { title: 'Fit Score (0–100)', desc: 'A single number that summarises how well your profile matches an occupation, weighted by what matters most.' },
-              { title: 'Domain Breakdown', desc: 'See how you score across Skills, Knowledge, Abilities, Work Styles, and more — not just one overall number.' },
-              { title: 'Gap Analysis', desc: 'Pinpoint the exact skills and knowledge areas where you fall short — so you know exactly what to develop.' },
-              { title: 'Alternative Careers', desc: 'Discover adjacent occupations where your existing skills are an even stronger fit.' },
-              { title: 'O*NET Data', desc: 'Every comparison uses the U.S. Department of Labor\'s official occupational data — the same source trusted by career counselors nationwide.' },
-              { title: 'Save & Track', desc: 'Revisit your assessments over time to see how your profile grows as you build new skills.' },
+              {
+                icon: Fingerprint,
+                title: 'Your fit score (0–100)',
+                desc: 'A single, honest number showing how well your current skills match what a role actually requires — weighted by what matters most.',
+              },
+              {
+                icon: Layers,
+                title: 'Domain breakdown',
+                desc: 'See your match across Skills, Knowledge, and Work Styles separately — so you know exactly where you\'re strong and where the gaps are.',
+              },
+              {
+                icon: Target,
+                title: 'Gap analysis',
+                desc: 'Pinpoint the specific skills worth developing to move the needle on your fit. No generic advice — just the exact gaps for that role.',
+              },
+              {
+                icon: TrendingUp,
+                title: 'Better-fit alternatives',
+                desc: 'Discover adjacent careers where your existing skills land even higher. Sometimes the best opportunity is one title away.',
+              },
+              {
+                icon: CheckCircle,
+                title: 'O*NET-powered data',
+                desc: 'Every assessment uses the U.S. Department of Labor\'s official occupational database — standardized, updated, and trusted.',
+              },
+              {
+                icon: Zap,
+                title: 'Coming: full skill-print profile',
+                desc: 'A portable, shareable profile of your skills across every dimension — built to eventually replace the resume entirely.',
+              },
             ].map((f) => (
-              <div key={f.title} className="flex gap-3 p-4 rounded-xl bg-white border border-gray-100">
-                <CheckCircle className="w-5 h-5 text-accent-600 mt-0.5 flex-shrink-0" />
+              <div key={f.title} className="flex gap-4 p-5 rounded-xl bg-white border border-gray-100 shadow-sm">
+                <div className="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <f.icon className="w-4.5 h-4.5 text-brand-700 w-5 h-5" />
+                </div>
                 <div>
                   <div className="font-semibold text-gray-900 text-sm">{f.title}</div>
-                  <div className="text-gray-500 text-sm mt-0.5">{f.desc}</div>
+                  <div className="text-gray-500 text-sm mt-1 leading-relaxed">{f.desc}</div>
                 </div>
               </div>
             ))}
@@ -210,18 +262,35 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* CTA */}
+      {/* Pro waitlist */}
+      <section className="py-16 px-6 bg-brand-50 border-y border-brand-100">
+        <div className="max-w-2xl mx-auto text-center">
+          <p className="text-xs font-semibold text-brand-500 uppercase tracking-widest mb-3">Coming Soon — Pro</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-3">
+            The full skill-print experience
+          </h2>
+          <p className="text-gray-500 mb-8 leading-relaxed">
+            Full 8-domain assessment, a portable skill-print profile, alternative career
+            recommendations, and a printable career report. Be first to know when it launches.
+          </p>
+          <div className="flex justify-center">
+            <WaitlistForm />
+          </div>
+        </div>
+      </section>
+
+      {/* Bottom CTA */}
       <section className="py-24 px-6 bg-brand-700 text-white text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold mb-4">Ready to find your fit?</h2>
+          <h2 className="text-3xl font-bold mb-4">Your skill-print is waiting.</h2>
           <p className="text-brand-200 mb-8">
-            Free forever for individual users. No credit card needed.
+            Free forever for individuals. No resume needed. No credit card.
           </p>
           <Link
             href="/assess"
             className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-brand-700 font-bold text-lg hover:bg-gray-50 transition-colors"
           >
-            Start your assessment
+            Find my skill-print
             <ChevronRight className="w-5 h-5" />
           </Link>
         </div>
