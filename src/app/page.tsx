@@ -71,9 +71,14 @@ export default function LandingPage() {
       {/* Nav */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <span className="text-xl font-bold text-brand-700">
-            Clareer<span className="text-accent-600">HQ</span>
-          </span>
+          <div className="flex flex-col leading-tight">
+            <span className="text-xl font-bold text-brand-700">
+              Clareer<span className="text-accent-600">HQ</span>
+            </span>
+            <span className="text-[10px] text-gray-400 font-medium tracking-wide hidden sm:block">
+              Your headquarters for career clarity
+            </span>
+          </div>
           <div className="flex items-center gap-4">
             <Link
               href="/sign-in"
@@ -248,8 +253,8 @@ export default function LandingPage() {
               },
               {
                 icon: Zap,
-                title: 'Coming: full skill-print profile',
-                desc: 'A portable, shareable profile of your skills across every dimension — built to eventually replace the resume entirely.',
+                title: 'Coming: skill-print resume section',
+                desc: 'A new header section for your resume — standardized, evidence-based, and tailored to the specific role. The artifact every hiring manager actually wants to see in 2026.',
               },
             ].map((f) => (
               <div key={f.title} className="flex gap-4 p-5 rounded-xl bg-white border border-gray-100 shadow-sm">
@@ -271,11 +276,11 @@ export default function LandingPage() {
         <div className="max-w-2xl mx-auto text-center">
           <p className="text-xs font-semibold text-brand-500 uppercase tracking-widest mb-3">Coming Soon — Pro</p>
           <h2 className="text-2xl font-bold text-gray-900 mb-3">
-            The full skill-print experience
+            The resume section everyone's missing
           </h2>
           <p className="text-gray-500 mb-8 leading-relaxed">
-            Full 8-domain assessment, a portable skill-print profile, alternative career
-            recommendations, and a printable career report. Be first to know when it launches.
+            Spec out any job posting against your skill-print, generate an evidence-based resume section
+            tailored to the role, and get the full 8-domain report. Be first to know when it launches.
           </p>
           <div className="flex justify-center">
             <WaitlistForm />
@@ -288,7 +293,7 @@ export default function LandingPage() {
         <div className="max-w-2xl mx-auto">
           <h2 className="text-3xl font-bold mb-4">Your skill-print is waiting.</h2>
           <p className="text-brand-200 mb-8">
-            Free forever for individuals. No resume needed. No credit card.
+            The new top section of your resume — evidence-based, role-specific, and built in minutes. Free to start.
           </p>
           <Link
             href="/assess"
@@ -303,7 +308,10 @@ export default function LandingPage() {
       {/* Footer */}
       <footer className="py-10 px-6 border-t border-gray-100">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
-          <span className="font-bold text-brand-700">Clareer<span className="text-accent-600">HQ</span></span>
+          <div className="flex flex-col leading-tight">
+            <span className="font-bold text-brand-700">Clareer<span className="text-accent-600">HQ</span></span>
+            <span className="text-xs text-gray-400 mt-0.5">Your headquarters for clarity on your career.</span>
+          </div>
           <span>
             Occupational data sourced from{' '}
             <a href="https://www.onetcenter.org" className="underline hover:text-brand-600" target="_blank" rel="noreferrer">
