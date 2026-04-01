@@ -128,9 +128,9 @@ export default function LandingPage() {
         <div className="max-w-4xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
           {[
             { value: '1,000+', label: 'Careers skill-printed' },
-            { value: '300+', label: 'Skill dimensions mapped' },
-            { value: '$0', label: 'To get your 3-domain print' },
-            { value: '$10', label: 'Full 8-domain skill-print', accent: true },
+            { value: '$0', label: '3-domain skill-print, free forever' },
+            { value: '$10', label: 'Full 8-domain skill-print report', accent: true },
+            { value: '$10/mo', label: 'Unlimited job specs + early access', accent: true },
           ].map((s) => (
             <div key={s.label}>
               <div className={`text-2xl font-extrabold ${s.accent ? 'text-accent-600' : 'text-brand-700'}`}>

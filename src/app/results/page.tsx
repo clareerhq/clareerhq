@@ -300,23 +300,42 @@ export default function ResultsPage() {
         <div className="bg-brand-700 rounded-2xl p-6 text-white mb-6">
           <div className="mb-4">
             <div className="text-xs font-semibold uppercase tracking-wide text-brand-200 mb-1">
-              Coming Soon — Pro
+              Coming Soon
             </div>
-            <h3 className="text-lg font-bold mb-2">Put your skill-print to work</h3>
-            <ul className="space-y-2 text-brand-100 text-sm">
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
-                <span><strong className="text-white">Spec out a job.</strong> Drop in a posting and we'll translate it into a job spec using the same standardized taxonomy as your skill-print — then show you exactly where you land against it.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
-                <span><strong className="text-white">Resume skill-print section.</strong> Generate a tailored block for your resume that speaks directly to the role's requirements — evidence-based, not self-reported.</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <span className="mt-0.5 text-accent-400 font-bold flex-shrink-0">→</span>
-                <span><strong className="text-white">Printable skill-print report.</strong> A shareable PDF of your full profile — the kind of document that replaces "just trust me" with something you can actually hand over.</span>
-              </li>
-            </ul>
+            <h3 className="text-lg font-bold mb-4">Put your skill-print to work</h3>
+
+            {/* One-time tier */}
+            <div className="mb-4 p-3 rounded-xl bg-white/10 border border-white/20">
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span className="text-xl font-extrabold text-accent-300">$10</span>
+                <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">one-time</span>
+              </div>
+              <p className="text-sm text-brand-100">
+                <strong className="text-white">Full 8-domain skill-print report.</strong> A shareable PDF of your complete profile across every dimension — the kind of document that replaces "just trust me" with something you can actually hand over.
+              </p>
+            </div>
+
+            {/* Monthly tier */}
+            <div className="p-3 rounded-xl bg-white/10 border border-white/20">
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span className="text-xl font-extrabold text-accent-300">$10</span>
+                <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">/ month</span>
+              </div>
+              <ul className="space-y-1.5 text-sm text-brand-100">
+                <li className="flex items-start gap-2">
+                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
+                  <span><strong className="text-white">Spec out any job, as many as you want.</strong> Drop in a posting — we translate it into a job spec and show you exactly where your skill-print lands against it.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
+                  <span><strong className="text-white">Resume skill-print section.</strong> A tailored, evidence-based block for your resume that speaks directly to the role's requirements.</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
+                  <span><strong className="text-white">First in line</strong> for every new feature as the platform grows.</span>
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="mt-4">
             <WaitlistCTA />
