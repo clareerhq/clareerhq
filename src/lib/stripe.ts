@@ -4,14 +4,12 @@
 
 import Stripe from 'stripe';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-  throw new Error('STRIPE_SECRET_KEY is not set');
-}
-
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2024-06-20',
-  typescript: true,
-});
+export const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2024-06-20',
+      typescript: true,
+    })
+  : null as unknown as Stripe;
 
 // ── Price IDs ─────────────────────────────────────────────────────────────────
 // Set these in your Stripe dashboard and add to Vercel env vars.
