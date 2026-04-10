@@ -82,7 +82,7 @@ export default function DomainsPage() {
   const [allRatings, setAllRatings] = useState<
     Record<string, Record<string, UserRating>>
   >({});
-  const [tooltip, setTooltip] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const stored = sessionStorage.getItem('chq_occupation');
@@ -130,6 +130,24 @@ export default function DomainsPage() {
       });
   }, [router]);
 
+  const allExpanded = currentElements.length > 0 && currentElements.every((el) => expanded.has(el.id));
+
+  function toggleElement(id: string) {
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      next.has(id) ? next.delete(id) : next.add(id);
+      return next;
+    });
+  }
+
+  function toggleAll() {
+    if (allExpanded) {
+      setExpanded(new Set());
+    } else {
+      setExpanded(new Set(currentElements.map((el) => el.id)));
+    }
+  }
+
   function setRating(domain: string, elementId: string, rating: UserRating) {
     setAllRatings((prev) => ({
       ...prev,
@@ -160,6 +178,7 @@ export default function DomainsPage() {
     });
     if (domainIndex < DOMAINS_IN_ORDER.length - 1) {
       setDomainIndex((i) => i + 1);
+      setExpanded(new Set());
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       // All domains done — build ratings payload and navigate to results
@@ -317,15 +336,15 @@ export default function DomainsPage() {
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
                   <button
-                    onClick={() => setTooltip(tooltip === el.id ? null : el.id)}
+                    onClick={() => toggleElement(el.id)}
                     className="flex items-center gap-1 group text-left w-full"
                   >
                     <span className="font-semibold text-gray-900 text-sm group-hover:text-brand-700 transition-colors underline decoration-dotted underline-offset-2 decoration-gray-300">
                       {el.name}
                     </span>
-                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 group-hover:text-brand-600 flex-shrink-0 transition-transform duration-200 ${tooltip === el.id ? 'rotate-180' : ''}`} />
+                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 group-hover:text-brand-600 flex-shrink-0 transition-transform duration-200 ${expanded.has(el.id) ? 'rotate-180' : ''}`} />
                   </button>
-                  {tooltip === el.id && (
+                  {expanded.has(el.id) && (
                     <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
                       {el.description}
                     </p>
@@ -366,6 +385,19 @@ export default function DomainsPage() {
           )}
         </button>
       </div>
+
+      {/* Floating expand/collapse all pill */}
+      {currentElements.length > 0 && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
+          <button
+            onClick={toggleAll}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-full bg-white border border-gray-200 shadow-md text-xs font-semibold text-gray-600 hover:text-brand-700 hover:border-brand-300 hover:shadow-lg transition-all"
+          >
+            <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${allExpanded ? 'rotate-180' : ''}`} />
+            {allExpanded ? 'Collapse all' : 'Expand all'}
+          </button>
+        </div>
+      )}
     </div>
   );
 }
