@@ -79,49 +79,24 @@ function DomainBar({ label, score }: { label: string; score: number }) {
   );
 }
 
-// ── Waitlist CTA ──────────────────────────────────────────────────────────────
+// ── Upgrade CTA ───────────────────────────────────────────────────────────────
 
-function WaitlistCTA() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'done'>('idle');
-
-  async function submit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'results_page' }),
-      });
-      track('waitlist_joined', { source: 'results_page' });
-    } finally {
-      setStatus('done');
-    }
-  }
-
-  if (status === 'done') {
-    return (
-      <div className="text-center py-4 text-accent-600 font-semibold">
-        ✓ You're on the list! We'll notify you when Pro launches.
-      </div>
-    );
-  }
-
+function UpgradeCTA() {
   return (
-    <form onSubmit={submit} className="flex gap-2">
-      <input
-        type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com" required
-        className="flex-1 px-3 py-2 rounded-lg border border-gray-200 text-sm focus:outline-none focus:ring-2 focus:ring-brand-400"
-      />
-      <button
-        type="submit" disabled={status === 'loading'}
-        className="px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors disabled:opacity-50"
+    <div className="flex flex-col sm:flex-row gap-3">
+      <Link
+        href="/upgrade"
+        className="flex-1 flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl bg-accent-500 text-white font-bold text-sm hover:bg-accent-600 transition-colors"
       >
-        {status === 'loading' ? '…' : 'Notify me'}
-      </button>
-    </form>
+        See upgrade options
+      </Link>
+      <Link
+        href="/upgrade"
+        className="flex-1 flex items-center justify-center gap-2 py-2.5 px-5 rounded-xl bg-white/15 text-white font-semibold text-sm hover:bg-white/25 transition-colors border border-white/20"
+      >
+        $10/mo — unlimited job specs
+      </Link>
+    </div>
   );
 }
 
@@ -338,7 +313,7 @@ export default function ResultsPage() {
             </div>
           </div>
           <div className="mt-4">
-            <WaitlistCTA />
+            <UpgradeCTA />
           </div>
         </div>
 

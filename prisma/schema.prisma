@@ -15,13 +15,16 @@ datasource db {
 // ── Users ─────────────────────────────────────────────────────────────────────
 
 model User {
-  id          String   @id                          // Clerk user ID
-  email       String   @unique
-  name        String?
-  plan        Plan     @default(FREE)
-  stripeId    String?  @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String    @id                    // Clerk user ID
+  email            String    @unique
+  name             String?
+  plan             Plan      @default(FREE)
+  stripeId         String?   @unique                // Stripe customer ID
+  stripeSubId      String?   @unique                // Active subscription ID (PRO monthly)
+  reportPurchased  Boolean   @default(false)        // $10 one-time report purchase
+  planExpiresAt    DateTime?                        // Subscription period end
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   assessments Assessment[]
   waitlist    WaitlistEntry?

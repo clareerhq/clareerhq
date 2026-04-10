@@ -282,8 +282,19 @@ export default function LandingPage() {
             Spec out any job posting against your skill-print, generate an evidence-based resume section
             tailored to the role, and get the full 8-domain report. Be first to know when it launches.
           </p>
-          <div className="flex justify-center">
-            <WaitlistForm />
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link
+              href="/upgrade"
+              className="px-6 py-3 rounded-xl bg-brand-700 text-white font-bold text-sm hover:bg-brand-800 transition-colors"
+            >
+              See pricing — from $10
+            </Link>
+            <Link
+              href="/assess"
+              className="px-6 py-3 rounded-xl border border-brand-200 text-brand-700 font-semibold text-sm hover:bg-brand-50 transition-colors"
+            >
+              Try free first
+            </Link>
           </div>
         </div>
       </section>
