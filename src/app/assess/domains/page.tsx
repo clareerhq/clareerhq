@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, Loader2, Info, Fingerprint } from 'lucide-react';
+import { ChevronRight, Loader2, ChevronDown, Fingerprint } from 'lucide-react';
 import type { UserRating, AssessmentDomain } from '@/types/onet';
 import { track } from '@/lib/posthog';
 import { RATING_LABELS } from '@/types/onet';
@@ -316,17 +316,17 @@ export default function DomainsPage() {
             >
               <div className="flex items-start justify-between gap-3 mb-3">
                 <div className="flex-1">
-                  <div className="flex items-center gap-1.5">
-                    <span className="font-semibold text-gray-900 text-sm">{el.name}</span>
-                    <button
-                      onClick={() => setTooltip(tooltip === el.id ? null : el.id)}
-                      className="text-gray-300 hover:text-gray-500 transition-colors"
-                    >
-                      <Info className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setTooltip(tooltip === el.id ? null : el.id)}
+                    className="flex items-center gap-1 group text-left w-full"
+                  >
+                    <span className="font-semibold text-gray-900 text-sm group-hover:text-brand-700 transition-colors underline decoration-dotted underline-offset-2 decoration-gray-300">
+                      {el.name}
+                    </span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-gray-400 group-hover:text-brand-600 flex-shrink-0 transition-transform duration-200 ${tooltip === el.id ? 'rotate-180' : ''}`} />
+                  </button>
                   {tooltip === el.id && (
-                    <p className="text-xs text-gray-500 mt-1 leading-relaxed">
+                    <p className="text-xs text-gray-500 mt-1.5 leading-relaxed">
                       {el.description}
                     </p>
                   )}
