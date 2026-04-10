@@ -130,6 +130,20 @@ export default function DomainsPage() {
       });
   }, [router]);
 
+  function setRating(domain: string, elementId: string, rating: UserRating) {
+    setAllRatings((prev) => ({
+      ...prev,
+      [domain]: { ...(prev[domain] ?? {}), [elementId]: rating },
+    }));
+  }
+
+  const currentDomain = DOMAINS_IN_ORDER[domainIndex];
+  // Use ?. on both occupationData AND domains to guard against error-shaped responses
+  const currentElements = occupationData?.domains?.[currentDomain] ?? [];
+  const currentRatings = allRatings[currentDomain] ?? {};
+  const ratedCount = Object.keys(currentRatings).length;
+  const totalCount = currentElements.length;
+
   const allExpanded = currentElements.length > 0 && currentElements.every((el) => expanded.has(el.id));
 
   function toggleElement(id: string) {
@@ -147,20 +161,6 @@ export default function DomainsPage() {
       setExpanded(new Set(currentElements.map((el) => el.id)));
     }
   }
-
-  function setRating(domain: string, elementId: string, rating: UserRating) {
-    setAllRatings((prev) => ({
-      ...prev,
-      [domain]: { ...(prev[domain] ?? {}), [elementId]: rating },
-    }));
-  }
-
-  const currentDomain = DOMAINS_IN_ORDER[domainIndex];
-  // Use ?. on both occupationData AND domains to guard against error-shaped responses
-  const currentElements = occupationData?.domains?.[currentDomain] ?? [];
-  const currentRatings = allRatings[currentDomain] ?? {};
-  const ratedCount = Object.keys(currentRatings).length;
-  const totalCount = currentElements.length;
 
   // Step breadcrumb items — the 3 domain steps + final "Skill Print" destination
   const STEPS: Array<{ key: string; label: string; isResult?: boolean }> = [
