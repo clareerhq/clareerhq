@@ -72,10 +72,8 @@ export default function LandingPage() {
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex flex-col leading-tight">
-            <span className="text-xl font-bold text-brand-700">
-              Clareer<span className="text-accent-600">HQ</span>
-            </span>
-            <span className="text-[10px] text-gray-400 font-medium tracking-wide hidden sm:block">
+            <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+            <span className="text-[10px] text-gray-400 font-medium tracking-wide hidden sm:block mt-0.5">
               Your headquarters for career clarity
             </span>
           </div>
@@ -320,8 +318,8 @@ export default function LandingPage() {
       <footer className="py-10 px-6 border-t border-gray-100">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <div className="flex flex-col leading-tight">
-            <span className="font-bold text-brand-700">Clareer<span className="text-accent-600">HQ</span></span>
-            <span className="text-xs text-gray-400 mt-0.5">Your headquarters for clarity on your career.</span>
+            <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
+            <span className="text-xs text-gray-400 mt-1">Your headquarters for career clarity.</span>
           </div>
           <span>
             Occupational data sourced from{' '}

@@ -60,8 +60,8 @@ export default function UpgradePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
-        <Link href="/" className="text-lg font-bold text-brand-700">
-          Clareer<span className="text-accent-600">HQ</span>
+        <Link href="/">
+          <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
         </Link>
         <Link href="/assess" className="text-sm text-gray-500 hover:text-brand-700">
           ← Back to assessment

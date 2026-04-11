@@ -33,8 +33,8 @@ export default async function DashboardPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Nav */}
       <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
-        <a href="/" className="text-xl font-bold text-brand-700">
-          Clareer<span className="text-accent-600">HQ</span>
+        <a href="/">
+          <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
         </a>
         <UserButton afterSignOutUrl="/" />
       </nav>

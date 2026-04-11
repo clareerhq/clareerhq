@@ -243,8 +243,8 @@ export default function DomainsPage() {
       <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
         {/* Logo row */}
         <div className="px-6 pt-3 pb-2 max-w-2xl mx-auto flex items-center justify-between">
-          <a href="/" className="text-base font-bold text-brand-700">
-            Clareer<span className="text-accent-600">HQ</span>
+          <a href="/">
+            <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
           </a>
           <span className="text-xs text-gray-400">
             {ratedCount}/{totalCount} rated

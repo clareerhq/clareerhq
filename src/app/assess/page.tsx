@@ -119,8 +119,8 @@ export default function AssessPage() {
       <div className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-10">
-          <a href="/" className="text-2xl font-bold text-brand-700 inline-block mb-8">
-            Clareer<span className="text-accent-600">HQ</span>
+          <a href="/" className="inline-block mb-8">
+            <img src="/logo.svg" alt="ClareerHQ" className="h-8 w-auto mx-auto" />
           </a>
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
             Spec out a role
