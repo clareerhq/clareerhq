@@ -1,73 +1,12 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, BarChart3, Target, TrendingUp, CheckCircle, ChevronRight, Fingerprint, Layers, Zap } from 'lucide-react';
-
-// ── Waitlist form ─────────────────────────────────────────────────────────────
-
-function WaitlistForm() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('loading');
-    try {
-      const res = await fetch('/api/waitlist', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: 'landing' }),
-      });
-      if (res.ok) {
-        setStatus('success');
-        setEmail('');
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
-  }
-
-  if (status === 'success') {
-    return (
-      <div className="flex items-center gap-2 text-accent-600 font-semibold">
-        <CheckCircle className="w-5 h-5" />
-        You're on the list — we'll be in touch.
-      </div>
-    );
-  }
-
-  return (
-    <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 w-full max-w-sm">
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        placeholder="your@email.com"
-        required
-        className="flex-1 px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm"
-      />
-      <button
-        type="submit"
-        disabled={status === 'loading'}
-        className="px-5 py-2.5 rounded-xl bg-brand-100 text-brand-800 font-semibold text-sm hover:bg-brand-200 transition-colors disabled:opacity-50 whitespace-nowrap"
-      >
-        {status === 'loading' ? 'Joining…' : 'Get Pro updates'}
-      </button>
-      {status === 'error' && (
-        <p className="text-red-500 text-sm mt-1">Something went wrong. Please try again.</p>
-      )}
-    </form>
-  );
-}
-
-// ── Main Page ─────────────────────────────────────────────────────────────────
+import { ArrowRight, ChevronRight } from 'lucide-react';
 
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
+
       {/* Nav */}
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
@@ -78,16 +17,10 @@ export default function LandingPage() {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <Link
-              href="/sign-in"
-              className="text-sm text-gray-500 hover:text-brand-700 transition-colors"
-            >
+            <Link href="/sign-in" className="text-sm text-gray-500 hover:text-brand-700 transition-colors">
               Sign in
             </Link>
-            <Link
-              href="/assess"
-              className="px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors"
-            >
+            <Link href="/assess" className="px-4 py-2 rounded-lg bg-brand-700 text-white text-sm font-semibold hover:bg-brand-800 transition-colors">
               Try free
             </Link>
           </div>
@@ -95,221 +28,188 @@ export default function LandingPage() {
       </nav>
 
       {/* Hero */}
-      <section className="pt-32 pb-24 px-6 text-center">
-        <div className="max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-accent-50 text-accent-700 text-xs font-semibold mb-6 border border-accent-200">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-500"></span>
-            Built on O*NET — the U.S. Department of Labor's career database
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 leading-tight mb-6">
-            What's your
-            <br />
-            <span className="text-brand-700">skill-print?</span>
+      <section className="pt-32 pb-20 px-6 text-center">
+        <div className="max-w-4xl mx-auto">
+          <p className="text-sm font-semibold text-accent-600 uppercase tracking-widest mb-8">
+            Free · No credit card · 10 minutes
+          </p>
+          <h1 className="text-7xl sm:text-8xl lg:text-9xl font-black text-gray-900 leading-none mb-6 tracking-tight">
+            Your<br />
+            <span className="text-brand-700">Skill-Print.</span>
           </h1>
-          <p className="text-lg text-gray-500 mb-4 max-w-xl mx-auto leading-relaxed">
-            Like a fingerprint, your skill-print is uniquely yours — a precise map of what you
-            actually bring to the table and how it stacks up against any role in the market.
+          <p className="text-2xl sm:text-3xl text-gray-500 mb-12 max-w-xl mx-auto leading-snug">
+            The new resume section that proves what you can do.
           </p>
-          <p className="text-base text-gray-400 mb-10 max-w-lg mx-auto">
-            Pick any job title. Rate yourself honestly. Get your fit score in under 10 minutes.
+          <Link
+            href="/assess"
+            className="inline-flex items-center gap-3 px-10 py-5 rounded-xl bg-brand-700 text-white font-bold text-xl hover:bg-brand-800 transition-colors shadow-lg"
+          >
+            Build mine free
+            <ArrowRight className="w-6 h-6" />
+          </Link>
+        </div>
+      </section>
+
+      {/* Resume concept */}
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="max-w-3xl mx-auto text-center mb-12">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4 leading-tight">
+            Resumes have a new section.
+          </h2>
+          <p className="text-xl text-gray-500">
+            Summary.{' '}
+            <span className="font-black text-brand-700">Skill-Print.</span>{' '}
+            Experience. Education.
           </p>
-          <div className="flex flex-col items-center gap-4">
-            <Link
-              href="/assess"
-              className="flex items-center gap-2 px-8 py-4 rounded-xl bg-brand-700 text-white font-bold text-lg hover:bg-brand-800 transition-colors shadow-md"
-            >
-              Find my skill-print
-              <ArrowRight className="w-5 h-5" />
-            </Link>
-            <p className="text-xs text-gray-400">Free forever · No resume required · No credit card</p>
+        </div>
+
+        {/* Resume mockup */}
+        <div className="max-w-md mx-auto bg-white rounded-2xl border border-gray-200 shadow-xl overflow-hidden">
+          {/* Summary — greyed out */}
+          <div className="px-8 py-5 border-b border-gray-100 opacity-25">
+            <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Summary</div>
+            <div className="space-y-2">
+              <div className="h-2.5 bg-gray-200 rounded-full w-full" />
+              <div className="h-2.5 bg-gray-200 rounded-full w-4/5" />
+              <div className="h-2.5 bg-gray-200 rounded-full w-3/5" />
+            </div>
+          </div>
+
+          {/* Skill-Print — highlighted */}
+          <div className="px-8 py-7 bg-brand-50 border-b-2 border-brand-200">
+            <div className="flex items-center gap-2 mb-5">
+              <span className="text-[10px] font-black uppercase tracking-widest text-brand-700">Skill-Print</span>
+              <span className="text-[10px] bg-brand-700 text-white px-2 py-0.5 rounded-full font-bold">NEW</span>
+            </div>
+            <div className="text-xs font-bold text-gray-700 mb-4">Target Role: Product Manager</div>
+            <div className="space-y-3">
+              {[
+                { label: 'Skills', pct: 87 },
+                { label: 'Knowledge', pct: 74 },
+                { label: 'Work Style', pct: 91 },
+              ].map(({ label, pct }) => (
+                <div key={label} className="flex items-center gap-3">
+                  <div className="w-20 text-xs text-gray-500">{label}</div>
+                  <div className="flex-1 h-2 bg-white rounded-full overflow-hidden border border-brand-100">
+                    <div className="h-full bg-brand-500 rounded-full" style={{ width: `${pct}%` }} />
+                  </div>
+                  <div className="w-8 text-xs font-black text-brand-700 text-right">{pct}%</div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Experience + Education — greyed out */}
+          <div className="px-8 py-5 opacity-25">
+            <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Experience</div>
+            <div className="space-y-2 mb-5">
+              <div className="h-2.5 bg-gray-200 rounded-full w-5/6" />
+              <div className="h-2.5 bg-gray-200 rounded-full w-2/3" />
+            </div>
+            <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Education</div>
+            <div className="h-2.5 bg-gray-200 rounded-full w-1/2" />
           </div>
         </div>
       </section>
 
-      {/* Stats bar */}
-      <section className="py-10 border-y border-gray-100 bg-gray-50">
-        <div className="max-w-4xl mx-auto px-6 grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
-          {[
-            { value: '1,000+', label: 'Careers skill-printed' },
-            { value: '$0', label: '3-domain skill-print, free forever' },
-            { value: '$10', label: 'Full 8-domain skill-print report', accent: true },
-            { value: '$10/mo', label: 'Unlimited job specs + early access', accent: true },
-          ].map((s) => (
-            <div key={s.label}>
-              <div className={`text-2xl font-extrabold ${s.accent ? 'text-accent-600' : 'text-brand-700'}`}>
-                {s.value}
-              </div>
-              <div className={`text-sm mt-1 ${s.accent ? 'text-accent-700 font-semibold' : 'text-gray-500'}`}>
-                {s.label}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Problem section */}
-      <section className="py-24 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-gray-900 mb-6">
-            The resume game is broken.
+      {/* Free vs Pro */}
+      <section className="py-20 px-6">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="text-4xl sm:text-5xl font-black text-center text-gray-900 mb-12">
+            Free. Then more.
           </h2>
-          <p className="text-lg text-gray-500 leading-relaxed mb-6">
-            Candidates apply to dozens of jobs they may not actually fit — because there's no honest
-            signal about where their skills really land. Recruiters sift through hundreds of
-            keyword-stuffed resumes looking for something real. Everyone wastes time.
-          </p>
-          <p className="text-lg text-gray-700 font-medium leading-relaxed">
-            ClareerHQ replaces the guessing game with your skill-print — a standardized,
-            honest assessment of what you can do and how it maps to the work that actually
-            needs doing. Know where you stand before you apply.
-          </p>
+          <div className="grid sm:grid-cols-2 gap-6">
+
+            {/* Free */}
+            <div className="p-8 rounded-2xl border-2 border-brand-200 bg-brand-50">
+              <div className="text-4xl font-black text-brand-700 mb-1">$0</div>
+              <div className="text-gray-500 font-medium mb-7">Free forever.</div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Any job title (1,000+ careers)',
+                  'Skills, knowledge & work style assessment',
+                  'Your Skill-Print score',
+                  'Resume-ready Skill-Print section',
+                ].map((s) => (
+                  <li key={s} className="flex items-start gap-2.5 text-sm text-gray-700">
+                    <span className="text-brand-600 font-black mt-0.5 flex-shrink-0">✓</span>
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/assess"
+                className="block text-center py-3.5 px-6 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
+              >
+                Start free →
+              </Link>
+            </div>
+
+            {/* Pro */}
+            <div className="p-8 rounded-2xl border-2 border-gray-200 bg-white">
+              <div className="text-4xl font-black text-gray-900 mb-1">Pro</div>
+              <div className="text-gray-500 font-medium mb-7">From $10.</div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Full 8-domain Skill-Print report',
+                  'Printable PDF you can attach anywhere',
+                  'Job posting gap analysis',
+                  'Unlimited role comparisons',
+                ].map((s) => (
+                  <li key={s} className="flex items-start gap-2.5 text-sm text-gray-700">
+                    <span className="text-gray-400 font-black mt-0.5 flex-shrink-0">✓</span>
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/upgrade"
+                className="block text-center py-3.5 px-6 rounded-xl border-2 border-gray-900 text-gray-900 font-bold hover:bg-gray-50 transition-colors"
+              >
+                See pricing →
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* How it works */}
-      <section className="py-24 px-6 bg-gray-50">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">How it works</h2>
-          <p className="text-center text-gray-500 mb-14 max-w-lg mx-auto">
-            Three steps. Ten minutes. A skills map built on real labor market data.
-          </p>
-          <div className="grid sm:grid-cols-3 gap-8">
-            {[
-              {
-                icon: Target,
-                step: '1',
-                title: 'Start with any job title',
-                desc: 'Search any of 1,000+ careers — from Data Analyst to Nurse Practitioner — or pick from popular starting points.',
-              },
-              {
-                icon: BarChart3,
-                step: '2',
-                title: 'Rate your real skills',
-                desc: 'Score yourself across the skills, knowledge areas, and work styles that role actually requires. Honest beats optimistic.',
-              },
-              {
-                icon: TrendingUp,
-                step: '3',
-                title: 'Get your skill-print',
-                desc: 'See your fit score, your strongest areas, and the gaps worth closing. Then spec it out against a real job posting to go from self-aware to application-ready.',
-              },
-            ].map((item) => (
-              <div
-                key={item.step}
-                className="relative p-6 rounded-2xl border border-gray-100 bg-white shadow-sm"
-              >
-                <div className="w-10 h-10 rounded-xl bg-brand-50 flex items-center justify-center mb-4">
-                  <item.icon className="w-5 h-5 text-brand-700" />
-                </div>
-                <div className="absolute top-5 right-5 text-5xl font-black text-gray-50 select-none">
-                  {item.step}
-                </div>
-                <h3 className="font-bold text-gray-900 mb-2">{item.title}</h3>
-                <p className="text-sm text-gray-500 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* What you get */}
-      <section className="py-24 px-6">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl font-bold text-center text-gray-900 mb-4">
-            What's in your skill-print
+      <section className="py-20 px-6 bg-gray-50">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-14">
+            10 minutes. That's it.
           </h2>
-          <p className="text-center text-gray-500 mb-14 max-w-lg mx-auto">
-            Not a personality quiz. Not a keyword matcher. A real skills assessment built on the
-            same occupational data used by career counselors and workforce planners nationwide.
-          </p>
-          <div className="grid sm:grid-cols-2 gap-5">
+          <div className="grid sm:grid-cols-3 gap-10 text-left">
             {[
-              {
-                icon: Fingerprint,
-                title: 'Your fit score (0–100)',
-                desc: 'A single, honest number showing how well your current skills match what a role actually requires — weighted by what matters most.',
-              },
-              {
-                icon: Layers,
-                title: 'Domain breakdown',
-                desc: 'See your match across Skills, Knowledge, and Work Styles separately — so you know exactly where you\'re strong and where the gaps are.',
-              },
-              {
-                icon: Target,
-                title: 'Gap analysis',
-                desc: 'Pinpoint the specific skills worth developing to move the needle on your fit. No generic advice — just the exact gaps for that role.',
-              },
-              {
-                icon: TrendingUp,
-                title: 'Better-fit alternatives',
-                desc: 'Discover adjacent careers where your existing skills land even higher. Sometimes the best opportunity is one title away.',
-              },
-              {
-                icon: CheckCircle,
-                title: 'O*NET-powered data',
-                desc: 'Every assessment uses the U.S. Department of Labor\'s official occupational database — standardized, updated, and trusted.',
-              },
-              {
-                icon: Zap,
-                title: 'Coming: skill-print resume section',
-                desc: 'A new header section for your resume — standardized, evidence-based, and tailored to the specific role. The artifact every hiring manager actually wants to see in 2026.',
-              },
-            ].map((f) => (
-              <div key={f.title} className="flex gap-4 p-5 rounded-xl bg-white border border-gray-100 shadow-sm">
-                <div className="w-9 h-9 rounded-lg bg-brand-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <f.icon className="w-4.5 h-4.5 text-brand-700 w-5 h-5" />
-                </div>
-                <div>
-                  <div className="font-semibold text-gray-900 text-sm">{f.title}</div>
-                  <div className="text-gray-500 text-sm mt-1 leading-relaxed">{f.desc}</div>
+              { n: '1', title: 'Pick a job title', sub: 'Any of 1,000+ O*NET careers.' },
+              { n: '2', title: 'Rate yourself', sub: 'Skills. Knowledge. Work style.' },
+              { n: '3', title: 'Get your Skill-Print', sub: 'Resume-ready. Evidence-based.' },
+            ].map(({ n, title, sub }) => (
+              <div key={n} className="flex gap-4 items-start">
+                <div className="text-6xl font-black text-brand-100 leading-none select-none flex-shrink-0">{n}</div>
+                <div className="pt-1">
+                  <div className="font-bold text-gray-900 text-xl leading-tight">{title}</div>
+                  <div className="text-gray-500 mt-1">{sub}</div>
                 </div>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Pro waitlist */}
-      <section className="py-16 px-6 bg-brand-50 border-y border-brand-100">
-        <div className="max-w-2xl mx-auto text-center">
-          <p className="text-xs font-semibold text-brand-500 uppercase tracking-widest mb-3">Coming Soon — Pro</p>
-          <h2 className="text-2xl font-bold text-gray-900 mb-3">
-            The resume section everyone's missing
-          </h2>
-          <p className="text-gray-500 mb-8 leading-relaxed">
-            Spec out any job posting against your skill-print, generate an evidence-based resume section
-            tailored to the role, and get the full 8-domain report. Be first to know when it launches.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/upgrade"
-              className="px-6 py-3 rounded-xl bg-brand-700 text-white font-bold text-sm hover:bg-brand-800 transition-colors"
-            >
-              See pricing — from $10
-            </Link>
-            <Link
-              href="/assess"
-              className="px-6 py-3 rounded-xl border border-brand-200 text-brand-700 font-semibold text-sm hover:bg-brand-50 transition-colors"
-            >
-              Try free first
-            </Link>
           </div>
         </div>
       </section>
 
       {/* Bottom CTA */}
-      <section className="py-24 px-6 bg-brand-700 text-white text-center">
+      <section className="py-28 px-6 bg-brand-700 text-white text-center">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-3xl font-bold mb-4">Your skill-print is waiting.</h2>
-          <p className="text-brand-200 mb-8">
-            The new top section of your resume — evidence-based, role-specific, and built in minutes. Free to start.
-          </p>
+          <h2 className="text-5xl sm:text-6xl font-black mb-5 leading-tight">
+            Your Skill-Print<br />is waiting.
+          </h2>
+          <p className="text-brand-200 text-xl mb-12">Free. Role-specific. Resume-ready.</p>
           <Link
             href="/assess"
-            className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-white text-brand-700 font-bold text-lg hover:bg-gray-50 transition-colors"
+            className="inline-flex items-center gap-3 px-10 py-5 rounded-xl bg-white text-brand-700 font-bold text-xl hover:bg-gray-50 transition-colors"
           >
-            Find my skill-print
-            <ChevronRight className="w-5 h-5" />
+            Build mine free
+            <ChevronRight className="w-6 h-6" />
           </Link>
         </div>
       </section>
@@ -334,6 +234,7 @@ export default function LandingPage() {
           </div>
         </div>
       </footer>
+
     </div>
   );
 }
