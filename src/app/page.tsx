@@ -72,9 +72,9 @@ export default function LandingPage() {
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex flex-col leading-tight">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+            <img src="/logo.svg" alt="ClareerHQ" className="h-9 w-auto" />
             <span className="text-[10px] text-gray-400 font-medium tracking-wide hidden sm:block mt-0.5">
-              Your headquarters for career clarity
+              Your HQ for career clarity
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -319,7 +319,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <div className="flex flex-col leading-tight">
             <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
-            <span className="text-xs text-gray-400 mt-1">Your headquarters for career clarity.</span>
+            <span className="text-xs text-gray-400 mt-1">Your HQ for career clarity.</span>
           </div>
           <span>
             Occupational data sourced from{' '}
