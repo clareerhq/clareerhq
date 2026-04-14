@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, AlertTriangle, Star, RotateCcw, Loader2, ChevronDown, TrendingUp } from 'lucide-react';
+import { ArrowRight, AlertTriangle, Star, RotateCcw, Loader2, ChevronDown, TrendingUp, FileDown } from 'lucide-react';
 import { computeFitScore, getFitLabel, getFitColor } from '@/lib/scoring';
 import { track } from '@/lib/posthog';
 import type { AssessmentResult, DomainRatings } from '@/types/onet';
@@ -116,6 +116,7 @@ export default function ResultsPage() {
   const [alternatives, setAlternatives] = useState<AlternativeOccupation[]>([]);
   const [loadingAlts, setLoadingAlts] = useState(false);
   const [showAlts, setShowAlts] = useState(false);
+  const [reportPurchased, setReportPurchased] = useState(false);
 
   useEffect(() => {
     const raw = sessionStorage.getItem('chq_results_payload');
@@ -153,6 +154,12 @@ export default function ResultsPage() {
       })
         .catch(() => {}) // Silent fail — user can still see results
         .finally(() => setSaving(false));
+
+      // Check purchase status
+      fetch('/api/user/status')
+        .then((r) => r.json())
+        .then((d) => setReportPurchased(d.reportPurchased === true))
+        .catch(() => {});
 
       // Fetch alternative career recommendations in the background
       setLoadingAlts(true);
@@ -214,6 +221,27 @@ export default function ResultsPage() {
           <p className="text-gray-500 text-sm mt-2">
             Your profile matches <strong>{fitPct}%</strong> of what this role typically requires.
           </p>
+        </div>
+
+        {/* Skill-Print PDF download */}
+        <div className="mb-6">
+          {reportPurchased ? (
+            <Link
+              href="/report"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
+            >
+              <FileDown className="w-5 h-5" />
+              Download Skill-Print Report
+            </Link>
+          ) : (
+            <Link
+              href="/upgrade"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-brand-300 text-brand-700 font-semibold hover:bg-brand-50 transition-colors text-sm"
+            >
+              <FileDown className="w-4 h-4" />
+              Unlock printable Skill-Print Report — $10 one-time
+            </Link>
+          )}
         </div>
 
         {/* Domain breakdown */}
