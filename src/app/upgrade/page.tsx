@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
-import { CheckCircle, ArrowRight, Fingerprint, Zap } from 'lucide-react';
+import { CheckCircle, ArrowRight, Fingerprint, Zap, TrendingUp } from 'lucide-react';
 
 // ── Checkout button ───────────────────────────────────────────────────────────
 
@@ -74,33 +74,37 @@ export default function UpgradePage() {
             <Fingerprint className="w-7 h-7 text-brand-700" />
           </div>
           <h1 className="text-3xl font-extrabold text-gray-900 mb-3">
-            Put your skill-print to work
+            Put your Skill-Print to work
           </h1>
           <p className="text-gray-500 max-w-lg mx-auto">
-            You've built your skill-print. Here's how to take it further — evidence-based, role-specific, and ready to use in your next application.
+            Your free 3-domain Skill-Print is a start. Go deeper, track your growth, and match to real job postings.
           </p>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-6">
 
-          {/* One-time report */}
+          {/* One-time: 8-domain */}
           <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6 flex flex-col">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">One-time</div>
-                <h2 className="text-xl font-extrabold text-gray-900">Skill-Print Report</h2>
+                <div className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-1">One-time · $10</div>
+                <h2 className="text-xl font-extrabold text-gray-900">Full Skill-Print</h2>
               </div>
               <div className="text-right">
                 <div className="text-3xl font-extrabold text-brand-700">$10</div>
                 <div className="text-xs text-gray-400">one time</div>
               </div>
             </div>
+            <p className="text-sm text-gray-500 mb-4">
+              Unlock all 8 O*NET dimensions — Skills, Knowledge, Work Styles, Abilities, Work Activities, Work Context, Job Zone, and Interests.
+            </p>
             <ul className="space-y-2.5 mb-6 flex-1">
               {[
-                'Full 8-domain skill-print assessment',
-                'Downloadable PDF report of your complete profile',
-                'Shareable link to your skill-print',
-                'Yours to keep — no subscription required',
+                'Complete 8-domain Skill-Print assessment',
+                'Full PDF report — every dimension rated 0–3',
+                'Word & Google Docs resume template included',
+                'Revisit and re-download anytime (login required)',
+                'Yours to keep — no subscription needed',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-gray-600">
                   <CheckCircle className="w-4 h-4 text-accent-500 flex-shrink-0 mt-0.5" />
@@ -108,7 +112,7 @@ export default function UpgradePage() {
                 </li>
               ))}
             </ul>
-            <CheckoutButton priceKey="REPORT_ONE_TIME" label="Get my skill-print report" />
+            <CheckoutButton priceKey="REPORT_ONE_TIME" label="Unlock full Skill-Print" />
           </div>
 
           {/* Monthly Pro */}
@@ -120,7 +124,7 @@ export default function UpgradePage() {
             </div>
             <div className="flex items-start justify-between mb-4">
               <div>
-                <div className="text-xs font-semibold text-brand-300 uppercase tracking-wide mb-1">Monthly</div>
+                <div className="text-xs font-semibold text-brand-300 uppercase tracking-wide mb-1">Monthly · $10/mo</div>
                 <h2 className="text-xl font-extrabold text-white">Pro</h2>
               </div>
               <div className="text-right">
@@ -128,16 +132,25 @@ export default function UpgradePage() {
                 <div className="text-xs text-brand-300">per month</div>
               </div>
             </div>
+            <p className="text-sm text-brand-200 mb-4">
+              Everything in the full Skill-Print, plus tools to prove your growth and land the role.
+            </p>
             <ul className="space-y-2.5 mb-6 flex-1">
               {[
-                'Everything in the one-time report',
-                'Spec out any job posting — unlimited',
-                'Resume skill-print section tailored to each role',
-                'First access to every new feature',
+                'Full 8-domain Skill-Print included',
+                'Paste a job posting → instant gap analysis',
+                'Auto-generated resume Skill-Print section per role',
+                'Progress tracking — re-assess over time and show growth to recruiters',
+                'Unlimited comparisons across roles',
+                'Early access to new features',
                 'Cancel anytime',
               ].map((f) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-brand-100">
-                  <CheckCircle className="w-4 h-4 text-accent-400 flex-shrink-0 mt-0.5" />
+                  {f.includes('Progress') ? (
+                    <TrendingUp className="w-4 h-4 text-accent-400 flex-shrink-0 mt-0.5" />
+                  ) : (
+                    <CheckCircle className="w-4 h-4 text-accent-400 flex-shrink-0 mt-0.5" />
+                  )}
                   {f}
                 </li>
               ))}
@@ -147,12 +160,19 @@ export default function UpgradePage() {
         </div>
 
         {/* Free tier reminder */}
-        <div className="mt-8 text-center">
-          <div className="inline-flex items-center gap-2 text-sm text-gray-400">
-            <Zap className="w-4 h-4" />
-            Already on the free tier? Your 3-domain skill-print is free forever.
-            <Link href="/assess" className="text-brand-600 font-semibold hover:underline">
-              Go back
+        <div className="mt-8 p-5 rounded-xl bg-white border border-gray-100 shadow-sm">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="flex items-start gap-3">
+              <Zap className="w-5 h-5 text-brand-600 flex-shrink-0 mt-0.5" />
+              <div>
+                <div className="text-sm font-bold text-gray-900">Free tier — always included</div>
+                <div className="text-sm text-gray-500 mt-0.5">
+                  3-domain Skill-Print (Skills · Knowledge · Work Styles) + PDF report + resume template. Free forever with a login.
+                </div>
+              </div>
+            </div>
+            <Link href="/assess" className="text-sm text-brand-700 font-semibold hover:underline whitespace-nowrap">
+              Back to assessment →
             </Link>
           </div>
         </div>
