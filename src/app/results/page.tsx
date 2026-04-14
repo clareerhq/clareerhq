@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, AlertTriangle, Star, RotateCcw, Loader2, ChevronDown, TrendingUp, FileDown } from 'lucide-react';
+import { ArrowRight, BookOpen, Star, RotateCcw, Loader2, ChevronDown, TrendingUp, FileDown } from 'lucide-react';
 import { computeFitScore, getFitLabel, getFitColor } from '@/lib/scoring';
 import { track } from '@/lib/posthog';
 import type { AssessmentResult, DomainRatings } from '@/types/onet';
@@ -271,8 +271,8 @@ export default function ResultsPage() {
           {/* Gaps */}
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5">
             <div className="flex items-center gap-2 mb-3">
-              <AlertTriangle className="w-4 h-4 text-amber-500" />
-              <h3 className="font-bold text-gray-900">Skill Gaps</h3>
+              <BookOpen className="w-4 h-4 text-brand-500" />
+              <h3 className="font-bold text-gray-900">Growth Areas</h3>
             </div>
             {result.gaps.length === 0 ? (
               <p className="text-sm text-accent-600 font-medium">No significant gaps — you're well-matched!</p>
@@ -280,7 +280,7 @@ export default function ResultsPage() {
               <ul className="space-y-2">
                 {result.gaps.map((g) => (
                   <li key={g.elementId} className="flex items-start gap-2">
-                    <span className="mt-1 w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" />
+                    <span className="mt-1 w-1.5 h-1.5 rounded-full bg-brand-300 flex-shrink-0" />
                     <span className="text-sm text-gray-700">{g.elementName}</span>
                   </li>
                 ))}
