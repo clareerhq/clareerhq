@@ -223,25 +223,15 @@ export default function ResultsPage() {
           </p>
         </div>
 
-        {/* Skill-Print PDF download */}
+        {/* Skill-Print Report — free, requires sign-in */}
         <div className="mb-6">
-          {reportPurchased ? (
-            <Link
-              href="/report"
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
-            >
-              <FileDown className="w-5 h-5" />
-              Download Skill-Print Report
-            </Link>
-          ) : (
-            <Link
-              href="/upgrade"
-              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-dashed border-brand-300 text-brand-700 font-semibold hover:bg-brand-50 transition-colors text-sm"
-            >
-              <FileDown className="w-4 h-4" />
-              Unlock printable Skill-Print Report — $10 one-time
-            </Link>
-          )}
+          <Link
+            href="/report"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
+          >
+            <FileDown className="w-5 h-5" />
+            View & Download Your Skill-Print Report — Free
+          </Link>
         </div>
 
         {/* Domain breakdown */}
@@ -301,44 +291,38 @@ export default function ResultsPage() {
 
         {/* Pro upsell */}
         <div className="bg-brand-700 rounded-2xl p-6 text-white mb-6">
-          <div className="mb-4">
-            <div className="text-xs font-semibold uppercase tracking-wide text-brand-200 mb-1">
-              Coming Soon
-            </div>
-            <h3 className="text-lg font-bold mb-4">Put your skill-print to work</h3>
+          <h3 className="text-lg font-bold mb-4">Go deeper with your Skill-Print</h3>
 
-            {/* One-time tier */}
-            <div className="mb-4 p-3 rounded-xl bg-white/10 border border-white/20">
-              <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="text-xl font-extrabold text-accent-300">$10</span>
-                <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">one-time</span>
-              </div>
-              <p className="text-sm text-brand-100">
-                <strong className="text-white">Full 8-domain skill-print report.</strong> A shareable PDF of your complete profile across every dimension — the kind of document that replaces "just trust me" with something you can actually hand over.
-              </p>
+          {/* $10 one-time */}
+          <div className="mb-4 p-3 rounded-xl bg-white/10 border border-white/20">
+            <div className="flex items-baseline gap-1.5 mb-1">
+              <span className="text-xl font-extrabold text-accent-300">$10</span>
+              <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">one-time</span>
             </div>
+            <p className="text-sm text-brand-100">
+              <strong className="text-white">Full 8-domain Skill-Print.</strong> Unlock all 8 O*NET dimensions — Skills, Knowledge, Work Styles, Abilities, Work Activities, Work Context, Interests, and Job Zone — for a complete picture of your fit.
+            </p>
+          </div>
 
-            {/* Monthly tier */}
-            <div className="p-3 rounded-xl bg-white/10 border border-white/20">
-              <div className="flex items-baseline gap-1.5 mb-1">
-                <span className="text-xl font-extrabold text-accent-300">$10</span>
-                <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">/ month</span>
-              </div>
-              <ul className="space-y-1.5 text-sm text-brand-100">
-                <li className="flex items-start gap-2">
-                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
-                  <span><strong className="text-white">Spec out any job, as many as you want.</strong> Drop in a posting — we translate it into a job spec and show you exactly where your skill-print lands against it.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
-                  <span><strong className="text-white">Resume skill-print section.</strong> A tailored, evidence-based block for your resume that speaks directly to the role's requirements.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
-                  <span><strong className="text-white">First in line</strong> for every new feature as the platform grows.</span>
-                </li>
-              </ul>
+          {/* $10/mo */}
+          <div className="p-3 rounded-xl bg-white/10 border border-white/20">
+            <div className="flex items-baseline gap-1.5 mb-1">
+              <span className="text-xl font-extrabold text-accent-300">$10</span>
+              <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">/ month</span>
             </div>
+            <ul className="space-y-1.5 text-sm text-brand-100">
+              {[
+                ['Everything in the 8-domain report, plus:', ''],
+                ['Job spec engine.', 'Paste any job posting — we gap-analyze it against your Skill-Print.'],
+                ['Resume section generator.', 'Auto-generate an evidence-based Skill-Print block tailored to the specific role.'],
+                ['Unlimited comparisons', '+ first access to every new feature.'],
+              ].map(([bold, rest], i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <span className="text-accent-400 font-bold flex-shrink-0">→</span>
+                  <span><strong className="text-white">{bold}</strong>{rest ? ` ${rest}` : ''}</span>
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="mt-4">
             <UpgradeCTA />

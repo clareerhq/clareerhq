@@ -123,13 +123,13 @@ export default function LandingPage() {
             {/* Free */}
             <div className="p-8 rounded-2xl border-2 border-brand-200 bg-brand-50">
               <div className="text-4xl font-black text-brand-700 mb-1">$0</div>
-              <div className="text-gray-500 font-medium mb-7">Free forever.</div>
+              <div className="text-gray-500 font-medium mb-7">Free forever. Login required to save.</div>
               <ul className="space-y-3 mb-8">
                 {[
-                  'Any job title (1,000+ careers)',
-                  'Skills, knowledge & work style assessment',
-                  'Your Skill-Print score',
-                  'Resume-ready Skill-Print section',
+                  'Any job title (1,000+ O*NET careers)',
+                  '3-domain assessment: Skills, Knowledge & Work Styles',
+                  'Full Skill-Print report with every dimension rated 0–3',
+                  'Downloadable PDF + Word/Google Docs resume template',
                 ].map((s) => (
                   <li key={s} className="flex items-start gap-2.5 text-sm text-gray-700">
                     <span className="text-brand-600 font-black mt-0.5 flex-shrink-0">✓</span>
@@ -151,10 +151,10 @@ export default function LandingPage() {
               <div className="text-gray-500 font-medium mb-7">From $10.</div>
               <ul className="space-y-3 mb-8">
                 {[
-                  'Full 8-domain Skill-Print report',
-                  'Printable PDF you can attach anywhere',
-                  'Job posting gap analysis',
-                  'Unlimited role comparisons',
+                  '$10 one-time: Full 8-domain Skill-Print (all O*NET dimensions)',
+                  '$10/mo: Job spec engine — paste a posting, get a gap analysis',
+                  '$10/mo: Auto-generated resume Skill-Print section per role',
+                  '$10/mo: Unlimited comparisons + early access to new features',
                 ].map((s) => (
                   <li key={s} className="flex items-start gap-2.5 text-sm text-gray-700">
                     <span className="text-gray-400 font-black mt-0.5 flex-shrink-0">✓</span>
