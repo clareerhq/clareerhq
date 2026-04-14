@@ -146,39 +146,41 @@ export default function ReportPage() {
         @page { size: letter portrait; margin: 0.6in 0.75in; }
       `}</style>
 
-      {/* Toolbar */}
-      <div className="no-print bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between sticky top-0 z-10">
+      {/* Back nav — minimal, no-print */}
+      <div className="no-print bg-white border-b border-gray-100 px-6 py-3">
         <button onClick={() => router.back()} className="flex items-center gap-2 text-sm text-gray-500 hover:text-brand-700 transition-colors">
           <ArrowLeft className="w-4 h-4" /> Back to results
         </button>
-        <div className="flex items-center gap-3">
-          {/* Template downloads */}
+      </div>
+
+      {/* Report */}
+      <div className="min-h-screen bg-gray-100 py-10 px-6">
+
+        {/* Action buttons — directly above the card, hidden on print */}
+        <div className="no-print max-w-[680px] mx-auto mb-4 flex items-center justify-end gap-3 flex-wrap">
           <a
             href="/templates/skill-print-resume-template.docx"
             download
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm"
           >
             <FileDown className="w-4 h-4" /> Word template
           </a>
           <a
             href="/templates/skill-print-resume-template.docx"
             download="skill-print-resume-template.docx"
-            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors"
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors shadow-sm"
             title="Download and upload to Google Drive → File → Open with Google Docs"
           >
             <FileDown className="w-4 h-4" /> Google Docs template
           </a>
           <button
             onClick={() => window.print()}
-            className="flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-700 text-white font-bold text-sm hover:bg-brand-800 transition-colors"
+            className="flex items-center gap-2 px-5 py-2 rounded-xl bg-brand-700 text-white font-bold text-sm hover:bg-brand-800 transition-colors shadow-sm"
           >
             <Printer className="w-4 h-4" /> Save as PDF
           </button>
         </div>
-      </div>
 
-      {/* Report */}
-      <div className="min-h-screen bg-gray-100 py-10 px-6">
         <div
           className="report-card max-w-[680px] mx-auto bg-white shadow-xl rounded-2xl overflow-hidden"
           style={{ fontFamily: 'system-ui, sans-serif' }}
@@ -264,10 +266,10 @@ export default function ReportPage() {
           </div>
         </div>
 
-        {/* Google Docs note — below report, not printed */}
+        {/* Google Docs note */}
         <div className="no-print max-w-[680px] mx-auto mt-4 text-center">
           <p className="text-xs text-gray-400">
-            <strong>Google Docs template:</strong> download the file above, then go to drive.google.com → New → File upload → open with Google Docs.
+            <strong>Google Docs:</strong> download the template, then upload to drive.google.com → open with Google Docs.
           </p>
         </div>
       </div>

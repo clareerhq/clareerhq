@@ -112,26 +112,28 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Free vs Pro */}
+      {/* Pricing */}
       <section className="py-20 px-6">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <h2 className="text-4xl sm:text-5xl font-black text-center text-gray-900 mb-12">
             Free. Then more.
           </h2>
-          <div className="grid sm:grid-cols-2 gap-6">
+          <div className="grid sm:grid-cols-3 gap-5">
 
             {/* Free */}
-            <div className="p-8 rounded-2xl border-2 border-brand-200 bg-brand-50">
-              <div className="text-4xl font-black text-brand-700 mb-1">$0</div>
-              <div className="text-gray-500 font-medium mb-7">Free forever. Login required to save.</div>
-              <ul className="space-y-3 mb-8">
+            <div className="p-7 rounded-2xl border-2 border-brand-200 bg-brand-50 flex flex-col">
+              <div className="mb-5">
+                <div className="text-3xl font-black text-brand-700">$0</div>
+                <div className="text-sm text-gray-500 font-medium mt-1">Free forever</div>
+              </div>
+              <ul className="space-y-2.5 mb-7 flex-1">
                 {[
-                  'Any job title (1,000+ O*NET careers)',
-                  '3-domain assessment: Skills, Knowledge & Work Styles',
-                  'Full Skill-Print report with every dimension rated 0–3',
-                  'Downloadable PDF + Word/Google Docs resume template',
+                  '1,000+ O*NET job titles',
+                  '3-domain assessment',
+                  'Full Skill-Print PDF report',
+                  'Word & Google Docs resume template',
                 ].map((s) => (
-                  <li key={s} className="flex items-start gap-2.5 text-sm text-gray-700">
+                  <li key={s} className="flex items-start gap-2 text-sm text-gray-700">
                     <span className="text-brand-600 font-black mt-0.5 flex-shrink-0">✓</span>
                     {s}
                   </li>
@@ -139,36 +141,70 @@ export default function LandingPage() {
               </ul>
               <Link
                 href="/assess"
-                className="block text-center py-3.5 px-6 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
+                className="block text-center py-3 px-5 rounded-xl bg-brand-700 text-white text-sm font-bold hover:bg-brand-800 transition-colors"
               >
                 Start free →
               </Link>
             </div>
 
-            {/* Pro */}
-            <div className="p-8 rounded-2xl border-2 border-gray-200 bg-white">
-              <div className="text-4xl font-black text-gray-900 mb-1">Pro</div>
-              <div className="text-gray-500 font-medium mb-7">From $10.</div>
-              <ul className="space-y-3 mb-8">
+            {/* $10 one-time */}
+            <div className="p-7 rounded-2xl border-2 border-gray-200 bg-white flex flex-col">
+              <div className="mb-5">
+                <div className="text-3xl font-black text-gray-900">$10</div>
+                <div className="text-sm text-gray-500 font-medium mt-1">One-time · no subscription</div>
+              </div>
+              <ul className="space-y-2.5 mb-7 flex-1">
                 {[
-                  '$10 one-time: Full 8-domain Skill-Print (all O*NET dimensions)',
-                  '$10/mo: Job spec engine — paste a posting, get a gap analysis',
-                  '$10/mo: Auto-generated resume Skill-Print section per role',
-                  '$10/mo: Unlimited comparisons + early access to new features',
-                ].map((s) => (
-                  <li key={s} className="flex items-start gap-2.5 text-sm text-gray-700">
-                    <span className="text-gray-400 font-black mt-0.5 flex-shrink-0">✓</span>
+                  'Everything in Free',
+                  'Full 8-domain Skill-Print',
+                  'All O*NET dimensions rated 0–3',
+                  'Save & re-download anytime',
+                ].map((s, i) => (
+                  <li key={s} className="flex items-start gap-2 text-sm text-gray-700">
+                    <span className={`font-black mt-0.5 flex-shrink-0 ${i === 0 ? 'text-gray-300' : 'text-gray-500'}`}>✓</span>
                     {s}
                   </li>
                 ))}
               </ul>
               <Link
                 href="/upgrade"
-                className="block text-center py-3.5 px-6 rounded-xl border-2 border-gray-900 text-gray-900 font-bold hover:bg-gray-50 transition-colors"
+                className="block text-center py-3 px-5 rounded-xl border-2 border-gray-800 text-gray-800 text-sm font-bold hover:bg-gray-50 transition-colors"
               >
-                See pricing →
+                Unlock full Skill-Print →
               </Link>
             </div>
+
+            {/* $10/mo Pro */}
+            <div className="p-7 rounded-2xl border-2 border-brand-700 bg-brand-700 flex flex-col relative">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                <span className="text-[11px] font-bold bg-accent-500 text-white px-3 py-1 rounded-full whitespace-nowrap">Most popular</span>
+              </div>
+              <div className="mb-5">
+                <div className="text-3xl font-black text-white">$10<span className="text-lg font-semibold text-brand-300">/mo</span></div>
+                <div className="text-sm text-brand-300 font-medium mt-1">Cancel anytime</div>
+              </div>
+              <ul className="space-y-2.5 mb-7 flex-1">
+                {[
+                  'Everything in the $10 plan',
+                  'Job spec engine — paste any posting',
+                  'Auto resume Skill-Print per role',
+                  'Progress tracking over time',
+                  'Unlimited comparisons',
+                ].map((s, i) => (
+                  <li key={s} className="flex items-start gap-2 text-sm text-brand-100">
+                    <span className={`font-black mt-0.5 flex-shrink-0 ${i === 0 ? 'text-brand-500' : 'text-accent-400'}`}>✓</span>
+                    {s}
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href="/upgrade"
+                className="block text-center py-3 px-5 rounded-xl bg-accent-500 text-white text-sm font-bold hover:bg-accent-600 transition-colors"
+              >
+                Start Pro →
+              </Link>
+            </div>
+
           </div>
         </div>
       </section>
