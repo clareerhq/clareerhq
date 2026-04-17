@@ -138,7 +138,7 @@ export default function AssessPage() {
             Spec out a role
           </h1>
           <p className="text-gray-500">
-            Search any job title — we'll pull the O*NET-verified skills, knowledge areas, and work styles that role actually requires, then map your skill-print against it.
+            Search any job title — we'll pull the skills, knowledge areas, and work styles that role actually requires, then map your skill-print against it.
           </p>
         </div>
 

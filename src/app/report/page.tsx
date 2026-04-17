@@ -287,7 +287,7 @@ export default function ReportPage() {
               {occupationTitle}
             </h1>
             <div style={{ color: '#999', fontSize: '11px', marginBottom: '28px' }}>
-              Based on O*NET occupational data — U.S. Department of Labor
+              Based on U.S. Department of Labor occupational data
             </div>
 
             {/* Domain blocks */}
@@ -334,7 +334,7 @@ export default function ReportPage() {
 
             {/* Footer */}
             <div style={{ marginTop: '24px', paddingTop: '14px', borderTop: '1px solid #E6F3F3', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: '9px', color: '#bbb' }}>Occupational data: O*NET Resource Center, U.S. Department of Labor</span>
+              <span style={{ fontSize: '9px', color: '#bbb' }}>Occupational data: U.S. Department of Labor</span>
               <span style={{ fontSize: '9px', color: '#2A8B8B', fontWeight: '700' }}>clareerhq.com</span>
             </div>
 

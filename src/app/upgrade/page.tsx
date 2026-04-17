@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
-import { CheckCircle, ArrowRight, Fingerprint, Zap, TrendingUp } from 'lucide-react';
+import { CheckCircle, ArrowRight, Fingerprint, Zap, TrendingUp, Tag } from 'lucide-react';
 
 // ── Checkout button ───────────────────────────────────────────────────────────
 
@@ -69,6 +69,18 @@ export default function UpgradePage() {
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 py-16">
+
+        {/* Beta promo code banner */}
+        <div className="mb-10 flex items-center gap-3 bg-accent-50 border border-accent-200 rounded-2xl px-5 py-4">
+          <Tag className="w-5 h-5 text-accent-600 flex-shrink-0" />
+          <div className="flex-1">
+            <span className="text-sm font-bold text-accent-800">We're in beta — it's free.</span>
+            <span className="text-sm text-accent-700"> Use code </span>
+            <code className="text-sm font-black text-accent-800 bg-accent-100 px-2 py-0.5 rounded-md tracking-wide">FRIENDS100</code>
+            <span className="text-sm text-accent-700"> at checkout for 100% off.</span>
+          </div>
+        </div>
+
         <div className="text-center mb-12">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-brand-50 mb-4">
             <Fingerprint className="w-7 h-7 text-brand-700" />
@@ -77,7 +89,7 @@ export default function UpgradePage() {
             Put your Skill-Print to work
           </h1>
           <p className="text-gray-500 max-w-lg mx-auto">
-            Your free 3-domain Skill-Print is a start. Go deeper, track your growth, and match to real job postings.
+            Your free Skill-Print is a start. Go deeper, track your growth, and match to real job postings.
           </p>
         </div>
 
@@ -96,7 +108,7 @@ export default function UpgradePage() {
               </div>
             </div>
             <p className="text-sm text-gray-500 mb-4">
-              Unlock all 8 O*NET dimensions — Skills, Knowledge, Work Styles, Abilities, Work Activities, Work Context, Job Zone, and Interests.
+              Unlock all 8 dimensions — Skills, Knowledge, Work Styles, Abilities, Work Activities, Work Context, Job Zone, and Interests.
             </p>
             <ul className="space-y-2.5 mb-6 flex-1">
               {[
