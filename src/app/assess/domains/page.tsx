@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, Loader2, ChevronDown, Fingerprint, LayoutDashboard } from 'lucide-react';
+import { ChevronRight, Loader2, ChevronDown, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@clerk/nextjs';
 import Link from 'next/link';
 import type { UserRating, AssessmentDomain } from '@/types/onet';
@@ -25,16 +25,38 @@ interface OccupationData {
   domains: DomainData;
 }
 
-const DOMAINS_IN_ORDER: AssessmentDomain[] = ['skills', 'knowledge', 'work_styles'];
+// All 8 domains — fetched in this order, empty ones are skipped
+const ALL_DOMAINS: AssessmentDomain[] = [
+  'skills',
+  'knowledge',
+  'work_styles',
+  'abilities',
+  'interests',
+  'work_activities',
+  'work_context',
+  'technology_skills',
+];
+
 const DOMAIN_TITLES: Record<string, string> = {
-  skills: 'Skills',
-  knowledge: 'Knowledge Areas',
-  work_styles: 'Work Styles',
+  skills:             'Skills',
+  knowledge:          'Knowledge Areas',
+  work_styles:        'Work Styles',
+  abilities:          'Abilities',
+  interests:          'Interests',
+  work_activities:    'Work Activities',
+  work_context:       'Work Context',
+  technology_skills:  'Technology Skills',
 };
+
 const DOMAIN_DESCS: Record<string, string> = {
-  skills: 'How well can you perform these work-related skills?',
-  knowledge: 'How familiar are you with these knowledge areas?',
-  work_styles: 'How closely do these work styles describe you?',
+  skills:            'How well can you perform these work-related skills?',
+  knowledge:         'How familiar are you with these knowledge areas?',
+  work_styles:       'How closely do these work styles describe you?',
+  abilities:         'How well do these abilities describe what you\'re capable of?',
+  interests:         'How much do these types of work interest you?',
+  work_activities:   'How often would you perform these types of activities?',
+  work_context:      'How well does this work environment fit you?',
+  technology_skills: 'How comfortable are you with these tools and technologies?',
 };
 
 const RATING_COLORS: Record<UserRating, string> = {
@@ -78,6 +100,7 @@ export default function DomainsPage() {
   const router = useRouter();
   const { isSignedIn } = useAuth();
   const [occupationData, setOccupationData] = useState<OccupationData | null>(null);
+  const [activeDomains, setActiveDomains] = useState<AssessmentDomain[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -94,37 +117,40 @@ export default function DomainsPage() {
       return;
     }
     const { code } = JSON.parse(stored);
-    fetch(`/api/onet/details/${encodeURIComponent(code)}?domains=skills,knowledge,work_styles`)
+    const domainParam = ALL_DOMAINS.join(',');
+    fetch(`/api/onet/details/${encodeURIComponent(code)}?domains=${domainParam}`)
       .then(async (r) => {
         const data = await r.json();
-        // Check for API-level errors (non-OK status or error field in response)
         if (!r.ok || data.error) {
           setError(
-            'Could not load occupation data from O*NET. ' +
+            'Could not load occupation data. ' +
             (data.error ?? `Server returned ${r.status}.`) +
             ' Please try again or go back and pick another occupation.'
           );
           setLoading(false);
           return;
         }
-        const hasAnyData = DOMAINS_IN_ORDER.some(
+        // Only include domains that have data for this occupation
+        const domains = ALL_DOMAINS.filter(
           (d) => (data.domains?.[d] ?? []).length > 0
         );
-        if (!hasAnyData) {
+        if (domains.length === 0) {
           setError(
-            "O*NET doesn't have detailed skills data for this occupation yet — " +
+            "O*NET doesn't have detailed data for this occupation yet — " +
             "it may be a newer role still being added to the database. " +
-            "Try searching for a similar occupation (e.g. \"Computer Scientist\" or \"Statistician\")."
+            "Try searching for a similar occupation."
           );
           setLoading(false);
           return;
         }
         setOccupationData(data as OccupationData);
+        setActiveDomains(domains);
         setLoading(false);
         const stored2 = JSON.parse(sessionStorage.getItem('chq_occupation') ?? '{}');
         track('assessment_started', {
           occupation_code: stored2.code,
           occupation_title: stored2.title,
+          domain_count: domains.length,
         });
       })
       .catch(() => {
@@ -140,8 +166,7 @@ export default function DomainsPage() {
     }));
   }
 
-  const currentDomain = DOMAINS_IN_ORDER[domainIndex];
-  // Use ?. on both occupationData AND domains to guard against error-shaped responses
+  const currentDomain = activeDomains[domainIndex];
   const currentElements = occupationData?.domains?.[currentDomain] ?? [];
   const currentRatings = allRatings[currentDomain] ?? {};
   const ratedCount = Object.keys(currentRatings).length;
@@ -165,28 +190,22 @@ export default function DomainsPage() {
     }
   }
 
-  // Step breadcrumb items — the 3 domain steps + final "Skill Print" destination
-  const STEPS: Array<{ key: string; label: string; isResult?: boolean }> = [
-    { key: 'skills', label: 'Skills' },
-    { key: 'knowledge', label: 'Knowledge Areas' },
-    { key: 'work_styles', label: 'Work Styles' },
-    { key: 'skillprint', label: 'Skill Print', isResult: true },
-  ];
-
   function handleNext() {
     track('assessment_domain_completed', {
       domain: currentDomain,
       step: domainIndex + 1,
+      total_steps: activeDomains.length,
       rated_count: ratedCount,
     });
-    if (domainIndex < DOMAINS_IN_ORDER.length - 1) {
+
+    if (domainIndex < activeDomains.length - 1) {
       setDomainIndex((i) => i + 1);
       setExpanded(new Set());
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // All domains done — build ratings payload and navigate to results
+      // All domains done — build payload and navigate to results
       if (!occupationData) return;
-      const ratingsPayload = DOMAINS_IN_ORDER.map((domain) => ({
+      const ratingsPayload = activeDomains.map((domain) => ({
         domain,
         elements: (occupationData.domains?.[domain] ?? []).map((el) => ({
           elementId: el.id,
@@ -202,8 +221,6 @@ export default function DomainsPage() {
         occupationTitle: stored.title,
         ratings: ratingsPayload,
       });
-      // Store in both sessionStorage and localStorage so the payload
-      // survives a Clerk auth redirect (which can clear sessionStorage)
       sessionStorage.setItem('chq_results_payload', payload);
       try { localStorage.setItem('chq_results_payload_backup', payload); } catch (_) {}
       router.push('/results');
@@ -215,7 +232,7 @@ export default function DomainsPage() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Loader2 className="w-8 h-8 animate-spin text-brand-600 mx-auto mb-3" />
-          <p className="text-gray-500 text-sm">Loading occupation data from O*NET…</p>
+          <p className="text-gray-500 text-sm">Loading occupation data…</p>
         </div>
       </div>
     );
@@ -240,10 +257,13 @@ export default function DomainsPage() {
   }
 
   const occ = JSON.parse(sessionStorage.getItem('chq_occupation') ?? '{}');
+  const stepNumber = domainIndex + 1;
+  const totalSteps = activeDomains.length;
+  const progressPct = ((domainIndex) / totalSteps) * 100;
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Sticky header with logo + step breadcrumb */}
+      {/* Sticky header */}
       <div className="sticky top-0 z-30 bg-white border-b border-gray-100 shadow-sm">
         {/* Logo row */}
         <div className="px-6 pt-3 pb-2 max-w-2xl mx-auto flex items-center justify-between">
@@ -262,69 +282,31 @@ export default function DomainsPage() {
           </div>
         </div>
 
-        {/* Step breadcrumb: Skills > Knowledge Areas > Work Styles > Skill Print */}
-        <div className="px-4 pb-3 max-w-2xl mx-auto">
-          <div className="flex items-center justify-between gap-1">
-            {STEPS.map((step, i) => {
-              const isDone = i < domainIndex;
-              const isActive = !step.isResult && i === domainIndex;
-              const isFuture = !step.isResult && i > domainIndex;
-              const isResultStep = step.isResult;
-
-              return (
-                <div key={step.key} className="flex items-center gap-1 flex-1 min-w-0">
-                  {/* Step pill */}
-                  <div className={`
-                    flex-1 min-w-0 flex flex-col items-center gap-0.5
-                  `}>
-                    {/* Dot indicator */}
-                    <div className={`
-                      w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 transition-all
-                      ${isDone
-                        ? 'bg-accent-500'
-                        : isActive
-                        ? 'bg-brand-700 ring-2 ring-brand-200'
-                        : isResultStep
-                        ? 'bg-gray-100 border-2 border-dashed border-gray-300'
-                        : 'bg-gray-100 border border-gray-200'}
-                    `}>
-                      {isDone ? (
-                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 12 12" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M2 6l3 3 5-5" />
-                        </svg>
-                      ) : isResultStep ? (
-                        <Fingerprint className="w-3 h-3 text-gray-400" />
-                      ) : (
-                        <span className={`text-[9px] font-bold ${isActive ? 'text-white' : 'text-gray-400'}`}>
-                          {i + 1}
-                        </span>
-                      )}
-                    </div>
-                    {/* Label */}
-                    <span className={`
-                      text-[10px] font-semibold text-center leading-tight truncate w-full px-0.5
-                      ${isDone ? 'text-accent-600' : isActive ? 'text-brand-700' : 'text-gray-400'}
-                    `}>
-                      {step.label}
-                    </span>
-                  </div>
-
-                  {/* Connector line between steps */}
-                  {i < STEPS.length - 1 && (
-                    <div className={`
-                      h-px w-4 flex-shrink-0 rounded-full transition-all
-                      ${i < domainIndex ? 'bg-accent-400' : 'bg-gray-200'}
-                    `} />
-                  )}
-                </div>
-              );
-            })}
+        {/* Progress bar */}
+        <div className="px-6 pb-1 max-w-2xl mx-auto">
+          <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-brand-600 rounded-full transition-all duration-500"
+              style={{ width: `${progressPct}%` }}
+            />
           </div>
+        </div>
+
+        {/* Step label */}
+        <div className="px-6 pb-3 max-w-2xl mx-auto flex items-center justify-between">
+          <span className="text-xs font-semibold text-brand-700">
+            Step {stepNumber} of {totalSteps} · {DOMAIN_TITLES[currentDomain]}
+          </span>
+          <span className="text-xs text-gray-400">
+            {totalSteps - domainIndex - 1 > 0
+              ? `${totalSteps - domainIndex - 1} more after this`
+              : 'Last step'}
+          </span>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-6 py-8">
-        {/* Occupation badge — clean, no raw code shown */}
+        {/* Occupation badge */}
         <div className="mb-6 p-4 rounded-xl bg-brand-50 border border-brand-100">
           <div className="text-xs text-brand-500 font-semibold uppercase tracking-wide mb-0.5">
             Building your skill-print for
@@ -363,7 +345,7 @@ export default function DomainsPage() {
                 </div>
                 {el.score?.value !== undefined && (
                   <div className="flex-shrink-0 text-right">
-                    <div className="text-xs text-gray-400">O*NET importance</div>
+                    <div className="text-xs text-gray-400">importance</div>
                     <div className="text-xs font-bold text-brand-600">
                       {el.score.value.toFixed(1)}/5.0
                     </div>
@@ -383,9 +365,9 @@ export default function DomainsPage() {
           onClick={handleNext}
           className="w-full flex items-center justify-center gap-2 py-4 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
         >
-          {domainIndex < DOMAINS_IN_ORDER.length - 1 ? (
+          {domainIndex < activeDomains.length - 1 ? (
             <>
-              Next: {DOMAIN_TITLES[DOMAINS_IN_ORDER[domainIndex + 1]]}
+              Next: {DOMAIN_TITLES[activeDomains[domainIndex + 1]]}
               <ChevronRight className="w-5 h-5" />
             </>
           ) : (
@@ -397,7 +379,7 @@ export default function DomainsPage() {
         </button>
       </div>
 
-      {/* Floating expand/collapse all pill */}
+      {/* Floating expand/collapse pill */}
       {currentElements.length > 0 && (
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40">
           <button
