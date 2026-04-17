@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { Search, Loader2, TrendingUp, Zap } from 'lucide-react';
+import { Search, Loader2, TrendingUp, Zap, LayoutDashboard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@clerk/nextjs';
+import Link from 'next/link';
 import { debounce } from '@/lib/utils';
 import { track } from '@/lib/posthog';
 
@@ -59,6 +61,7 @@ function OccupationCard({
 
 export default function AssessPage() {
   const router = useRouter();
+  const { isSignedIn } = useAuth();
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<OccupationResult[]>([]);
   const [loading, setLoading] = useState(false);
@@ -116,12 +119,21 @@ export default function AssessPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-brand-50 to-white">
+      {/* Nav */}
+      <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
+        <Link href="/">
+          <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+        </Link>
+        {isSignedIn && (
+          <Link href="/dashboard" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-700 transition-colors">
+            <LayoutDashboard className="w-4 h-4" /> Dashboard
+          </Link>
+        )}
+      </nav>
       <div className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-10">
-          <a href="/" className="inline-block mb-8">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-8 w-auto mx-auto" />
-          </a>
+          <img src="/logo.svg" alt="ClareerHQ" className="h-8 w-auto mx-auto mb-8" />
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
             Spec out a role
           </h1>

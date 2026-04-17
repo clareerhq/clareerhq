@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronRight, Loader2, ChevronDown, Fingerprint } from 'lucide-react';
+import { ChevronRight, Loader2, ChevronDown, Fingerprint, LayoutDashboard } from 'lucide-react';
+import { useAuth } from '@clerk/nextjs';
+import Link from 'next/link';
 import type { UserRating, AssessmentDomain } from '@/types/onet';
 import { track } from '@/lib/posthog';
 import { RATING_LABELS } from '@/types/onet';
@@ -74,6 +76,7 @@ function RatingButtons({
 
 export default function DomainsPage() {
   const router = useRouter();
+  const { isSignedIn } = useAuth();
   const [occupationData, setOccupationData] = useState<OccupationData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -194,14 +197,15 @@ export default function DomainsPage() {
         })),
       }));
       const stored = JSON.parse(sessionStorage.getItem('chq_occupation') ?? '{}');
-      sessionStorage.setItem(
-        'chq_results_payload',
-        JSON.stringify({
-          occupationCode: stored.code,
-          occupationTitle: stored.title,
-          ratings: ratingsPayload,
-        })
-      );
+      const payload = JSON.stringify({
+        occupationCode: stored.code,
+        occupationTitle: stored.title,
+        ratings: ratingsPayload,
+      });
+      // Store in both sessionStorage and localStorage so the payload
+      // survives a Clerk auth redirect (which can clear sessionStorage)
+      sessionStorage.setItem('chq_results_payload', payload);
+      try { localStorage.setItem('chq_results_payload_backup', payload); } catch (_) {}
       router.push('/results');
     }
   }
@@ -246,9 +250,16 @@ export default function DomainsPage() {
           <a href="/">
             <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
           </a>
-          <span className="text-xs text-gray-400">
-            {ratedCount}/{totalCount} rated
-          </span>
+          <div className="flex items-center gap-4">
+            <span className="text-xs text-gray-400">
+              {ratedCount}/{totalCount} rated
+            </span>
+            {isSignedIn && (
+              <Link href="/dashboard" className="flex items-center gap-1 text-xs text-gray-400 hover:text-brand-700 transition-colors">
+                <LayoutDashboard className="w-3.5 h-3.5" /> Dashboard
+              </Link>
+            )}
+          </div>
         </div>
 
         {/* Step breadcrumb: Skills > Knowledge Areas > Work Styles > Skill Print */}

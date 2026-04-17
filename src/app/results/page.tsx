@@ -3,7 +3,8 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowRight, BookOpen, Star, RotateCcw, Loader2, ChevronDown, TrendingUp, FileDown } from 'lucide-react';
+import { ArrowRight, BookOpen, Star, RotateCcw, Loader2, ChevronDown, TrendingUp, FileDown, LayoutDashboard } from 'lucide-react';
+import { useAuth } from '@clerk/nextjs';
 import { computeFitScore, getFitLabel, getFitColor } from '@/lib/scoring';
 import { track } from '@/lib/posthog';
 import type { AssessmentResult, DomainRatings } from '@/types/onet';
@@ -110,6 +111,7 @@ interface AlternativeOccupation {
 
 export default function ResultsPage() {
   const router = useRouter();
+  const { isSignedIn } = useAuth();
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [saving, setSaving] = useState(false);
   const savedRef = useRef(false);
@@ -119,11 +121,13 @@ export default function ResultsPage() {
   const [reportPurchased, setReportPurchased] = useState(false);
 
   useEffect(() => {
-    const raw = sessionStorage.getItem('chq_results_payload');
+    const raw = sessionStorage.getItem('chq_results_payload')
+      ?? localStorage.getItem('chq_results_payload_backup');
     if (!raw) {
       router.push('/assess');
       return;
     }
+    sessionStorage.setItem('chq_results_payload', raw);
 
     const payload = JSON.parse(raw) as {
       occupationCode: string;
@@ -198,14 +202,19 @@ export default function ResultsPage() {
         <a href="/">
           <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
         </a>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           {saving && <span className="text-xs text-gray-400">Saving…</span>}
           <button
             onClick={() => router.push('/assess')}
             className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-700 transition-colors"
           >
-            <RotateCcw className="w-4 h-4" /> Try another career
+            <RotateCcw className="w-4 h-4" /> Try another
           </button>
+          {isSignedIn && (
+            <Link href="/dashboard" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-700 transition-colors">
+              <LayoutDashboard className="w-4 h-4" /> Dashboard
+            </Link>
+          )}
         </div>
       </nav>
 

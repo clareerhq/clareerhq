@@ -107,8 +107,12 @@ export default function ReportPage() {
   }
 
   useEffect(() => {
-    const raw = sessionStorage.getItem('chq_results_payload');
+    // Fall back to localStorage backup in case Clerk auth redirect cleared sessionStorage
+    const raw = sessionStorage.getItem('chq_results_payload')
+      ?? localStorage.getItem('chq_results_payload_backup');
     if (!raw) { router.push('/assess'); return; }
+    // Keep sessionStorage in sync
+    sessionStorage.setItem('chq_results_payload', raw);
 
     const payload = JSON.parse(raw) as {
       occupationCode: string;
@@ -176,10 +180,19 @@ export default function ReportPage() {
       `}</style>
 
       {/* Back nav — minimal, no-print */}
-      <div className="no-print bg-white border-b border-gray-100 px-6 py-3">
-        <button onClick={() => router.back()} className="flex items-center gap-2 text-sm text-gray-500 hover:text-brand-700 transition-colors">
-          <ArrowLeft className="w-4 h-4" /> Back to results
-        </button>
+      <div className="no-print bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
+        {typeof window !== 'undefined' && sessionStorage.getItem('chq_results_payload') ? (
+          <button onClick={() => router.back()} className="flex items-center gap-2 text-sm text-gray-500 hover:text-brand-700 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> Back to results
+          </button>
+        ) : (
+          <Link href="/dashboard" className="flex items-center gap-2 text-sm text-gray-500 hover:text-brand-700 transition-colors">
+            <ArrowLeft className="w-4 h-4" /> My dashboard
+          </Link>
+        )}
+        <Link href="/" className="text-sm text-gray-400 hover:text-brand-700 transition-colors">
+          <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
+        </Link>
       </div>
 
       {/* Report */}
