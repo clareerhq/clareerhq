@@ -37,22 +37,22 @@ export default function LandingPage() {
             Your<br />
             <span className="text-brand-700">Skill-Print.</span>
           </h1>
-          <p className="text-2xl sm:text-3xl text-gray-500 mb-12 max-w-xl mx-auto leading-snug">
+          <p className="text-2xl sm:text-3xl text-gray-500 mb-8 max-w-xl mx-auto leading-snug">
             The new resume section that proves what you can do.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/sign-up"
+            className="inline-flex items-center justify-center gap-3 px-12 py-5 rounded-xl bg-brand-700 text-white font-bold text-xl hover:bg-brand-800 transition-colors shadow-lg mb-4"
+          >
+            Create free account
+            <ArrowRight className="w-6 h-6" />
+          </Link>
+          <div>
             <Link
               href="/assess"
-              className="inline-flex items-center justify-center gap-3 px-10 py-5 rounded-xl bg-brand-700 text-white font-bold text-xl hover:bg-brand-800 transition-colors shadow-lg"
+              className="text-sm text-gray-400 hover:text-brand-600 transition-colors underline underline-offset-2"
             >
-              Build mine free
-              <ArrowRight className="w-6 h-6" />
-            </Link>
-            <Link
-              href="/sign-up"
-              className="inline-flex items-center justify-center gap-2 px-8 py-5 rounded-xl border-2 border-gray-300 text-gray-700 font-bold text-lg hover:border-brand-500 hover:text-brand-700 transition-colors"
-            >
-              Create free account →
+              No account needed — try it first
             </Link>
           </div>
         </div>

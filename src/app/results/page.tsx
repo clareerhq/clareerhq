@@ -233,21 +233,33 @@ export default function ResultsPage() {
         </div>
 
         {/* Skill-Print Report CTAs */}
-        <div className="mb-6 flex flex-col sm:flex-row gap-3">
-          <Link
-            href="/report"
-            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
-          >
-            <FileDown className="w-5 h-5" />
-            View & Download — Free
-          </Link>
-          {!isSignedIn && (
+        <div className="mb-6">
+          {isSignedIn ? (
+            /* Already signed in — just show the report link */
             <Link
-              href="/sign-up?redirect_url=/report"
-              className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-brand-700 text-brand-700 font-bold hover:bg-brand-50 transition-colors"
+              href="/report"
+              className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
             >
-              Create free account →
+              <FileDown className="w-5 h-5" />
+              View & Download Your Skill-Print — Free
             </Link>
+          ) : (
+            /* Not signed in — account creation is primary */
+            <div className="flex flex-col items-center gap-3">
+              <Link
+                href="/sign-up?redirect_url=/report"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
+              >
+                Create free account — save &amp; download
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/report"
+                className="text-sm text-gray-400 hover:text-brand-600 transition-colors underline underline-offset-2"
+              >
+                Just view it — no account
+              </Link>
+            </div>
           )}
         </div>
 
