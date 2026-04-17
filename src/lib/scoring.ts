@@ -31,7 +31,10 @@ function scoreElement(
   onetImportance: number, // 1–5
   onetLevel: number       // 1–7
 ): number {
-  const userLevel = RATING_TO_ONET_LEVEL[userRating]; // 1, 3, 5, or 7
+  // Rating 0 means "None" — no credit regardless of the element's level
+  if (userRating === 0) return 0;
+
+  const userLevel = RATING_TO_ONET_LEVEL[userRating]; // 3, 5, or 7
 
   // Normalised importance weight (0–1)
   const importanceWeight = (onetImportance - 1) / 4;
