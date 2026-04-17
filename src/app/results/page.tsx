@@ -232,15 +232,23 @@ export default function ResultsPage() {
           </p>
         </div>
 
-        {/* Skill-Print Report — free, requires sign-in */}
-        <div className="mb-6">
+        {/* Skill-Print Report CTAs */}
+        <div className="mb-6 flex flex-col sm:flex-row gap-3">
           <Link
             href="/report"
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
+            className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl bg-brand-700 text-white font-bold hover:bg-brand-800 transition-colors"
           >
             <FileDown className="w-5 h-5" />
-            View & Download Your Skill-Print Report — Free
+            View & Download — Free
           </Link>
+          {!isSignedIn && (
+            <Link
+              href="/sign-up?redirect_url=/report"
+              className="flex-1 flex items-center justify-center gap-2 py-3.5 rounded-xl border-2 border-brand-700 text-brand-700 font-bold hover:bg-brand-50 transition-colors"
+            >
+              Create free account →
+            </Link>
+          )}
         </div>
 
         {/* Domain breakdown */}
@@ -309,7 +317,7 @@ export default function ResultsPage() {
               <span className="text-xs text-brand-200 font-semibold uppercase tracking-wide">one-time</span>
             </div>
             <p className="text-sm text-brand-100">
-              <strong className="text-white">Full 8-domain Skill-Print.</strong> Unlock all 8 O*NET dimensions — Skills, Knowledge, Work Styles, Abilities, Work Activities, Work Context, Interests, and Job Zone — for a complete picture of your fit.
+              <strong className="text-white">Full 8-domain Skill-Print.</strong> Unlock all 8 dimensions — Skills, Knowledge, Work Styles, Abilities, Work Activities, Work Context, Interests, and Job Zone — for a complete picture of your fit.
             </p>
           </div>
 
