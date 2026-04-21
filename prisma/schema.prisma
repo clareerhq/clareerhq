@@ -105,6 +105,29 @@ model GapItem {
   @@map("gap_items")
 }
 
+// ── Feedback ──────────────────────────────────────────────────────────────────
+
+model Feedback {
+  id           String       @id @default(cuid())
+  type         FeedbackType @default(GENERAL)
+  message      String
+  name         String?
+  email        String?
+  feedbackArmy Boolean      @default(false)   // opted into Feedback Army
+  userId       String?                        // Clerk ID if logged in
+  page         String?                        // which page they came from
+  createdAt    DateTime     @default(now())
+
+  @@map("feedback")
+}
+
+enum FeedbackType {
+  GENERAL
+  BUG
+  FEATURE
+  OTHER
+}
+
 // ── Waitlist ──────────────────────────────────────────────────────────────────
 
 model WaitlistEntry {

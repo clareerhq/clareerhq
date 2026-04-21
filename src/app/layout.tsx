@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ClerkProvider } from '@clerk/nextjs';
 import { PostHogProvider } from '@/components/PostHogProvider';
+import { FeedbackButton } from '@/components/FeedbackButton';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="en">
         <body>
           <PostHogProvider>{children}</PostHogProvider>
+          <FeedbackButton />
         </body>
       </html>
     </ClerkProvider>
