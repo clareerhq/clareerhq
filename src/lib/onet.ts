@@ -6,27 +6,39 @@
 import type { OnetSearchResult, OnetOccupation, OnetDomainData, AssessmentDomain, DOMAIN_ENDPOINT } from '@/types/onet';
 import { DOMAIN_ENDPOINT as ENDPOINTS } from '@/types/onet';
 
-const ONET_BASE = 'https://api-v2.onetcenter.org';
+const ONET_BASE = 'https://services.onetcenter.org/ws';
 
-function getApiKey(): string {
-  const apiKey = process.env.ONET_API_KEY;
-  if (!apiKey) {
+/**
+ * O*NET Web Services uses HTTP Basic Auth.
+ * Set ONET_USERNAME (your registered email) and ONET_PASSWORD (your assigned key)
+ * in your environment, or set ONET_API_KEY as "username:password" combined.
+ */
+function getAuthHeader(): string {
+  // Support both combined key and separate username/password
+  const combined = process.env.ONET_API_KEY;
+  if (combined && combined.includes(':')) {
+    return `Basic ${Buffer.from(combined).toString('base64')}`;
+  }
+
+  const username = process.env.ONET_USERNAME;
+  const password = process.env.ONET_PASSWORD;
+  if (!username || !password) {
     throw new Error(
-      'ONET_API_KEY must be set in environment variables. ' +
-      'Find your API key at https://services.onetcenter.org/developer/'
+      'O*NET credentials missing. Set ONET_USERNAME + ONET_PASSWORD (or ONET_API_KEY=username:password) in your environment. ' +
+      'Register at https://services.onetcenter.org/developer/'
     );
   }
-  return apiKey;
+  return `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
 }
 
 async function onetFetch<T>(path: string): Promise<T> {
   const url = `${ONET_BASE}${path}`;
   const res = await fetch(url, {
     headers: {
-      'X-API-Key': getApiKey(),
+      Authorization: getAuthHeader(),
       Accept: 'application/json',
     },
-    next: { revalidate: 3600 }, // Cache for 1 hour (O*NET data rarely changes)
+    cache: 'no-store', // Don't cache — avoids stale 401s if credentials change
   });
 
   if (!res.ok) {
@@ -172,6 +184,91 @@ export interface WageData {
 
 export async function getWageData(occupationCode: string): Promise<WageData> {
   return onetFetch<WageData>(`/mnm/careers/${encodeURIComponent(occupationCode)}/outlook`);
+}
+
+// ── Career Clusters ───────────────────────────────────────────────────────────
+// v2 endpoint: /online/browse/cluster
+// Returns the 16 official O*NET Career Clusters with codes and titles.
+// Each cluster groups occupations by domain (e.g. "Business Management &
+// Administration") rather than SOC function/level — making it the right
+// navigation layer for "what field am I in?" questions.
+
+export interface CareerCluster {
+  code: string;
+  title: string;
+  href?: string;
+}
+
+export interface CareerClusterList {
+  cluster: CareerCluster[];
+}
+
+export interface CareerSubCluster {
+  code: string;
+  title: string;
+  href?: string;
+}
+
+export interface ClusterOccupation {
+  code: string;
+  title: string;
+  href?: string;
+  tags?: { bright_outlook?: boolean; green?: boolean };
+  career_cluster?: CareerCluster[];
+  sub_cluster?: CareerSubCluster[];
+}
+
+export interface CareerClusterDetail {
+  cluster: CareerCluster;
+  sub_cluster?: CareerSubCluster[];
+  occupation: ClusterOccupation[];
+  start: number;
+  end: number;
+  total: number;
+}
+
+/** Fetch all 16 O*NET Career Clusters. */
+export async function getCareerClusters(): Promise<CareerClusterList> {
+  return onetFetch<CareerClusterList>('/online/browse/cluster');
+}
+
+/**
+ * Fetch all occupations belonging to a specific Career Cluster.
+ * clusterCode examples: "01" (Agriculture), "04" (Business Mgmt & Admin), etc.
+ * Pass start/end for pagination (default: first 100).
+ */
+export async function getOccupationsByCluster(
+  clusterCode: string,
+  start = 1,
+  end = 100
+): Promise<CareerClusterDetail> {
+  const params = new URLSearchParams({ start: start.toString(), end: end.toString() });
+  return onetFetch<CareerClusterDetail>(
+    `/online/browse/cluster/${encodeURIComponent(clusterCode)}?${params}`
+  );
+}
+
+/**
+ * Given an O*NET occupation code, return its Career Cluster(s) and sub-cluster(s).
+ * Uses the occupation summary endpoint which includes cluster tags.
+ */
+export interface OccupationClusterInfo {
+  code: string;
+  title: string;
+  career_cluster: CareerCluster[];
+  sub_cluster: CareerSubCluster[];
+}
+
+export async function getOccupationClusters(occupationCode: string): Promise<OccupationClusterInfo> {
+  const raw = await onetFetch<Record<string, unknown>>(
+    `/online/occupations/${encodeURIComponent(occupationCode)}/`
+  );
+  return {
+    code: (raw.code as string) ?? occupationCode,
+    title: (raw.title as string) ?? occupationCode,
+    career_cluster: (raw.career_cluster as CareerCluster[]) ?? [],
+    sub_cluster: (raw.sub_cluster as CareerSubCluster[]) ?? [],
+  };
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
