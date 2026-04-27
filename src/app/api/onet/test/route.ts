@@ -6,40 +6,23 @@ import { NextResponse } from 'next/server';
 export const runtime = 'nodejs';
 
 export async function GET() {
-  const combined = process.env.ONET_API_KEY;
-  const username = process.env.ONET_USERNAME;
-  const password = process.env.ONET_PASSWORD;
+  const key = process.env.ONET_API_KEY;
 
-  // Report which credential path will be used (without exposing values)
-  let authMode: string;
-  let authHeader: string;
-
-  if (combined && combined.includes(':')) {
-    authMode = 'ONET_API_KEY (combined)';
-    authHeader = `Basic ${Buffer.from(combined).toString('base64')}`;
-  } else if (username && password) {
-    authMode = 'ONET_USERNAME + ONET_PASSWORD (separate)';
-    authHeader = `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
-  } else {
+  if (!key) {
     return NextResponse.json({
       ok: false,
-      authMode: 'MISSING — no credentials found in environment',
-      envVarsPresent: {
-        ONET_API_KEY: !!combined,
-        ONET_USERNAME: !!username,
-        ONET_PASSWORD: !!password,
-      },
+      error: 'ONET_API_KEY not found in environment',
     }, { status: 500 });
   }
 
-  // Make a real call to O*NET to verify credentials work
-  const testUrl = 'https://services.onetcenter.org/ws/mnm/search?keyword=manager&start=1&end=3';
+  // Make a real call to O*NET v2 to verify credentials work
+  const testUrl = 'https://api-v2.onetcenter.org/mnm/search?keyword=manager&start=1&end=3';
   let onetStatus: number;
   let onetBody: string;
 
   try {
     const res = await fetch(testUrl, {
-      headers: { Authorization: authHeader, Accept: 'application/json' },
+      headers: { 'X-API-Key': key, 'Accept': 'application/json' },
       cache: 'no-store',
     });
     onetStatus = res.status;
@@ -51,12 +34,8 @@ export async function GET() {
 
   return NextResponse.json({
     ok: onetStatus === 200,
-    authMode,
-    envVarsPresent: {
-      ONET_API_KEY: !!combined,
-      ONET_USERNAME: !!username,
-      ONET_PASSWORD: !!password,
-    },
+    keyPresent: true,
+    keyLength: key.length,
     onetStatus,
     onetBody,
   });

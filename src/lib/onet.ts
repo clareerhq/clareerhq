@@ -6,39 +6,31 @@
 import type { OnetSearchResult, OnetOccupation, OnetDomainData, AssessmentDomain, DOMAIN_ENDPOINT } from '@/types/onet';
 import { DOMAIN_ENDPOINT as ENDPOINTS } from '@/types/onet';
 
-const ONET_BASE = 'https://services.onetcenter.org/ws';
+const ONET_BASE = 'https://api-v2.onetcenter.org';
 
 /**
- * O*NET Web Services uses HTTP Basic Auth.
- * Set ONET_USERNAME (your registered email) and ONET_PASSWORD (your assigned key)
- * in your environment, or set ONET_API_KEY as "username:password" combined.
+ * O*NET Web Services v2 uses X-API-Key header auth.
+ * Set ONET_API_KEY to your assigned API key in your environment.
  */
-function getAuthHeader(): string {
-  // Support both combined key and separate username/password
-  const combined = process.env.ONET_API_KEY;
-  if (combined && combined.includes(':')) {
-    return `Basic ${Buffer.from(combined).toString('base64')}`;
-  }
-
-  const username = process.env.ONET_USERNAME;
-  const password = process.env.ONET_PASSWORD;
-  if (!username || !password) {
+function getApiKey(): string {
+  const key = process.env.ONET_API_KEY;
+  if (!key) {
     throw new Error(
-      'O*NET credentials missing. Set ONET_USERNAME + ONET_PASSWORD (or ONET_API_KEY=username:password) in your environment. ' +
+      'O*NET credentials missing. Set ONET_API_KEY in your environment. ' +
       'Register at https://services.onetcenter.org/developer/'
     );
   }
-  return `Basic ${Buffer.from(`${username}:${password}`).toString('base64')}`;
+  return key;
 }
 
 async function onetFetch<T>(path: string): Promise<T> {
   const url = `${ONET_BASE}${path}`;
   const res = await fetch(url, {
     headers: {
-      Authorization: getAuthHeader(),
-      Accept: 'application/json',
+      'X-API-Key': getApiKey(),
+      'Accept': 'application/json',
     },
-    cache: 'no-store', // Don't cache — avoids stale 401s if credentials change
+    cache: 'no-store',
   });
 
   if (!res.ok) {
