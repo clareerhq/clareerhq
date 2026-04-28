@@ -143,3 +143,67 @@ export function getFitColor(score: number): string {
   if (score >= 0.40) return 'text-yellow-500';
   return 'text-gray-400';
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+//  Skill-Print scoring
+//  Converts raw 0–3 element ratings into category-level pip values (0–3)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export type PipValue = 0 | 1 | 2 | 3;
+
+export interface SkillPrintCategory {
+  key: string;
+  label: string;
+  pip: PipValue;
+  elements: Array<{ id: string; name: string; pip: PipValue }>;
+}
+
+// The 8 display categories shown on a Skill-Print, in order
+export const SKILLPRINT_CATEGORIES: Array<{ key: AssessmentDomain; label: string }> = [
+  { key: 'skills',            label: 'Skills' },
+  { key: 'knowledge',         label: 'Knowledge Areas' },
+  { key: 'work_styles',       label: 'Work Styles' },
+  { key: 'abilities',         label: 'Abilities' },
+  { key: 'interests',         label: 'Interests' },
+  { key: 'work_activities',   label: 'Work Activities' },
+  { key: 'work_context',      label: 'Work Context' },
+  { key: 'technology_skills', label: 'Technology Skills' },
+];
+
+/**
+ * Converts a domain's element ratings into a single 0–3 pip value.
+ * Only counts elements the user actively rated (> 0) to avoid
+ * skipped items dragging down the category average.
+ */
+function domainToPip(domainRatings: DomainRatings | undefined): PipValue {
+  if (!domainRatings || domainRatings.elements.length === 0) return 0;
+  const rated = domainRatings.elements.filter(el => el.rating > 0);
+  if (rated.length === 0) return 0;
+  const avg = rated.reduce((sum, el) => sum + el.rating, 0) / rated.length;
+  return Math.min(3, Math.round(avg)) as PipValue;
+}
+
+/**
+ * Builds the Skill-Print category breakdown from raw domain ratings.
+ * Returns the 5 display categories, each with a category-level pip
+ * and a sorted list of individual rated elements with their pip values.
+ */
+export function computeSkillPrint(ratings: DomainRatings[]): SkillPrintCategory[] {
+  const byDomain = Object.fromEntries(ratings.map(r => [r.domain, r]));
+
+  return SKILLPRINT_CATEGORIES.map(({ key, label }) => {
+    const domain = byDomain[key];
+    const pip = domainToPip(domain);
+
+    const elements = (domain?.elements ?? [])
+      .filter(el => el.rating > 0)
+      .sort((a, b) => b.rating - a.rating)
+      .map(el => ({
+        id: el.elementId,
+        name: el.elementName,
+        pip: el.rating as PipValue,
+      }));
+
+    return { key, label, pip, elements };
+  });
+}

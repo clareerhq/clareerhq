@@ -214,6 +214,7 @@ export default function LandingPage() {
                   'Auto resume Skill-Print per role',
                   'Progress tracking over time',
                   'Unlimited comparisons',
+                  'Early access to new features as they roll out',
                 ].map((s, i) => (
                   <li key={s} className="flex items-start gap-2 text-sm text-brand-100">
                     <span className={`font-black mt-0.5 flex-shrink-0 ${i === 0 ? 'text-brand-500' : 'text-accent-400'}`}>✓</span>

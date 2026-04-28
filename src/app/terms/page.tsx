@@ -39,7 +39,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Who these terms apply to</h2>
             <p>
-              These Terms of Service govern your use of ClareerHQ, operated by Chelsey Gover Price
+              These Terms of Service govern your use of ClareerHQ, operated by Chelsey Gover-Price
               ("ClareerHQ," "we," "us"). By using the product, you agree to these terms.
               If you don't agree, please don't use the service.
             </p>
@@ -102,8 +102,8 @@ export default function TermsPage() {
             </p>
             <p className="mt-3">
               If you believe a charge was made in error, contact us at{' '}
-              <a href="mailto:hello@clareerhq.com" className="text-brand-700 hover:underline">
-                hello@clareerhq.com
+              <a href="mailto:clareerhq@gmail.com" className="text-brand-700 hover:underline">
+                clareerhq@gmail.com
               </a>{' '}
               and we'll sort it out.
             </p>
@@ -179,8 +179,8 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">Contact</h2>
             <p>
               Questions about these terms? Email us at{' '}
-              <a href="mailto:hello@clareerhq.com" className="text-brand-700 hover:underline">
-                hello@clareerhq.com
+              <a href="mailto:clareerhq@gmail.com" className="text-brand-700 hover:underline">
+                clareerhq@gmail.com
               </a>.
             </p>
           </section>

@@ -39,10 +39,10 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Who we are</h2>
             <p>
-              ClareerHQ is operated by Chelsey Gover Price, a sole proprietor based in the United States.
+              ClareerHQ is operated by Chelsey Gover-Price, a sole proprietor based in the United States.
               You can reach us at{' '}
-              <a href="mailto:hello@clareerhq.com" className="text-brand-700 hover:underline">
-                hello@clareerhq.com
+              <a href="mailto:clareerhq@gmail.com" className="text-brand-700 hover:underline">
+                clareerhq@gmail.com
               </a>.
             </p>
           </section>
@@ -118,8 +118,8 @@ export default function PrivacyPage() {
             <p>
               You can request a copy of your data, correction of inaccurate data, or deletion
               of your account and all associated data at any time by emailing{' '}
-              <a href="mailto:hello@clareerhq.com" className="text-brand-700 hover:underline">
-                hello@clareerhq.com
+              <a href="mailto:clareerhq@gmail.com" className="text-brand-700 hover:underline">
+                clareerhq@gmail.com
               </a>.
               We will respond within 30 days.
             </p>
@@ -155,8 +155,8 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">Contact</h2>
             <p>
               Questions about this policy? Email us at{' '}
-              <a href="mailto:hello@clareerhq.com" className="text-brand-700 hover:underline">
-                hello@clareerhq.com
+              <a href="mailto:clareerhq@gmail.com" className="text-brand-700 hover:underline">
+                clareerhq@gmail.com
               </a>.
             </p>
           </section>

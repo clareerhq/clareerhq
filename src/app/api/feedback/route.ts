@@ -73,7 +73,7 @@ export async function POST(req: NextRequest) {
       const fromEmail = email ? ` &lt;${email}&gt;` : '';
 
       await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? 'hello@clareerhq.com',
+        from: process.env.RESEND_FROM_EMAIL ?? 'clareerhq@gmail.com',
         to: 'chelseygoverprice@gmail.com',
         subject: `[ClareerHQ Feedback] ${TYPE_LABELS[type]} from ${fromName}`,
         html: `
@@ -103,7 +103,7 @@ export async function POST(req: NextRequest) {
       // If Feedback Army, also send a confirmation to the user
       if (feedbackArmy && email) {
         await resend.emails.send({
-          from: process.env.RESEND_FROM_EMAIL ?? 'hello@clareerhq.com',
+          from: process.env.RESEND_FROM_EMAIL ?? 'clareerhq@gmail.com',
           to: email,
           subject: "You're in the Feedback Army 🪖",
           html: `
