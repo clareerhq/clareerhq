@@ -135,10 +135,10 @@ export default function AssessPage() {
         <div className="text-center mb-10">
           <img src="/logo.svg" alt="ClareerHQ" className="h-8 w-auto mx-auto mb-8" />
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
-            Spec out a role
+            Get your Skill-Print
           </h1>
           <p className="text-gray-500">
-            Search any job title — we'll pull the skills, knowledge areas, and work styles that role actually requires, then map your skill-print against it.
+            Start typing an occupation and select the one that fits — then rate yourself on the skills, knowledge areas, and work styles it actually requires.
           </p>
         </div>
 
