@@ -60,7 +60,7 @@ const DOMAIN_DESCS: Record<string, string> = {
 };
 
 const RATING_COLORS: Record<UserRating, string> = {
-  0: 'bg-gray-100 text-gray-500 border-gray-200 hover:bg-gray-200',
+  0: 'bg-gray-200 text-gray-700 border-gray-400',
   1: 'bg-amber-50 text-amber-700 border-amber-300',
   2: 'bg-blue-50 text-blue-700 border-blue-300',
   3: 'bg-green-50 text-green-700 border-green-300',

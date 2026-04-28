@@ -59,8 +59,8 @@ export default function LandingPage() {
       </section>
 
       {/* Resume concept */}
-      <section className="py-20 px-6 bg-gray-50">
-        <div className="max-w-3xl mx-auto text-center mb-12">
+      <section className="py-12 px-6 bg-gray-50">
+        <div className="max-w-3xl mx-auto text-center mb-8">
           <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4 leading-tight">
             Resumes have a new section.
           </h2>
@@ -152,7 +152,7 @@ export default function LandingPage() {
               </div>
               <ul className="space-y-2.5 mb-7 flex-1">
                 {[
-                  '1,000+ real job titles',
+                  '1,000+ real occupations',
                   '3-domain Skill-Print assessment',
                   'Full Skill-Print PDF report',
                   'Word & Google Docs resume template',
@@ -241,7 +241,7 @@ export default function LandingPage() {
           </h2>
           <div className="grid sm:grid-cols-3 gap-10 text-left">
             {[
-              { n: '1', title: 'Pick a job title', sub: 'Any of 1,000+ real job titles.' },
+              { n: '1', title: 'Pick an occupation', sub: 'Any of 1,000+ real occupations.' },
               { n: '2', title: 'Rate yourself', sub: 'Skills. Knowledge. Work style.' },
               { n: '3', title: 'Get your Skill-Print', sub: 'Resume-ready. Evidence-based.' },
             ].map(({ n, title, sub }) => (
