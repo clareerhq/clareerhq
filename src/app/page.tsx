@@ -13,7 +13,7 @@ export default function LandingPage() {
           <div className="flex flex-col leading-tight">
             <img src="/logo.svg" alt="ClareerHQ" className="h-9 w-auto" />
             <span className="text-[10px] text-gray-400 font-medium tracking-wide hidden sm:block mt-0.5">
-              Your HQ for career clarity
+              Your HQ for Career Clarity
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -85,25 +85,41 @@ export default function LandingPage() {
 
           {/* Skill-Print — highlighted */}
           <div className="px-8 py-7 bg-brand-50 border-b-2 border-brand-200">
-            <div className="flex items-center gap-2 mb-5">
+            <div className="flex items-center gap-2 mb-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-brand-700">Skill-Print</span>
               <span className="text-[10px] bg-brand-700 text-white px-2 py-0.5 rounded-full font-bold">NEW</span>
             </div>
-            <div className="text-xs font-bold text-gray-700 mb-4">Target Role: Product Manager</div>
-            <div className="space-y-3">
+            <div className="text-[10px] text-gray-400 mb-4">Product Manager · O*NET-SOC 11-3021.00</div>
+            <div className="space-y-2.5">
               {[
-                { label: 'Skills', pct: 87 },
-                { label: 'Knowledge', pct: 74 },
-                { label: 'Work Style', pct: 91 },
-              ].map(({ label, pct }) => (
+                { label: 'Skills', pips: 3 },
+                { label: 'Knowledge Areas', pips: 2 },
+                { label: 'Work Styles', pips: 3 },
+                { label: 'Abilities', pips: 2 },
+                { label: 'Interests', pips: 1 },
+                { label: 'Work Activities', pips: 3 },
+                { label: 'Work Context', pips: 2 },
+                { label: 'Technology Skills', pips: 2 },
+              ].map(({ label, pips }) => (
                 <div key={label} className="flex items-center gap-3">
-                  <div className="w-20 text-xs text-gray-500">{label}</div>
-                  <div className="flex-1 h-2 bg-white rounded-full overflow-hidden border border-brand-100">
-                    <div className="h-full bg-brand-500 rounded-full" style={{ width: `${pct}%` }} />
+                  <div className="flex-1 text-[11px] font-semibold text-gray-700">{label}</div>
+                  <div className="flex gap-1 flex-shrink-0">
+                    {[1, 2, 3].map((i) => (
+                      <div
+                        key={i}
+                        className={`w-2.5 h-2.5 rounded-full border-[1.5px] ${
+                          i <= pips
+                            ? 'bg-[#1e3a5f] border-[#1e3a5f]'
+                            : 'bg-white border-gray-300'
+                        }`}
+                      />
+                    ))}
                   </div>
-                  <div className="w-8 text-xs font-black text-brand-700 text-right">{pct}%</div>
                 </div>
               ))}
+            </div>
+            <div className="mt-3 text-[8px] text-gray-300">
+              ● Beginner · ●● Intermediate · ●●● Advanced · Self-assessed · O*NET data
             </div>
           </div>
 
@@ -263,7 +279,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <div className="flex flex-col leading-tight">
             <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
-            <span className="text-xs text-gray-400 mt-1">Your HQ for career clarity.</span>
+            <span className="text-xs text-gray-400 mt-1">Your HQ for Career Clarity.</span>
           </div>
           <span>
             Occupational data: U.S. Department of Labor.
