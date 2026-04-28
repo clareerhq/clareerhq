@@ -59,9 +59,9 @@ export default function LandingPage() {
       </section>
 
       {/* Resume concept */}
-      <section className="py-12 px-6 bg-gray-50">
-        <div className="max-w-3xl mx-auto text-center mb-8">
-          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-4 leading-tight">
+      <section className="py-10 px-6 bg-gray-50">
+        <div className="max-w-3xl mx-auto text-center mb-6">
+          <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-3 leading-tight">
             Resumes have a new section.
           </h2>
           <p className="text-xl text-gray-500">
@@ -74,7 +74,7 @@ export default function LandingPage() {
         {/* Resume mockup */}
         <div className="max-w-md mx-auto bg-white rounded-2xl border border-gray-200 shadow-xl overflow-hidden">
           {/* Summary — greyed out */}
-          <div className="px-8 py-5 border-b border-gray-100 opacity-25">
+          <div className="px-6 py-3 border-b border-gray-100 opacity-25">
             <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Summary</div>
             <div className="space-y-2">
               <div className="h-2.5 bg-gray-200 rounded-full w-full" />
@@ -84,7 +84,7 @@ export default function LandingPage() {
           </div>
 
           {/* Skill-Print — highlighted */}
-          <div className="px-8 py-7 bg-brand-50 border-b-2 border-brand-200">
+          <div className="px-6 py-4 bg-brand-50 border-b-2 border-brand-200">
             <div className="flex items-center gap-2 mb-1">
               <span className="text-[10px] font-black uppercase tracking-widest text-brand-700">Skill-Print</span>
               <span className="text-[10px] bg-brand-700 text-white px-2 py-0.5 rounded-full font-bold">NEW</span>
@@ -124,7 +124,7 @@ export default function LandingPage() {
           </div>
 
           {/* Experience + Education — greyed out */}
-          <div className="px-8 py-5 opacity-25">
+          <div className="px-6 py-3 opacity-25">
             <div className="text-[10px] font-black uppercase tracking-widest text-gray-400 mb-3">Experience</div>
             <div className="space-y-2 mb-5">
               <div className="h-2.5 bg-gray-200 rounded-full w-5/6" />
