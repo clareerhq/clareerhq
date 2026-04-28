@@ -38,7 +38,7 @@ export default function LandingPage() {
             <span className="text-brand-700">Skill-Print.</span>
           </h1>
           <p className="text-2xl sm:text-3xl text-gray-500 mb-8 max-w-xl mx-auto leading-snug">
-            The new resume section that proves what you can do.
+            Your title doesn't tell the whole story. Your Skill-Print does.
           </p>
           <Link
             href="/sign-up"
