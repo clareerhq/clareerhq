@@ -29,7 +29,9 @@ export type AnalyticsEvent =
   | { name: 'assessment_completed'; props: { occupation_code: string; occupation_title: string; fit_score: number } }
   | { name: 'waitlist_joined'; props: { source: string } }
   | { name: 'occupation_searched'; props: { query: string; result_count: number } }
-  | { name: 'occupation_selected'; props: { occupation_code: string; occupation_title: string; source: 'search' | 'popular' } };
+  | { name: 'occupation_selected'; props: { occupation_code: string; occupation_title: string; source: 'search' | 'popular' } }
+  | { name: 'skillprint_viewed'; props: { occupation_code: string; occupation_title: string } }
+  | { name: 'skillprint_download'; props: { occupation_code: string } };
 
 export function track(event: AnalyticsEvent['name'], props?: Record<string, unknown>) {
   if (typeof window === 'undefined') return;
