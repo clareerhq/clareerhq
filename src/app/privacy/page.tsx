@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Privacy Policy — ClareerHQ',
-  description: 'How ClareerHQ collects, uses, and protects your information.',
+  title: 'Privacy Policy — Skill-Print',
+  description: 'How Skill-Print collects, uses, and protects your information.',
 };
 
 export default function PrivacyPage() {
@@ -11,7 +11,7 @@ export default function PrivacyPage() {
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+            <img src="/logo.svg" alt="Skill-Print" className="h-7 w-auto" />
           </Link>
           <Link href="/" className="text-sm text-gray-500 hover:text-brand-700 transition-colors">
             ← Back to home
@@ -30,7 +30,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">The short version</h2>
             <p>
-              ClareerHQ collects only what it needs to run the product. We don't sell your data.
+              Skill-Print collects only what it needs to run the product. We don't sell your data.
               We don't share it with advertisers. The sensitive stuff — your password and your payment
               details — never touches our servers. Here's the full picture.
             </p>
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Who we are</h2>
             <p>
-              ClareerHQ is operated by Chelsey Gover-Price, a sole proprietor based in the United States.
+              Skill-Print is operated by Chelsey Gover-Price, a sole proprietor based in the United States.
               You can reach us at{' '}
               <a href="mailto:clareerhq@gmail.com" className="text-brand-700 hover:underline">
                 clareerhq@gmail.com
@@ -53,7 +53,7 @@ export default function PrivacyPage() {
             <h3 className="text-base font-semibold text-gray-800 mt-5 mb-2">Account information</h3>
             <p>
               When you create an account, we collect your name and email address through Clerk,
-              our authentication provider. ClareerHQ never sees or stores your password — Clerk
+              our authentication provider. Skill-Print never sees or stores your password — Clerk
               handles that entirely using industry-standard security practices.
             </p>
 
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
             <h3 className="text-base font-semibold text-gray-800 mt-5 mb-2">Payment information</h3>
             <p>
               Payments are processed by Stripe, a PCI Level 1 certified payment processor.
-              ClareerHQ never sees, receives, or stores your credit card number or billing details.
+              Skill-Print never sees, receives, or stores your credit card number or billing details.
               Stripe provides us with a customer ID and confirmation that a payment was made —
               nothing more.
             </p>
@@ -107,8 +107,8 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">How we store your data</h2>
             <p>
               Your account and assessment data is stored in a PostgreSQL database hosted by Neon,
-              encrypted at rest and in transit. ClareerHQ is hosted on Vercel, which enforces
-              HTTPS on all connections. Access to the database is restricted to ClareerHQ's
+              encrypted at rest and in transit. Skill-Print is hosted on Vercel, which enforces
+              HTTPS on all connections. Access to the database is restricted to Skill-Print's
               application infrastructure.
             </p>
           </section>
@@ -128,7 +128,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Cookies</h2>
             <p>
-              ClareerHQ uses only functional cookies necessary to keep you signed in and
+              Skill-Print uses only functional cookies necessary to keep you signed in and
               maintain your session. We do not use advertising or tracking cookies.
             </p>
           </section>
@@ -136,7 +136,7 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Children's privacy</h2>
             <p>
-              ClareerHQ is not directed at children under 13. We do not knowingly collect
+              Skill-Print is not directed at children under 13. We do not knowingly collect
               personal information from anyone under 13. If you believe we have inadvertently
               collected such information, please contact us and we will delete it promptly.
             </p>
@@ -147,7 +147,7 @@ export default function PrivacyPage() {
             <p>
               If we make material changes to this policy, we will update the effective date
               at the top of this page and notify registered users by email. Continued use of
-              ClareerHQ after changes are posted constitutes acceptance of the updated policy.
+              Skill-Print after changes are posted constitutes acceptance of the updated policy.
             </p>
           </section>
 

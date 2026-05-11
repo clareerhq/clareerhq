@@ -75,7 +75,7 @@ export async function POST(req: NextRequest) {
       await resend.emails.send({
         from: process.env.RESEND_FROM_EMAIL ?? 'clareerhq@gmail.com',
         to: 'chelseygoverprice@gmail.com',
-        subject: `[ClareerHQ Feedback] ${TYPE_LABELS[type]} from ${fromName}`,
+        subject: `[Skill-Print Feedback] ${TYPE_LABELS[type]} from ${fromName}`,
         html: `
           <div style="font-family:sans-serif;max-width:560px;margin:auto;padding:32px;border:1px solid #e5e7eb;border-radius:12px">
             <h2 style="color:#1e40af;margin:0 0 4px">New ${TYPE_LABELS[type]}</h2>
@@ -95,7 +95,7 @@ export async function POST(req: NextRequest) {
               <p style="margin:4px 0 0;color:#78350f;font-size:13px">Reply to this email to reach them at ${email}</p>
             </div>` : ''}
             <hr style="border:none;border-top:1px solid #e5e7eb;margin:16px 0"/>
-            <p style="color:#9ca3af;font-size:11px;margin:0">ClareerHQ · Feedback ID: ${feedback.id}</p>
+            <p style="color:#9ca3af;font-size:11px;margin:0">Skill-Print · Feedback ID: ${feedback.id}</p>
           </div>
         `,
       });
@@ -112,7 +112,7 @@ export async function POST(req: NextRequest) {
               <p>You're officially in. I'll reach out personally when new features ship — your opinion will actually influence what gets built next.</p>
               <p style="color:#6b7280;font-size:13px">This is a small, real list. No spam. Just a founder asking for honest input.</p>
               <hr style="border:none;border-top:1px solid #eee;margin:24px 0"/>
-              <p style="color:#9ca3af;font-size:12px">— Chelsey, Founder @ ClareerHQ<br/>Reply anytime.</p>
+              <p style="color:#9ca3af;font-size:12px">— Chelsey, Founder @ Skill-Print<br/>Reply anytime.</p>
             </div>
           `,
         });

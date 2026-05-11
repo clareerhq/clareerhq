@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Skill-Print™ Mockup</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: #e8ecf0;
+    padding: 40px 24px;
+    color: #1a1a2e;
+  }
+
+  h2.format-label {
+    max-width: 816px;
+    margin: 0 auto 12px;
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b7280;
+  }
+
+  .resume-context {
+    max-width: 816px;
+    margin: 0 auto 56px;
+    background: white;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+    border-radius: 4px;
+    padding: 40px 56px;
+  }
+  .resume-name    { font-size: 22px; font-weight: 700; color: #1a1a2e; margin-bottom: 2px; }
+  .resume-contact { font-size: 11px; color: #6b7280; margin-bottom: 16px; }
+  .resume-filler  {
+    width: 100%; background: #f3f4f6; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    color: #d1d5db; font-size: 11px; letter-spacing: 0.05em;
+  }
+  .resume-divider { border: none; border-top: 1.5px solid #e5e7eb; margin: 14px 0; }
+  .section-label  { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: #9ca3af; margin-bottom: 10px; }
+
+  /* ── SHARED PIP SYSTEM ── */
+  .pip-row { display: flex; gap: 3px; flex-shrink: 0; }
+  .pip {
+    width: 9px; height: 9px; border-radius: 50%;
+    border: 1.5px solid #d1d5db; background: white;
+  }
+  .pip.on { background: #1e3a5f; border-color: #1e3a5f; }
+
+  /* ══════════════════════════════════════════
+     FREE — QUARTER PAGE
+     Categories only, no individual skills
+  ══════════════════════════════════════════ */
+  .sp-free {
+    border: 1.5px solid #1e3a5f;
+    border-radius: 8px;
+    padding: 12px 16px 10px;
+    background: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sp-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .sp-badge       { font-size: 7.5px; letter-spacing: 0.12em; text-transform: uppercase; color: #2563a8; font-weight: 700; margin-bottom: 2px; }
+  .sp-occ-title   { font-size: 14px; font-weight: 700; color: #1a1a2e; line-height: 1.2; }
+  .sp-soc         { font-size: 8px; color: #9ca3af; margin-top: 1px; }
+  .sp-brand       { font-size: 9.5px; font-weight: 800; color: #1e3a5f; text-align: right; white-space: nowrap; }
+  .sp-brand span  { color: #2563a8; }
+  .sp-meta        { font-size: 7.5px; color: #9ca3af; text-align: right; margin-top: 2px; line-height: 1.4; }
+
+  .category-rows  { display: flex; flex-direction: column; gap: 6px; }
+  .category-row   { display: flex; align-items: center; gap: 10px; }
+  .category-name  { font-size: 10px; font-weight: 600; color: #374151; flex: 1; }
+
+  .sp-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 8px;
+    border-top: 1px solid #f3f4f6;
+  }
+  .sp-legend { font-size: 7px; color: #b0b7c3; }
+  .sp-url    { font-size: 7.5px; color: #2563a8; font-weight: 700; white-space: nowrap; }
+
+  /* ══════════════════════════════════════════
+     $10 — HALF PAGE (or however long it needs)
+     Categories + all individual skills
+  ══════════════════════════════════════════ */
+  .sp-paid {
+    border: 1.5px solid #1e3a5f;
+    border-radius: 10px;
+    overflow: hidden;
+    background: white;
+  }
+
+  .paid-hdr {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563a8 100%);
+    padding: 13px 18px 11px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .paid-hdr-badge  { font-size: 7px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-bottom: 3px; }
+  .paid-hdr-title  { font-size: 16px; font-weight: 700; color: white; line-height: 1.2; }
+  .paid-hdr-sub    { font-size: 8px; color: rgba(255,255,255,0.45); margin-top: 3px; line-height: 1.5; }
+  .paid-hdr-right  { text-align: right; flex-shrink: 0; }
+  .paid-hdr-brand  { font-size: 10px; font-weight: 800; color: white; }
+  .paid-hdr-brand span { color: #93c5fd; }
+  .paid-hdr-meta   { font-size: 7.5px; color: rgba(255,255,255,0.45); margin-top: 3px; line-height: 1.4; text-align: right; }
+
+  .paid-body { padding: 14px 18px; display: flex; flex-direction: column; gap: 12px; }
+
+  /* Category block */
+  .cat-block { display: flex; flex-direction: column; gap: 5px; }
+
+  .cat-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #f3f4f6;
+  }
+  .cat-title {
+    font-size: 9.5px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #1e3a5f;
+    flex: 1;
+  }
+
+  /* Individual skill rows — 2 column grid */
+  .skill-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3px 16px;
+    padding-left: 10px;
+  }
+  .skill-row-sm {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .skill-name-sm {
+    font-size: 8.5px;
+    color: #4b5563;
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pip-sm { display: flex; gap: 2px; flex-shrink: 0; }
+  .pip-sm .pip { width: 7px; height: 7px; }
+
+  .paid-footer {
+    background: #f8faff;
+    border-top: 1px solid #e5e7eb;
+    padding: 7px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 7px;
+    color: #9ca3af;
+  }
+  .paid-footer strong { color: #2563a8; }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     FREE — QUARTER PAGE
+══════════════════════════════════════════════════ -->
+<h2 class="format-label">Free Skill-Print™ &nbsp;·&nbsp; Single Occupation &nbsp;·&nbsp; Quarter page</h2>
+
+<div class="resume-context">
+  <div class="resume-name">Jordan M.</div>
+  <div class="resume-contact">Portland, OR &nbsp;·&nbsp; jordan@email.com &nbsp;·&nbsp; linkedin.com/in/jordanm</div>
+  <div class="resume-filler" style="height:72px; margin-bottom:14px;">[ Work history, education, etc. ]</div>
+
+  <hr class="resume-divider" />
+  <div class="section-label">Skill-Print™</div>
+
+  <div class="sp-free">
+    <div class="sp-header">
+      <div>
+        <div class="sp-badge">Skill-Print</div>
+        <div class="sp-occ-title">Human Resources Manager</div>
+        <div class="sp-soc">O*NET-SOC 11-3121.00</div>
+      </div>
+      <div>
+        <div class="sp-brand">Skill-<span>Print</span></div>
+        <div class="sp-meta">Jordan M.<br/>April 2026</div>
+      </div>
+    </div>
+
+    <div class="category-rows">
+      <div class="category-row">
+        <div class="category-name">Skills</div>
+        <div class="pip-row">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="category-row">
+        <div class="category-name">Knowledge</div>
+        <div class="pip-row">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div>
+        </div>
+      </div>
+      <div class="category-row">
+        <div class="category-name">Abilities</div>
+        <div class="pip-row">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="category-row">
+        <div class="category-name">Work Activities</div>
+        <div class="pip-row">
+          <div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+        </div>
+      </div>
+      <div class="category-row">
+        <div class="category-name">Technology Tools</div>
+        <div class="pip-row">
+          <div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sp-footer">
+      <div class="sp-legend">● Beginner &nbsp;&nbsp; ●● Intermediate &nbsp;&nbsp; ●●● Advanced &nbsp;&nbsp;·&nbsp;&nbsp; Self-assessed &nbsp;·&nbsp; Skill-Print &nbsp;·&nbsp; O*NET data, U.S. Dept. of Labor</div>
+      <div class="sp-url">getmyskillprint.com</div>
+    </div>
+  </div>
+
+  <div class="resume-filler" style="height:60px; margin-top:14px;">[ Additional resume content ]</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════
+     $10 — HALF PAGE (may run longer — see note)
+══════════════════════════════════════════════════ -->
+<h2 class="format-label">$10 Skill-Print™ &nbsp;·&nbsp; Full Career Cluster &nbsp;·&nbsp; Half page target (actual size shown)</h2>
+
+<div class="resume-context">
+  <div class="resume-name">Jordan M.</div>
+  <div class="resume-contact">Portland, OR &nbsp;·&nbsp; jordan@email.com &nbsp;·&nbsp; linkedin.com/in/jordanm</div>
+
+  <hr class="resume-divider" />
+  <div class="section-label">Skill-Print™</div>
+
+  <div class="sp-paid">
+    <div class="paid-hdr">
+      <div>
+        <div class="paid-hdr-badge">Skill-Print &nbsp;·&nbsp; Management &amp; Entrepreneurship Cluster</div>
+        <div class="paid-hdr-title">Human Resources Manager</div>
+        <div class="paid-hdr-sub">Cluster includes: HR Specialist · Compensation &amp; Benefits Manager · Training &amp; Development Manager · Labor Relations Specialist · and 35+ related occupations</div>
+      </div>
+      <div class="paid-hdr-right">
+        <div class="paid-hdr-brand">Skill-<span>Print</span></div>
+        <div class="paid-hdr-meta">Jordan M.<br/>April 2026</div>
+      </div>
+    </div>
+
+    <div class="paid-body">
+
+      <!-- SKILLS -->
+      <div class="cat-block">
+        <div class="cat-header">
+          <div class="cat-title">Skills</div>
+          <div class="pip-row">
+            <div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+          </div>
+        </div>
+        <div class="skill-grid">
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Active Listening</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Speaking</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Social Perceptiveness</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Reading Comprehension</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Critical Thinking</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Writing</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Coordination</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Negotiation</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Instructing</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Judgment &amp; Decision Making</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Monitoring</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Time Management</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Persuasion</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Management of Personnel Resources</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Complex Problem Solving</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Service Orientation</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- KNOWLEDGE -->
+      <div class="cat-block">
+        <div class="cat-header">
+          <div class="cat-title">Knowledge</div>
+          <div class="pip-row">
+            <div class="pip on"></div><div class="pip on"></div><div class="pip on"></div>
+          </div>
+        </div>
+        <div class="skill-grid">
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Personnel &amp; Human Resources</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Administration &amp; Management</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">English Language</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Law &amp; Government</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Customer &amp; Personal Service</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Education &amp; Training</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Psychology</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Economics &amp; Accounting</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Sociology &amp; Anthropology</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Clerical</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ABILITIES -->
+      <div class="cat-block">
+        <div class="cat-header">
+          <div class="cat-title">Abilities</div>
+          <div class="pip-row">
+            <div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+          </div>
+        </div>
+        <div class="skill-grid">
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Oral Comprehension</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Oral Expression</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Written Comprehension</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Written Expression</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Problem Sensitivity</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Deductive Reasoning</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Inductive Reasoning</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Speech Clarity</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Information Ordering</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Speech Recognition</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORK ACTIVITIES -->
+      <div class="cat-block">
+        <div class="cat-header">
+          <div class="cat-title">Work Activities</div>
+          <div class="pip-row">
+            <div class="pip on"></div><div class="pip on"></div><div class="pip"></div>
+          </div>
+        </div>
+        <div class="skill-grid">
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Communicating with Others</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Establishing Relationships</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Getting Information</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Resolving Conflicts</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Making Decisions</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Training &amp; Teaching Others</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Organizing &amp; Prioritizing</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Staffing Organizational Units</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Guiding &amp; Motivating</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Processing Information</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Updating Relevant Knowledge</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip on"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Interacting with Computers</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- TECHNOLOGY TOOLS -->
+      <div class="cat-block">
+        <div class="cat-header">
+          <div class="cat-title">Technology Tools</div>
+          <div class="pip-row">
+            <div class="pip on"></div><div class="pip"></div><div class="pip"></div>
+          </div>
+        </div>
+        <div class="skill-grid">
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">HRIS Platforms</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Applicant Tracking Systems</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Learning Mgmt Systems</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Payroll Software</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Compensation Benchmarking Tools</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Data Analysis (Excel, Tableau)</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Survey &amp; Assessment Tools</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+          <div class="skill-row-sm">
+            <div class="skill-name-sm">Document Mgmt (SharePoint)</div>
+            <div class="pip-sm pip-row"><div class="pip on"></div><div class="pip on"></div><div class="pip"></div></div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /paid-body -->
+
+    <div class="paid-footer">
+      <div>Skill-Print &nbsp;·&nbsp; getmyskillprint.com &nbsp;·&nbsp; Skills data: O*NET OnLine, U.S. Dept. of Labor</div>
+      <div>● Beginner &nbsp; ●● Intermediate &nbsp; ●●● Advanced &nbsp;·&nbsp; Self-assessed · April 2026</div>
+    </div>
+
+  </div><!-- /sp-paid -->
+
+</div>
+
+</body>
+</html>

@@ -61,7 +61,7 @@ export default function UpgradePage() {
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
         <Link href="/">
-          <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
+          <img src="/logo.svg" alt="Skill-Print" className="h-6 w-auto" />
         </Link>
         <Link href="/results" className="text-sm text-gray-500 hover:text-[#1e3a5f]">
           ← Back to your Skill-Print

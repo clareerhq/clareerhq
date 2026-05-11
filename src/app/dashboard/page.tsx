@@ -130,7 +130,7 @@ export default async function DashboardPage() {
       {/* Nav */}
       <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
         <a href="/">
-          <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+          <img src="/logo.svg" alt="Skill-Print" className="h-7 w-auto" />
         </a>
         <UserButton afterSignOutUrl="/" />
       </nav>

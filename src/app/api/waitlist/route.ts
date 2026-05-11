@@ -36,18 +36,18 @@ export async function POST(req: NextRequest) {
         await resend.emails.send({
           from: process.env.RESEND_FROM_EMAIL ?? 'clareerhq@gmail.com',
           to: email,
-          subject: "You're on the ClareerHQ waitlist! 🎯",
+          subject: "You're on the Skill-Print waitlist! 🎯",
           html: `
             <div style="font-family:sans-serif;max-width:480px;margin:auto;padding:32px">
-              <h2 style="color:#1B4F72">Welcome to ClareerHQ${name ? `, ${name}` : ''}!</h2>
+              <h2 style="color:#1B4F72">Welcome to Skill-Print${name ? `, ${name}` : ''}!</h2>
               <p>You're on the list. We'll reach out the moment early access opens.</p>
               <p style="color:#148F77;font-weight:600">
-                ClareerHQ maps your real strengths to the careers that fit — using the same data that powers career counsellors and HR systems nationwide.
+                Skill-Print maps your real strengths to the careers that fit — using the same data that powers career counsellors and HR systems nationwide.
               </p>
               <hr style="border:none;border-top:1px solid #eee;margin:24px 0"/>
               <p style="color:#888;font-size:13px">
                 Questions? Just reply to this email.<br/>
-                — Chelsey & the ClareerHQ team
+                — Chelsey & the Skill-Print team
               </p>
             </div>
           `,
