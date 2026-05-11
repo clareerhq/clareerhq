@@ -13,7 +13,7 @@ import { db } from '@/lib/db';
 
 export const runtime = 'nodejs';
 
-const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://clareerhq.com';
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? 'https://getmyskillprint.com';
 
 export async function POST(req: NextRequest) {
   const { userId } = await auth();

@@ -268,7 +268,7 @@ export default function DomainsPage() {
         {/* Logo row */}
         <div className="px-6 pt-3 pb-2 max-w-2xl mx-auto flex items-center justify-between">
           <a href="/">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
+            <img src="/logo.svg" alt="Skill-Print" className="h-6 w-auto" />
           </a>
           <div className="flex items-center gap-4">
             <span className="text-xs text-gray-400">

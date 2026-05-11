@@ -11,9 +11,9 @@ export default function LandingPage() {
       <nav className="fixed top-0 inset-x-0 z-50 bg-white/80 backdrop-blur border-b border-gray-100">
         <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
           <div className="flex flex-col leading-tight">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-9 w-auto" />
+            <img src="/logo.svg" alt="Skill-Print" className="h-9 w-auto" />
             <span className="text-[10px] text-gray-400 font-medium tracking-wide hidden sm:block mt-0.5">
-              Your HQ for Career Clarity
+              The must-have pairing with your resume.
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -62,7 +62,7 @@ export default function LandingPage() {
       <section className="py-10 px-6 bg-gray-50">
         <div className="max-w-3xl mx-auto text-center mb-6">
           <h2 className="text-4xl sm:text-5xl font-black text-gray-900 mb-3 leading-tight">
-            Resumes have a new section.
+            Your resume's new must-have.
           </h2>
           <p className="text-xl text-gray-500">
             Summary.{' '}
@@ -279,8 +279,8 @@ export default function LandingPage() {
       <footer className="py-10 px-6 border-t border-gray-100">
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-gray-400">
           <div className="flex flex-col leading-tight">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
-            <span className="text-xs text-gray-400 mt-1">Your HQ for Career Clarity.</span>
+            <img src="/logo.svg" alt="Skill-Print" className="h-6 w-auto" />
+            <span className="text-xs text-gray-400 mt-1">The must-have pairing with your resume.</span>
           </div>
           <span>
             Occupational data: U.S. Department of Labor.

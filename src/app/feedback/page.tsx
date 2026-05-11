@@ -98,7 +98,7 @@ export default function FeedbackPage() {
       <div className="bg-white border-b border-gray-100">
         <div className="max-w-xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link href="/">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-6 w-auto" />
+            <img src="/logo.svg" alt="Skill-Print" className="h-6 w-auto" />
           </Link>
           {isSignedIn && (
             <Link href="/dashboard" className="text-xs text-gray-400 hover:text-brand-700 transition-colors">

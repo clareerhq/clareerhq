@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-//  ClareerHQ Match Scoring Algorithm
+//  Skill-Print Match Scoring Algorithm
 //  Produces a 0.0–1.0 fit score between a user's ratings and an occupation
 // ─────────────────────────────────────────────────────────────────────────────
 

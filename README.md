@@ -1,4 +1,4 @@
-# ClareerHQ
+# Skill-Print
 
 > **Know your career fit.** Built on O\*NET — the U.S. Department of Labor's occupational data standard.
 
@@ -14,7 +14,7 @@ Follow these steps in order. Everything uses free tiers until you have real reve
 
 1. Go to **https://services.onetcenter.org/developer/**
 2. Click **"Register for API access"**
-3. Fill in the form — use ClareerHQ as the organization name
+3. Fill in the form — use Skill-Print as the organization name
 4. You'll receive your **username** and **password** by email (usually within minutes)
 5. Keep these handy — you'll add them to your environment variables
 
@@ -23,7 +23,7 @@ Follow these steps in order. Everything uses free tiers until you have real reve
 ### Step 2 — Set Up Your Database on Neon (5 min)
 
 1. Go to **https://neon.tech** and sign up for a free account
-2. Create a new project: name it `clareerhq`
+2. Create a new project: name it `skill-print`
 3. Copy the **Connection String** (it looks like `postgresql://user:pass@host/dbname?sslmode=require`)
 4. Keep this handy
 
@@ -32,7 +32,7 @@ Follow these steps in order. Everything uses free tiers until you have real reve
 ### Step 3 — Set Up Clerk Auth (5 min)
 
 1. Go to **https://clerk.com** and sign up
-2. Create a new application named `ClareerHQ`
+2. Create a new application named `Skill-Print`
 3. Choose Email and Google as sign-in methods
 4. From the Clerk dashboard, copy:
    - **Publishable Key** (starts with `pk_test_...`)
@@ -58,7 +58,7 @@ npm run db:push
 npm run dev
 ```
 
-Open **http://localhost:3000** — you should see the ClareerHQ landing page.
+Open **http://localhost:3000** — you should see the Skill-Print landing page.
 
 ---
 
@@ -68,8 +68,8 @@ Open **http://localhost:3000** — you should see the ClareerHQ landing page.
    ```bash
    git init
    git add .
-   git commit -m "Initial ClareerHQ commit"
-   git remote add origin https://github.com/YOUR_USERNAME/clareerhq.git
+   git commit -m "Initial Skill-Print commit"
+   git remote add origin https://github.com/YOUR_USERNAME/skill-print.git
    git push -u origin main
    ```
 
@@ -79,19 +79,19 @@ Open **http://localhost:3000** — you should see the ClareerHQ landing page.
 
 4. In the **Environment Variables** section, add all variables from your `.env.local`
 
-5. Click **Deploy** — your app will be live at `clareerhq.vercel.app` in ~2 minutes
+5. Click **Deploy** — your app will be live at `skill-print.vercel.app` in ~2 minutes
 
 6. To use your custom domain:
-   - In Vercel: Settings → Domains → Add `clareerhq.com`
+   - In Vercel: Settings → Domains → Add `getmyskillprint.com`
    - In Cloudflare (your DNS): Add the CNAME record Vercel gives you
-   - Done! Live at **clareerhq.com** within minutes
+   - Done! Live at **getmyskillprint.com** within minutes
 
 ---
 
 ### Step 6 — Add Resend Email (Optional, 5 min)
 
 1. Go to **https://resend.com** and create a free account
-2. Verify your domain (`clareerhq.com`) by adding DNS records in Cloudflare
+2. Verify your domain (`getmyskillprint.com`) by adding DNS records in Cloudflare
 3. Create an API key and add it as `RESEND_API_KEY` in Vercel environment variables
 4. Waitlist emails will now send automatically
 
@@ -100,7 +100,7 @@ Open **http://localhost:3000** — you should see the ClareerHQ landing page.
 ## 📁 Project Structure
 
 ```
-clareerhq/
+skill-print/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx              ← Landing page

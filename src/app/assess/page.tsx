@@ -122,7 +122,7 @@ export default function AssessPage() {
       {/* Nav */}
       <nav className="bg-white border-b border-gray-100 px-6 py-3 flex items-center justify-between">
         <Link href="/">
-          <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+          <img src="/logo.svg" alt="Skill-Print" className="h-7 w-auto" />
         </Link>
         {isSignedIn && (
           <Link href="/dashboard" className="flex items-center gap-1.5 text-sm text-gray-500 hover:text-brand-700 transition-colors">
@@ -133,7 +133,7 @@ export default function AssessPage() {
       <div className="max-w-2xl mx-auto px-6 py-16">
         {/* Header */}
         <div className="text-center mb-10">
-          <img src="/logo.svg" alt="ClareerHQ" className="h-8 w-auto mx-auto mb-8" />
+          <img src="/logo.svg" alt="Skill-Print" className="h-8 w-auto mx-auto mb-8" />
           <h1 className="text-3xl font-bold text-gray-900 mb-3">
             Get your Skill-Print
           </h1>

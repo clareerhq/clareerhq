@@ -1,8 +1,8 @@
 import Link from 'next/link';
 
 export const metadata = {
-  title: 'Terms of Service — ClareerHQ',
-  description: 'The terms that govern your use of ClareerHQ.',
+  title: 'Terms of Service — Skill-Print',
+  description: 'The terms that govern your use of Skill-Print.',
 };
 
 export default function TermsPage() {
@@ -11,7 +11,7 @@ export default function TermsPage() {
       <nav className="border-b border-gray-100 px-6 py-4">
         <div className="max-w-3xl mx-auto flex items-center justify-between">
           <Link href="/">
-            <img src="/logo.svg" alt="ClareerHQ" className="h-7 w-auto" />
+            <img src="/logo.svg" alt="Skill-Print" className="h-7 w-auto" />
           </Link>
           <Link href="/" className="text-sm text-gray-500 hover:text-brand-700 transition-colors">
             ← Back to home
@@ -30,7 +30,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">The short version</h2>
             <p>
-              Use ClareerHQ honestly. Don't misuse the platform or try to game the assessment.
+              Use Skill-Print honestly. Don't misuse the platform or try to game the assessment.
               The Skill-Print you generate is yours. We provide this service as-is and will do
               our best to keep it running reliably. Here's the full picture.
             </p>
@@ -39,8 +39,8 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Who these terms apply to</h2>
             <p>
-              These Terms of Service govern your use of ClareerHQ, operated by Chelsey Gover-Price
-              ("ClareerHQ," "we," "us"). By using the product, you agree to these terms.
+              These Terms of Service govern your use of Skill-Print, operated by Chelsey Gover-Price
+              ("Skill-Print," "we," "us"). By using the product, you agree to these terms.
               If you don't agree, please don't use the service.
             </p>
           </section>
@@ -48,7 +48,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">The service</h2>
             <p>
-              ClareerHQ provides a skills assessment tool that generates a Skill-Print — a
+              Skill-Print provides a skills assessment that generates your skill-print — a
               data-backed profile of your skills rated against O*NET occupational data from
               the U.S. Department of Labor. The free tier includes a 3-domain assessment and
               downloadable report. Paid tiers unlock additional features as described on the
@@ -56,7 +56,7 @@ export default function TermsPage() {
             </p>
             <p className="mt-3">
               The O*NET data we use is publicly available federal occupational information.
-              ClareerHQ does not guarantee that any assessment result predicts job performance,
+              Skill-Print does not guarantee that any assessment result predicts job performance,
               hiring outcomes, or career success. The Skill-Print is a self-reported snapshot,
               not a certified credential.
             </p>
@@ -67,7 +67,7 @@ export default function TermsPage() {
             <p>
               You are responsible for maintaining the security of your account and for all
               activity that occurs under it. Accounts are for individual use — please don't
-              share your login credentials. You must be at least 13 years old to use ClareerHQ.
+              share your login credentials. You must be at least 13 years old to use Skill-Print.
             </p>
             <p className="mt-3">
               You agree to provide accurate information when creating your account and completing
@@ -79,7 +79,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">Your Skill-Print</h2>
             <p>
               The Skill-Print you generate belongs to you. You can download it, include it on
-              your resume, and share it however you like. ClareerHQ does not claim ownership
+              your resume, and share it however you like. Skill-Print does not claim ownership
               over your assessment results or the reports generated from them.
             </p>
             <p className="mt-3">
@@ -113,11 +113,11 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">Acceptable use</h2>
             <p>You agree not to:</p>
             <ul className="list-disc list-inside space-y-2 mt-2">
-              <li>Use ClareerHQ to misrepresent your skills to employers</li>
+              <li>Use Skill-Print to misrepresent your skills to employers</li>
               <li>Attempt to reverse-engineer, scrape, or systematically extract O*NET data
                   or product content</li>
               <li>Use automated tools to generate bulk assessments</li>
-              <li>Resell access to ClareerHQ or its outputs without written permission</li>
+              <li>Resell access to Skill-Print or its outputs without written permission</li>
               <li>Use the platform in any way that violates applicable law</li>
             </ul>
           </section>
@@ -125,10 +125,10 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Intellectual property</h2>
             <p>
-              The ClareerHQ name, logo, Skill-Print branding, and product design are owned
-              by ClareerHQ. The O*NET data powering the assessments is owned by the U.S.
+              The Skill-Print name, logo, brand assets, and product design are owned
+              by Skill-Print. The O*NET data powering the assessments is owned by the U.S.
               Department of Labor and used in accordance with their public data policy.
-              Nothing in these terms grants you a license to use ClareerHQ's brand or
+              Nothing in these terms grants you a license to use Skill-Print's brand or
               trademarks without written permission.
             </p>
           </section>
@@ -136,7 +136,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Disclaimer of warranties</h2>
             <p>
-              ClareerHQ is provided "as is" without warranties of any kind, express or implied.
+              Skill-Print is provided "as is" without warranties of any kind, express or implied.
               We don't guarantee the service will be uninterrupted, error-free, or that any
               particular career outcome will result from using it. Career decisions are yours
               to make — the Skill-Print is a tool to inform them, not a guarantee.
@@ -146,7 +146,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-bold text-gray-900 mb-3">Limitation of liability</h2>
             <p>
-              To the fullest extent permitted by law, ClareerHQ's liability for any claim
+              To the fullest extent permitted by law, Skill-Print's liability for any claim
               arising from your use of the service is limited to the amount you paid us in
               the three months preceding the claim, or $10, whichever is greater.
               We are not liable for indirect, incidental, or consequential damages.
@@ -170,7 +170,7 @@ export default function TermsPage() {
             <h2 className="text-xl font-bold text-gray-900 mb-3">Governing law</h2>
             <p>
               These terms are governed by the laws of the United States and the state in which
-              ClareerHQ is registered. Any disputes will be resolved in the applicable courts
+              Skill-Print is registered. Any disputes will be resolved in the applicable courts
               of that jurisdiction.
             </p>
           </section>
