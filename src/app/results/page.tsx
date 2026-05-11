@@ -137,7 +137,7 @@ function ClusterTeaser({ categories }: { categories: SkillPrintCategory[] }) {
       {/* Blurred preview underneath */}
       <div className="px-5 pt-4 pb-3 opacity-40 pointer-events-none select-none">
         <div className="text-[9px] tracking-widest uppercase text-gray-400 font-bold mb-1">
-          Skill-Print | by Skill-Print · Career Cluster
+          Skill-Print · Career Cluster
         </div>
         <div className="text-base font-bold text-gray-800 mb-3">
           Management &amp; Entrepreneurship
